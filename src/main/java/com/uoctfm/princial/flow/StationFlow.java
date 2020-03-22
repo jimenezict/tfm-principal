@@ -37,8 +37,9 @@ public class StationFlow {
         if (!checkSystemConfiguration(id, systemConfigurationDTO)) return;
 
         StationStatusDTO stationStatusDTO = stationStatus.getListStationStatus(systemConfigurationDTO.getSystemStationEndPoint());
-        StationStatusDTO lastStationStatusDTO = stationStatus.getLastListStationStatus(systemConfigurationDTO.getId());
+        if (isNull(stationStatusDTO)) return;
 
+        StationStatusDTO lastStationStatusDTO = stationStatus.getLastListStationStatus(systemConfigurationDTO.getId());
         if(nonNull(lastStationStatusDTO)){
             logger.warn("{} not found valid latest sample", systemConfigurationDTO.getName());
         }
