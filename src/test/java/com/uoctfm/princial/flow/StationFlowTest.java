@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.uoctfm.princial.flow.StationFlowTestHelper.buildSystemConfigurationDTO;
+import static com.uoctfm.princial.StationFlowTestHelper.buildSystemConfigurationDTO;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 public class StationFlowTest {
 
     @Mock
-    SystemConfiguration systemConfiguration;
+    private SystemConfiguration systemConfiguration;
     @Mock
     private StationStatus stationStatus;
     @Mock

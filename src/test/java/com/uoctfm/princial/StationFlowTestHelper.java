@@ -1,4 +1,4 @@
-package com.uoctfm.princial.flow;
+package com.uoctfm.princial;
 
 import com.uoctfm.princial.domain.configuration.SystemConfigurationDTO;
 
