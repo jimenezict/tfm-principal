@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static java.util.Objects.isNull;
@@ -43,7 +42,7 @@ public class StationStatusImpl implements StationStatus {
             logger.warn("Not found any sample for {} on database", id);
             return null;
         }
-        boolean wasOnLastFiveMinutes = systemStationDTO.getExecutionDateTime().isAfter(LocalDateTime.now());
+        boolean wasOnLastFiveMinutes = systemStationDTO.getExecutionDateTime().isAfter(LocalDateTime.now().minusMinutes(5));
         if (!wasOnLastFiveMinutes) logger.warn("Not found any sample for {} on database, for the last 5 minutes", id);
         return wasOnLastFiveMinutes ? systemStationDTO : null;
     }
