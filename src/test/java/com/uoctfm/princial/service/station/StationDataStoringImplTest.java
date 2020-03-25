@@ -20,6 +20,7 @@ public class StationDataStoringImplTest {
     @InjectMocks
     private StationDataStoring underTest = new StationDataStoringImpl();
 
+
     @Mock
     private FileSystemDatabaseRepository fileSystemDatabaseRepository = new FileSystemDatabaseRepository();
 
