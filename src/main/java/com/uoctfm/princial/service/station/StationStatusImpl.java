@@ -21,10 +21,11 @@ public class StationStatusImpl implements StationStatus {
     @Autowired
     private SystemSampleRepository systemSampleRepository;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     @Override
     public StationStatusDTO getListStationStatus(String systemStationEndPoints) {
-        RestTemplate restTemplate = new RestTemplate();
-
         try {
             StationStatusDTO stationStatusDTO = restTemplate.getForObject(systemStationEndPoints, StationStatusDTO.class);
             logger.info("Captured StationStatusDTO from the end-point {}", systemStationEndPoints);
