@@ -1,6 +1,6 @@
 package com.uoctfm.principal.service.station;
 
-import com.uoctfm.principal.domain.station.StationStatusDTO;
+import com.uoctfm.principal.domain.station.StationsStatusDTO;
 import com.uoctfm.principal.repository.configuration.SystemSampleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,20 +25,20 @@ public class StationStatusImpl implements StationStatus {
     private RestTemplate restTemplate;
 
     @Override
-    public StationStatusDTO getListStationStatus(String systemStationEndPoints) {
+    public StationsStatusDTO getListStationStatus(String systemStationEndPoints) {
         try {
-            StationStatusDTO stationStatusDTO = restTemplate.getForObject(systemStationEndPoints, StationStatusDTO.class);
-            logger.info("Captured StationStatusDTO from the end-point {}", systemStationEndPoints);
-            return stationStatusDTO;
+            StationsStatusDTO stationsStatusDTO = restTemplate.getForObject(systemStationEndPoints, StationsStatusDTO.class);
+            logger.info("Captured StationsStatusDTO from the end-point {}", systemStationEndPoints);
+            return stationsStatusDTO;
         } catch (RestClientException e) {
-            logger.error("Fail on capturing StationStatusDTO from the end-point {}", systemStationEndPoints);
+            logger.error("Fail on capturing StationsStatusDTO from the end-point {}", systemStationEndPoints);
         }
         return null;
     }
 
     @Override
-    public StationStatusDTO getLastListStationStatus(Integer id) {
-        StationStatusDTO systemStationDTO = systemSampleRepository.findById(id);
+    public StationsStatusDTO getLastListStationStatus(Integer id) {
+        StationsStatusDTO systemStationDTO = systemSampleRepository.findById(id);
         if (isNull(systemStationDTO)) {
             logger.warn("Not found any sample for {} on database", id);
             return null;

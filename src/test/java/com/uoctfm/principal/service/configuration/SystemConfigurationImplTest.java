@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static com.uoctfm.principal.StationFlowTestHelper.buildSystemConfigurationDTO;
+import static com.uoctfm.principal.TestBuildHelper.buildSystemConfigurationDTO;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 

@@ -1,8 +1,8 @@
 package com.uoctfm.principal.flow;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.station.StationDerived;
-import com.uoctfm.principal.domain.station.StationStatusDTO;
+import com.uoctfm.principal.domain.station.calculated.StationDerived;
+import com.uoctfm.principal.domain.station.StationsStatusDTO;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
 import com.uoctfm.principal.service.station.StationCalculation;
 import com.uoctfm.principal.service.station.StationDataStoring;
@@ -36,18 +36,18 @@ public class StationFlow {
         SystemConfigurationDTO systemConfigurationDTO = systemConfiguration.getSystemConfigurationBy(id);
         if (!checkSystemConfiguration(id, systemConfigurationDTO)) return;
 
-        StationStatusDTO stationStatusDTO = stationStatus.getListStationStatus(systemConfigurationDTO.getSystemStationEndPoint());
-        if (isNull(stationStatusDTO)) return;
+        StationsStatusDTO stationsStatusDTO = stationStatus.getListStationStatus(systemConfigurationDTO.getSystemStationEndPoint());
+        if (isNull(stationsStatusDTO)) return;
 
-        StationStatusDTO lastStationStatusDTO = stationStatus.getLastListStationStatus(systemConfigurationDTO.getId());
-        if(nonNull(lastStationStatusDTO)){
+        StationsStatusDTO lastStationsStatusDTO = stationStatus.getLastListStationStatus(systemConfigurationDTO.getId());
+        if(nonNull(lastStationsStatusDTO)){
             logger.warn("{} not found valid latest sample", systemConfigurationDTO.getName());
         }
 
         stationDataStoring.stationDataStoring(systemConfigurationDTO,
-                stationCalculation.calculateDerived(stationStatusDTO, lastStationStatusDTO),
-                stationCalculation.calculatePercentils(stationStatusDTO),
-                stationCalculation.calculateRaw(stationStatusDTO));
+                stationCalculation.calculateDerived(stationsStatusDTO, lastStationsStatusDTO),
+                stationCalculation.calculatePercentils(stationsStatusDTO),
+                stationCalculation.calculateRaw(stationsStatusDTO));
 
         logger.info("Ending {} process", id);
 

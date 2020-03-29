@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.uoctfm.principal.StationFlowTestHelper.buildSystemConfigurationDTO;
+import static com.uoctfm.principal.TestBuildHelper.buildSystemConfigurationDTO;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

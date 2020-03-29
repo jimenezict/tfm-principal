@@ -1,9 +1,9 @@
 package com.uoctfm.principal.service.station;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.station.StationDerived;
-import com.uoctfm.principal.domain.station.StationPercentils;
-import com.uoctfm.principal.domain.station.StationRaw;
+import com.uoctfm.principal.domain.station.calculated.StationDerived;
+import com.uoctfm.principal.domain.station.calculated.StationPercentils;
+import com.uoctfm.principal.domain.station.calculated.StationRaw;
 import com.uoctfm.principal.repository.station.FileSystemDatabaseRepository;
 import com.uoctfm.principal.repository.station.GisDatabaseRepository;
 import com.uoctfm.principal.repository.station.TimeseriesDatabaseRepository;

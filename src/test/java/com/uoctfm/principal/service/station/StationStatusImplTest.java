@@ -1,6 +1,6 @@
 package com.uoctfm.principal.service.station;
 
-import com.uoctfm.principal.domain.station.StationStatusDTO;
+import com.uoctfm.principal.domain.station.StationsStatusDTO;
 import com.uoctfm.principal.repository.configuration.SystemSampleRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,32 +31,32 @@ public class StationStatusImplTest {
 
     @Test
     public void getListStationStatus_shouldReturnStationStatusDTOObject_whenItIsCallToAValidEndpoint(){
-        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationStatusDTO.class))
-          .thenReturn(new StationStatusDTO());
+        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatusDTO.class))
+          .thenReturn(new StationsStatusDTO());
 
-        StationStatusDTO stationStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
+        StationsStatusDTO stationsStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
 
-        assertThat(stationStatusDTO).isNotNull();
-        assertThat(stationStatusDTO).isInstanceOf(StationStatusDTO.class);
+        assertThat(stationsStatusDTO).isNotNull();
+        assertThat(stationsStatusDTO).isInstanceOf(StationsStatusDTO.class);
     }
 
     @Test
     public void getListStationStatus_shouldReturnNullOObject_whenItIsCallToAValidEndpoint(){
-        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationStatusDTO.class))
+        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatusDTO.class))
                 .thenReturn(null);
 
-        StationStatusDTO stationStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
+        StationsStatusDTO stationsStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
 
-        assertThat(stationStatusDTO).isNull();
+        assertThat(stationsStatusDTO).isNull();
     }
 
     @Test
     public void getListStationStatus_shouldThrownException_whenItFailsToCallEndpoint(){
-        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationStatusDTO.class))
+        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatusDTO.class))
                 .thenThrow(RestClientException.class);
 
-        StationStatusDTO stationStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
-        assertThat(stationStatusDTO).isNull();
+        StationsStatusDTO stationsStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
+        assertThat(stationsStatusDTO).isNull();
     }
 
     @Test
@@ -71,9 +71,9 @@ public class StationStatusImplTest {
 
     @Test
     public void getLastListStationStatus_shouldReturnNull_whenFindSampleByIdButIsOld(){
-        StationStatusDTO stationStatusDTO = new StationStatusDTO();
-        stationStatusDTO.setExecutionDateTime(LocalDateTime.of(2000, 1, 1, 0,0));
-        when(systemSampleRepository.findById(0)).thenReturn(stationStatusDTO);
+        StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
+        stationsStatusDTO.setExecutionDateTime(LocalDateTime.of(2000, 1, 1, 0,0));
+        when(systemSampleRepository.findById(0)).thenReturn(stationsStatusDTO);
 
         assertThat(underTest.getLastListStationStatus(0)).isNull();
 
@@ -83,26 +83,26 @@ public class StationStatusImplTest {
 
     @Test
     public void getLastListStationStatus_shouldReturnNull_whenFindSampleByIdButIsNew(){
-        StationStatusDTO stationStatusDTO = new StationStatusDTO();
-        stationStatusDTO.setExecutionDateTime(LocalDateTime.now());
-        when(systemSampleRepository.findById(0)).thenReturn(stationStatusDTO);
+        StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
+        stationsStatusDTO.setExecutionDateTime(LocalDateTime.now());
+        when(systemSampleRepository.findById(0)).thenReturn(stationsStatusDTO);
 
-        StationStatusDTO retStationStatusDTO = underTest.getLastListStationStatus(0);
+        StationsStatusDTO retStationsStatusDTO = underTest.getLastListStationStatus(0);
 
-        assertThat(retStationStatusDTO.getExecutionDateTime()).isEqualTo(stationStatusDTO.getExecutionDateTime());
+        assertThat(retStationsStatusDTO.getExecutionDateTime()).isEqualTo(stationsStatusDTO.getExecutionDateTime());
         verify(systemSampleRepository).findById(0);
         verifyNoMoreInteractions(systemSampleRepository);
     }
 
     @Test
     public void getLastListStationStatus_shouldReturnNull_whenFindSampleByIdButIs1minuteOld(){
-        StationStatusDTO stationStatusDTO = new StationStatusDTO();
-        stationStatusDTO.setExecutionDateTime(LocalDateTime.now().minusMinutes(1));
-        when(systemSampleRepository.findById(0)).thenReturn(stationStatusDTO);
+        StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
+        stationsStatusDTO.setExecutionDateTime(LocalDateTime.now().minusMinutes(1));
+        when(systemSampleRepository.findById(0)).thenReturn(stationsStatusDTO);
 
-        StationStatusDTO retStationStatusDTO = underTest.getLastListStationStatus(0);
+        StationsStatusDTO retStationsStatusDTO = underTest.getLastListStationStatus(0);
 
-        assertThat(retStationStatusDTO.getExecutionDateTime()).isEqualTo(stationStatusDTO.getExecutionDateTime());
+        assertThat(retStationsStatusDTO.getExecutionDateTime()).isEqualTo(stationsStatusDTO.getExecutionDateTime());
         verify(systemSampleRepository).findById(0);
         verifyNoMoreInteractions(systemSampleRepository);
     }

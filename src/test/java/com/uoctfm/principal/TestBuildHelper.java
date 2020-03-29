@@ -1,8 +1,14 @@
 package com.uoctfm.principal;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
+import com.uoctfm.principal.domain.station.Station;
+import com.uoctfm.principal.domain.station.StationsStatusDTO;
 
-public class StationFlowTestHelper {
+import java.time.LocalDateTime;
+
+import static java.time.LocalDateTime.now;
+
+public class TestBuildHelper {
 
     public static SystemConfigurationDTO buildSystemConfigurationDTO(){
         SystemConfigurationDTO systemConfiguration = new SystemConfigurationDTO();
@@ -14,5 +20,16 @@ public class StationFlowTestHelper {
         systemConfiguration.setSaveInTimeSeries(false);
 
         return systemConfiguration;
+    }
+
+    public static StationsStatusDTO stationsStatusDTO() {
+        StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
+        stationsStatusDTO.setExecutionDateTime(now());
+
+        stationsStatusDTO.addStation(new Station(1, 10, 30));
+        stationsStatusDTO.addStation(new Station(2, 0, 30));
+        stationsStatusDTO.addStation(new Station(3, 22, 30));
+
+        return stationsStatusDTO;
     }
 }

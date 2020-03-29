@@ -1,8 +1,8 @@
 package com.uoctfm.principal.repository.station;
 
-import com.uoctfm.principal.domain.station.StationDerived;
-import com.uoctfm.principal.domain.station.StationPercentils;
-import com.uoctfm.principal.domain.station.StationRaw;
+import com.uoctfm.principal.domain.station.calculated.StationDerived;
+import com.uoctfm.principal.domain.station.calculated.StationPercentils;
+import com.uoctfm.principal.domain.station.calculated.StationRaw;
 
 public abstract class AbstractDatabaseRepository {
 

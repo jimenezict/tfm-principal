@@ -1,7 +1,7 @@
 package com.uoctfm.principal.flow;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.station.StationStatusDTO;
+import com.uoctfm.principal.domain.station.StationsStatusDTO;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
 import com.uoctfm.principal.service.station.StationCalculation;
 import com.uoctfm.principal.service.station.StationDataStoring;
@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.uoctfm.principal.StationFlowTestHelper.buildSystemConfigurationDTO;
+import static com.uoctfm.principal.TestBuildHelper.buildSystemConfigurationDTO;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -64,7 +64,7 @@ public class StationFlowTest {
         SystemConfigurationDTO systemConfigurationDTO = buildSystemConfigurationDTO();
         when(systemConfiguration.getSystemConfigurationBy(0)).thenReturn(systemConfigurationDTO);
         when(stationStatus.getListStationStatus(systemConfigurationDTO.getSystemStationEndPoint()))
-                .thenReturn(new StationStatusDTO());
+                .thenReturn(new StationsStatusDTO());
         underTest.executeById(0);
 
         verify(systemConfiguration).getSystemConfigurationBy(0);

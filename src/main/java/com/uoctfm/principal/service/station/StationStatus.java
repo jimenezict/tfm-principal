@@ -1,11 +1,11 @@
 package com.uoctfm.principal.service.station;
 
-import com.uoctfm.principal.domain.station.StationStatusDTO;
+import com.uoctfm.principal.domain.station.StationsStatusDTO;
 
 public interface StationStatus {
 
-    public StationStatusDTO getListStationStatus(String systemStationEndPoints);
+    public StationsStatusDTO getListStationStatus(String systemStationEndPoints);
 
-    public StationStatusDTO getLastListStationStatus(Integer id);
+    public StationsStatusDTO getLastListStationStatus(Integer id);
 
 }
