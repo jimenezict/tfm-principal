@@ -28,11 +28,11 @@ public class Station {
     }
 
     public Integer getPercentage() {
-        return (numBicicles * 100) / (numBicicles + sizeStation);
+        return (numBicicles * 100) / (sizeStation);
     }
 
     public Integer getPercentil() {
-        return getPercentage() / 10;
+        return getPercentage() == 100 ? 9 : getPercentage() / 10;
     }
 
 }
