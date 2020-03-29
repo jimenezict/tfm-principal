@@ -1,6 +1,5 @@
 package com.uoctfm.principal.service.station;
 
-import com.uoctfm.principal.ClockTest;
 import com.uoctfm.principal.domain.station.StationStatusDTO;
 import com.uoctfm.principal.repository.configuration.SystemSampleRepository;
 import org.junit.Test;

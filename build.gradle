@@ -12,14 +12,13 @@ sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
-    mavenLocal()
-    gradlePluginPortal()
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'local:tfm-commons-domain'
+    runtime 'org.postgresql:postgresql'
     
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
