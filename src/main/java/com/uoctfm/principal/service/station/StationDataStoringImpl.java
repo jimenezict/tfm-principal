@@ -18,13 +18,13 @@ public class StationDataStoringImpl implements StationDataStoring {
     Logger logger = LoggerFactory.getLogger(StationDataStoring.class);
 
     @Autowired
-    private FileSystemDatabaseRepository fileSystemDatabaseRepository = new FileSystemDatabaseRepository();
+    private FileSystemDatabaseRepository fileSystemDatabaseRepository;
 
     @Autowired
-    private TimeseriesDatabaseRepository timeseriesDatabaseRepository = new TimeseriesDatabaseRepository();
+    private TimeseriesDatabaseRepository timeseriesDatabaseRepository;
 
     @Autowired
-    private GisDatabaseRepository gisDatabaseRepository = new GisDatabaseRepository();
+    private GisDatabaseRepository gisDatabaseRepository;
 
     @Override
     public void stationDataStoring(SystemConfigurationDTO systemConfigurationDTO, StationDerived stationDerived, StationPercentils stationPercentils, StationRaw stationRaw) {
