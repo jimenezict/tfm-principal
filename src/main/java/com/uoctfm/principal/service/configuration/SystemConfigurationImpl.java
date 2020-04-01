@@ -5,6 +5,8 @@ import com.uoctfm.principal.repository.configuration.SystemConfigurationReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SystemConfigurationImpl implements SystemConfiguration {
 
@@ -14,5 +16,10 @@ public class SystemConfigurationImpl implements SystemConfiguration {
     @Override
     public SystemConfigurationDTO getSystemConfigurationBy(Integer id) {
         return systemConfigurationRepository.findById(id);
+    }
+
+    @Override
+    public List<SystemConfigurationDTO> getSystemConfiguration() {
+        return systemConfigurationRepository.findAll();
     }
 }
