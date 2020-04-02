@@ -3,7 +3,7 @@ package com.uoctfm.principal.domain.configuration;
 import javax.persistence.*;
 
 @Entity
-@Table(name="systemconfiguration")
+@Table(name="SystemConfiguration")
 public class SystemConfigurationDTO {
 
     @Id

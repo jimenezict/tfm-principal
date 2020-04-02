@@ -1,3 +1,5 @@
+
+
 CREATE TABLE principal.systemconfiguration
 (
   id integer,

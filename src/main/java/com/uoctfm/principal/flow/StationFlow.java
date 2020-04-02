@@ -9,11 +9,14 @@ import com.uoctfm.principal.service.station.StationDataStoring;
 import com.uoctfm.principal.service.station.StationStatus;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
+@Component
 public class StationFlow {
 
     @Autowired
@@ -25,8 +28,9 @@ public class StationFlow {
     @Autowired
     private StationDataStoring stationDataStoring;
 
-    Logger logger = getLogger(StationFlow.class);
+    private Logger logger = getLogger(StationFlow.class);
 
+    @Scheduled(fixedRate=10)
     public void executeById(Integer id) {
 
         StationDerived stationDerived = new StationDerived();
