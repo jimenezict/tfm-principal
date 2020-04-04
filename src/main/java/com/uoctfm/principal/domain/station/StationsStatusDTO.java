@@ -7,7 +7,6 @@ import java.util.Map;
 
 import static java.time.LocalDateTime.now;
 
-@Entity
 public class StationsStatusDTO {
 
     private LocalDateTime executionDateTime;

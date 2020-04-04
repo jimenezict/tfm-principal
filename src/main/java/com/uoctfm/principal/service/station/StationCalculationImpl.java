@@ -7,6 +7,9 @@ import com.uoctfm.principal.domain.station.calculated.StationPercentils;
 import com.uoctfm.principal.domain.station.calculated.StationRaw;
 import org.slf4j.Logger;
 
+import java.util.HashSet;
+
+import static java.util.Objects.isNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 public class StationCalculationImpl implements StationCalculation {
@@ -41,15 +44,48 @@ public class StationCalculationImpl implements StationCalculation {
 
     @Override
     public StationDerived calculateDerived(StationsStatusDTO stationsStatusDTO, StationsStatusDTO lastStationsStatusDTO) {
-        logger.info("Starting the calculations of the derivates  for {} over {} stations",
+        logger.info("Starting the calculations of the derivates for {} over {} stations",
                 "TBD",
                 stationsStatusDTO.getNumberStations());
-        return null;
+
+        if (isNull(lastStationsStatusDTO)) {
+            logger.warn("There is no sample from the last capture, all values will be zero");
+            return emptyStationCalculation(stationsStatusDTO);
+        }
+        return stationCalculation(stationsStatusDTO, lastStationsStatusDTO);
+    }
+
+    private StationDerived emptyStationCalculation(StationsStatusDTO stationsStatusDTO) {
+        StationDerived stationDerived = new StationDerived();
+        stationsStatusDTO
+                .getStationList()
+                .keySet()
+                .forEach(id -> {
+                    stationDerived.addStationStatus(id, 0);
+                });
+        stationDerived.hasNoPreviousStatus();
+        return stationDerived;
+    }
+
+    private StationDerived stationCalculation(StationsStatusDTO stationsStatusDTO, StationsStatusDTO lastStationsStatusDTO) {
+        StationDerived stationDerived = new StationDerived();
+        HashSet<Integer> unionKeys = new HashSet<>(stationsStatusDTO.getStationList().keySet());
+        unionKeys.addAll(lastStationsStatusDTO.getStationList().keySet());
+        unionKeys.forEach(id -> {
+            Integer newValue =
+                    stationsStatusDTO.getStationList().containsKey(id) ?
+                    stationsStatusDTO.getStationList().get(id).getNumBicicles() : 0;
+            Integer oldValue =
+                    lastStationsStatusDTO.getStationList().containsKey(id) ?
+                    lastStationsStatusDTO.getStationList().get(id).getNumBicicles() : 0;
+            stationDerived.addStationStatus(id, newValue - oldValue);
+        });
+        return stationDerived;
     }
 
     @Override
     public StationRaw calculateRaw(StationsStatusDTO stationsStatusDTO) {
-        logger.info("Starting the calculations of the calculateRaw  for {} over {} stations",
+        logger.info("Starting the calculations of the calculateRaw for {} over {} stations",
                 "TBD",
                 stationsStatusDTO.getNumberStations());
         return new StationRaw(stationsStatusDTO);

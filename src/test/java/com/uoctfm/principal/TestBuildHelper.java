@@ -32,4 +32,15 @@ public class TestBuildHelper {
 
         return stationsStatusDTO;
     }
+
+    public static StationsStatusDTO stationsStatusDTO_higherId() {
+        StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
+        stationsStatusDTO.setExecutionDateTime(now());
+
+        stationsStatusDTO.addStation(new Station(4, 10, 30));
+        stationsStatusDTO.addStation(new Station(5, 0, 30));
+        stationsStatusDTO.addStation(new Station(6, 22, 30));
+
+        return stationsStatusDTO;
+    }
 }
