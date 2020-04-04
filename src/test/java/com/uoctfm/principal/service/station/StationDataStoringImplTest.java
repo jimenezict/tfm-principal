@@ -1,9 +1,9 @@
 package com.uoctfm.principal.service.station;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.repository.station.FileSystemDatabaseRepository;
-import com.uoctfm.principal.repository.station.GisDatabaseRepository;
-import com.uoctfm.principal.repository.station.TimeseriesDatabaseRepository;
+import com.uoctfm.principal.repository.reporting.FileSystemDatabaseRepository;
+import com.uoctfm.principal.repository.reporting.GisDatabaseRepository;
+import com.uoctfm.principal.repository.reporting.TimeseriesDatabaseRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

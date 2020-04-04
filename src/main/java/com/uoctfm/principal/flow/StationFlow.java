@@ -9,15 +9,15 @@ import com.uoctfm.principal.service.station.StationDataStoring;
 import com.uoctfm.principal.service.station.StationStatus;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
+
 public class StationFlow {
 
-    @Autowired
+    @Autowired()
     private SystemConfiguration systemConfiguration;
     @Autowired
     private StationStatus stationStatus;

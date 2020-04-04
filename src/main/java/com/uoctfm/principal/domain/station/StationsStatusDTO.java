@@ -1,11 +1,13 @@
 package com.uoctfm.principal.domain.station;
 
+import javax.persistence.Entity;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.time.LocalDateTime.now;
 
+@Entity
 public class StationsStatusDTO {
 
     private LocalDateTime executionDateTime;

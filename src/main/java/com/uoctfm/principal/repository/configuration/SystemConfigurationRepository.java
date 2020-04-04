@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SystemConfigurationRepository extends JpaRepository<SystemConfigurationDTO, Long> {
 
-    public SystemConfigurationDTO findById(Integer id);
+    SystemConfigurationDTO findById(Integer id);
 
 }
