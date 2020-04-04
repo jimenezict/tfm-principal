@@ -1,11 +1,15 @@
 package com.uoctfm.principal.service.station;
 
+import com.uoctfm.principal.domain.station.Station;
+import com.uoctfm.principal.domain.station.StationsStatusDTO;
 import com.uoctfm.principal.domain.station.calculated.StationPercentils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.time.LocalDateTime;
 
 import static com.uoctfm.principal.TestBuildHelper.stationsStatusDTO;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,21 +22,35 @@ public class StationCalculationImplTest {
     private StationCalculation underTest = new StationCalculationImpl();
 
     @Test
-    public void stationDataStoring_shouldExecuteOnlyFileSystem_whenConfigurationAllowsFileSystem(){
+    public void calculatePercentils_shouldCalculatePercentil_whenUsesTheHelperClass(){
 
-        StationPercentils stationDerived = underTest.calculatePercentils(stationsStatusDTO());
+        StationPercentils stationPercentils = underTest.calculatePercentils(stationsStatusDTO());
 
-        assertThat(stationDerived.getP0()).isEqualTo(33);
-        assertThat(stationDerived.getP1()).isEqualTo(0);
-        assertThat(stationDerived.getP2()).isEqualTo(0);
-        assertThat(stationDerived.getP3()).isEqualTo(33);
-        assertThat(stationDerived.getP4()).isEqualTo(0);
-        assertThat(stationDerived.getP5()).isEqualTo(0);
-        assertThat(stationDerived.getP6()).isEqualTo(0);
-        assertThat(stationDerived.getP7()).isEqualTo(33);
-        assertThat(stationDerived.getP8()).isEqualTo(0);
-        assertThat(stationDerived.getP9()).isEqualTo(0);
+        assertThat(stationPercentils.getP0()).isEqualTo(33);
+        assertThat(stationPercentils.getP1()).isEqualTo(0);
+        assertThat(stationPercentils.getP2()).isEqualTo(0);
+        assertThat(stationPercentils.getP3()).isEqualTo(33);
+        assertThat(stationPercentils.getP4()).isEqualTo(0);
+        assertThat(stationPercentils.getP5()).isEqualTo(0);
+        assertThat(stationPercentils.getP6()).isEqualTo(0);
+        assertThat(stationPercentils.getP7()).isEqualTo(33);
+        assertThat(stationPercentils.getP8()).isEqualTo(0);
+        assertThat(stationPercentils.getP9()).isEqualTo(0);
 
     }
 
+    @Test
+    public void calculateRaw_shouldCalculatePercentil_whenUsesTheHelperClass(){
+
+        StationsStatusDTO stationsStatusDTO = underTest.calculateRaw(stationsStatusDTO()).getStationStatusDTO();
+
+        assertThat(stationsStatusDTO.getExecutionDateTime()).isAfter(LocalDateTime.now().minusMinutes(1l));
+        assertThat(stationsStatusDTO.getNumberStations());
+
+        assertThat(stationsStatusDTO.getNumberStations()).isEqualTo(3);
+
+        Station station = stationsStatusDTO.getStationList().get(2);
+        assertThat(station.getId()).isEqualTo(2);
+        assertThat(station.getNumBicicles()).isEqualTo(0);
+    }
 }
