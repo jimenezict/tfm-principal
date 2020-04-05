@@ -1,4 +1,4 @@
-package com.uoctfm.principal.flow;
+package com.uoctfm.principal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

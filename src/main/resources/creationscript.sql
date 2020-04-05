@@ -1,6 +1,6 @@
 
 
-CREATE TABLE principal.systemconfiguration
+CREATE TABLE uoc.systemconfiguration
 (
   id integer,
   name character(100),

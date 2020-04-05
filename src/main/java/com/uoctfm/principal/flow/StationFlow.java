@@ -9,15 +9,17 @@ import com.uoctfm.principal.service.station.StationDataStoring;
 import com.uoctfm.principal.service.station.StationStatus;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 
+@Component
 public class StationFlow {
 
-    @Autowired()
+    @Autowired
     private SystemConfiguration systemConfiguration;
     @Autowired
     private StationStatus stationStatus;
@@ -35,10 +37,16 @@ public class StationFlow {
         logger.info("Starting {} process", id);
 
         SystemConfigurationDTO systemConfigurationDTO = systemConfiguration.getSystemConfigurationBy(id);
-        if (!checkSystemConfiguration(id, systemConfigurationDTO)) return;
+        if (!checkSystemConfiguration(id, systemConfigurationDTO)) {
+            logger.error("Ending {} process - because doesn't exists configuration", id);
+            return;
+        }
 
         StationsStatusDTO stationsStatusDTO = stationStatus.getListStationStatus(systemConfigurationDTO.getSystemStationEndPoint());
-        if (isNull(stationsStatusDTO)) return;
+        if (isNull(stationsStatusDTO)) {
+            logger.error("Ending {} process - because couldn't reach microservice", id);
+            return;
+        }
 
         StationsStatusDTO lastStationsStatusDTO = stationStatus.getLastListStationStatus(systemConfigurationDTO.getId());
         if(nonNull(lastStationsStatusDTO)){
@@ -64,6 +72,7 @@ public class StationFlow {
                 systemConfigurationDTO.getId(),
                 systemConfigurationDTO.getName());
         return true;
+
     }
 
 }

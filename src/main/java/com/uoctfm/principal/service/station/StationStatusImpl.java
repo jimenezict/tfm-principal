@@ -21,14 +21,12 @@ public class StationStatusImpl implements StationStatus {
     @Autowired
     private SystemSampleRepository systemSampleRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
     @Override
     public StationsStatusDTO getListStationStatus(String systemStationEndPoints) {
         try {
-            StationsStatusDTO stationsStatusDTO = restTemplate.getForObject(systemStationEndPoints, StationsStatusDTO.class);
-            logger.info("Captured StationsStatusDTO from the end-point {}", systemStationEndPoints);
+            //StationsStatusDTO stationsStatusDTO = restTemplate.getForObject(systemStationEndPoints, StationsStatusDTO.class);
+            StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
+                    logger.info("Captured StationsStatusDTO from the end-point {}", systemStationEndPoints);
             return stationsStatusDTO;
         } catch (RestClientException e) {
             logger.error("Fail on capturing StationsStatusDTO from the end-point {}", systemStationEndPoints);
@@ -38,13 +36,13 @@ public class StationStatusImpl implements StationStatus {
 
     @Override
     public StationsStatusDTO getLastListStationStatus(Integer id) {
-        StationsStatusDTO systemStationDTO = systemSampleRepository.findById(id);
-        if (isNull(systemStationDTO)) {
+        StationsStatusDTO stationsStatusDTO = systemSampleRepository.findById(id);
+        if (isNull(stationsStatusDTO)) {
             logger.warn("Not found any sample for {} on database", id);
             return null;
         }
-        boolean wasOnLastFiveMinutes = systemStationDTO.getExecutionDateTime().isAfter(LocalDateTime.now().minusMinutes(5));
+        boolean wasOnLastFiveMinutes = stationsStatusDTO.getExecutionDateTime().isAfter(LocalDateTime.now().minusMinutes(5));
         if (!wasOnLastFiveMinutes) logger.warn("Not found any sample for {} on database, for the last 5 minutes", id);
-        return wasOnLastFiveMinutes ? systemStationDTO : null;
+        return wasOnLastFiveMinutes ? stationsStatusDTO : null;
     }
 }

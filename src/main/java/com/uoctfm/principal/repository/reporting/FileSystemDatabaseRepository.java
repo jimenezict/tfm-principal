@@ -3,7 +3,9 @@ package com.uoctfm.principal.repository.reporting;
 import com.uoctfm.principal.domain.station.calculated.StationDerived;
 import com.uoctfm.principal.domain.station.calculated.StationPercentils;
 import com.uoctfm.principal.domain.station.calculated.StationRaw;
+import org.springframework.stereotype.Service;
 
+@Service
 public class FileSystemDatabaseRepository extends AbstractDatabaseRepository{
 
     @Override
