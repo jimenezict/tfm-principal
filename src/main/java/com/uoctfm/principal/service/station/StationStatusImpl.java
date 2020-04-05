@@ -1,7 +1,6 @@
 package com.uoctfm.principal.service.station;
 
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
-import com.uoctfm.principal.repository.configuration.SystemSampleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +17,14 @@ public class StationStatusImpl implements StationStatus {
 
     private Logger logger = LoggerFactory.getLogger(StationStatusImpl.class);
 
+
     @Autowired
-    private SystemSampleRepository systemSampleRepository;
+    private RestTemplate restTemplate;
 
     @Override
     public StationsStatusDTO getListStationStatus(String systemStationEndPoints) {
         try {
-            //StationsStatusDTO stationsStatusDTO = restTemplate.getForObject(systemStationEndPoints, StationsStatusDTO.class);
-            StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
+            StationsStatusDTO stationsStatusDTO = restTemplate.getForObject(systemStationEndPoints, StationsStatusDTO.class);
                     logger.info("Captured StationsStatusDTO from the end-point {}", systemStationEndPoints);
             return stationsStatusDTO;
         } catch (RestClientException e) {
@@ -36,7 +35,8 @@ public class StationStatusImpl implements StationStatus {
 
     @Override
     public StationsStatusDTO getLastListStationStatus(Integer id) {
-        StationsStatusDTO stationsStatusDTO = systemSampleRepository.findById(id);
+        // TO-DO: need to call to repository once its implemented the table
+        StationsStatusDTO stationsStatusDTO = null;
         if (isNull(stationsStatusDTO)) {
             logger.warn("Not found any sample for {} on database", id);
             return null;

@@ -6,12 +6,14 @@ import com.uoctfm.principal.domain.station.calculated.StationDerived;
 import com.uoctfm.principal.domain.station.calculated.StationPercentils;
 import com.uoctfm.principal.domain.station.calculated.StationRaw;
 import org.slf4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 
 import static java.util.Objects.isNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
+@Service
 public class StationCalculationImpl implements StationCalculation {
     private Logger logger = getLogger(StationCalculationImpl.class);
 

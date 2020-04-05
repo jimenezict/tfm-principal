@@ -3,7 +3,7 @@ package com.uoctfm.principal.domain.configuration;
 import javax.persistence.*;
 
 @Entity
-@Table(name="SystemConfiguration")
+@Table(name="systemconfiguration")
 public class SystemConfigurationDTO {
 
     @Id
@@ -11,6 +11,7 @@ public class SystemConfigurationDTO {
     private Integer id;
     private String systemStationEndPoint;
     private String name;
+    @Column(name="saveInFileSystem")
     private Boolean saveInFileSystem;
     private Boolean saveInTimeSeries;
     private Boolean saveInGIS;
