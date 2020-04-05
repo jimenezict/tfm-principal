@@ -9,11 +9,14 @@ public class SystemConfigurationDTO {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
+    @Column(name = "systemstationendpoint")
     private String systemStationEndPoint;
     private String name;
-    @Column(name="saveInFileSystem")
+    @Column(name = "saveinfilesystem")
     private Boolean saveInFileSystem;
+    @Column(name = "saveintimeseries")
     private Boolean saveInTimeSeries;
+    @Column(name = "saveingis")
     private Boolean saveInGIS;
 
     public Integer getId() {

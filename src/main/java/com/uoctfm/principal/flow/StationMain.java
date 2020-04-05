@@ -27,7 +27,7 @@ public class StationMain {
 
     private Logger logger = getLogger(StationMain.class);
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 50000)
     public void execute() {
         List<SystemConfigurationDTO> systemConfigurationList = systemConfiguration.getSystemConfiguration();
 
