@@ -27,11 +27,11 @@ public class StationMain {
 
     private Logger logger = getLogger(StationMain.class);
 
-    @Scheduled(fixedRate = 500)
+    @Scheduled(fixedRate = 5000)
     public void execute() {
         List<SystemConfigurationDTO> systemConfigurationList = systemConfiguration.getSystemConfiguration();
 
-        logger.info("Starting Main process");
+        logger.info("Starting Main process, will be executed {} processes", systemConfigurationList.size());
 
         systemConfigurationList.forEach(systemConfiguration -> {
             StationFlow stationFlow = new StationFlow();
