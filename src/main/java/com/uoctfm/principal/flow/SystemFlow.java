@@ -16,7 +16,7 @@ import static java.util.Objects.nonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Component
-public class StationFlow {
+public class SystemFlow {
 
     @Autowired
     private SystemConfiguration systemConfiguration;
@@ -27,7 +27,7 @@ public class StationFlow {
     @Autowired
     private StationDataStoring stationDataStoring;
 
-    private Logger logger = getLogger(StationFlow.class);
+    private Logger logger = getLogger(SystemFlow.class);
 
     public void executeById(Integer id) {
 

@@ -14,16 +14,16 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class StationMainTest {
+public class MainFlowTest {
 
     @Mock
     private SystemConfiguration systemConfiguration;
 
     @Mock
-    private StationFlow stationFlow;
+    private SystemFlow systemFlow;
 
     @InjectMocks
-    StationMain underTest = new StationMain();
+    MainFlow underTest = new MainFlow();
 
     @Test
     public void execute_shouldAvoidExecutions_whenNotFoundConfiguration() {

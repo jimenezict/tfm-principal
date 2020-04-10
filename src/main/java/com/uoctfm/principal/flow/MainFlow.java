@@ -1,12 +1,7 @@
 package com.uoctfm.principal.flow;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
-import com.uoctfm.principal.domain.station.calculated.StationDerived;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
-import com.uoctfm.principal.service.station.StationCalculation;
-import com.uoctfm.principal.service.station.StationDataStoring;
-import com.uoctfm.principal.service.station.StationStatus;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,18 +9,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 
 @Component
-public class StationMain {
+public class MainFlow {
 
     @Autowired
     private SystemConfiguration systemConfiguration;
 
-    private Logger logger = getLogger(StationMain.class);
+    @Autowired
+    private SystemFlow systemFlow;
+
+    private Logger logger = getLogger(MainFlow.class);
 
     @Scheduled(fixedRate = 50000)
     public void execute() {
@@ -34,8 +30,7 @@ public class StationMain {
         logger.info("Starting Main process, will be executed {} processes", systemConfigurationList.size());
 
         systemConfigurationList.forEach(systemConfiguration -> {
-            StationFlow stationFlow = new StationFlow();
-            stationFlow.executeById(systemConfiguration.getId());
+            new Thread(() -> systemFlow.executeById(systemConfiguration.getId())).start();
         });
 
         logger.info("Starting End process");
