@@ -5,6 +5,8 @@ import com.uoctfm.principal.domain.station.Station;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.time.LocalDateTime.now;
 
@@ -20,6 +22,14 @@ public class TestBuildHelper {
         systemConfiguration.setSaveInTimeSeries(false);
 
         return systemConfiguration;
+    }
+
+    public static List<SystemConfigurationDTO> buildSystemConfigurationListDTO(){
+        List<SystemConfigurationDTO> systemConfigurationList = new ArrayList<>();
+        systemConfigurationList.add(buildSystemConfigurationDTO());
+        systemConfigurationList.add(buildSystemConfigurationDTO());
+
+        return systemConfigurationList;
     }
 
     public static StationsStatusDTO stationsStatusDTO() {
