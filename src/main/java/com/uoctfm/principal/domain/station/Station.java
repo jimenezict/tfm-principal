@@ -28,7 +28,7 @@ public class Station {
     }
 
     public Integer getPercentage() {
-        return (numBicicles * 100) / (sizeStation);
+        return sizeStation != 0 ? (numBicicles * 100) / (sizeStation) : 0;
     }
 
     public Integer getPercentil() {

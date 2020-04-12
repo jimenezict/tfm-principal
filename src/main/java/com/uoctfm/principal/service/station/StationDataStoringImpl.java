@@ -4,6 +4,7 @@ import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.station.calculated.StationDerived;
 import com.uoctfm.principal.domain.station.calculated.StationPercentils;
 import com.uoctfm.principal.domain.station.calculated.StationRaw;
+import com.uoctfm.principal.repository.reporting.AbstractDatabaseRepository;
 import com.uoctfm.principal.repository.reporting.FileSystemDatabaseRepository;
 import com.uoctfm.principal.repository.reporting.GisDatabaseRepository;
 import com.uoctfm.principal.repository.reporting.TimeseriesDatabaseRepository;
@@ -16,6 +17,10 @@ import org.springframework.stereotype.Service;
 public class StationDataStoringImpl implements StationDataStoring {
 
     Logger logger = LoggerFactory.getLogger(StationDataStoring.class);
+
+    private static String FILE_SYSTEM = "File System";
+    private static String TIME_SERIES = "Time Series";
+    private static String GIS = "GIS";
 
     @Autowired
     private FileSystemDatabaseRepository fileSystemDatabaseRepository;
@@ -32,28 +37,36 @@ public class StationDataStoringImpl implements StationDataStoring {
             fileSystemDatabaseRepository.saveRaw(stationRaw);
             fileSystemDatabaseRepository.saveDerived(stationDerived);
             fileSystemDatabaseRepository.savePercentils(stationPercentils);
-            logger.info("Proceeding Save in File System for process {}", systemConfigurationDTO.getName());
+            logSuccessfulProcess(FILE_SYSTEM, systemConfigurationDTO.getName());
         }else{
-            logger.info("Skipping Save in File System for process {}", systemConfigurationDTO.getName());
+            logSkippingProcess(FILE_SYSTEM, systemConfigurationDTO.getName());
         }
 
         if(systemConfigurationDTO.getSaveInTimeSeries()){
             timeseriesDatabaseRepository.saveRaw(stationRaw);
             timeseriesDatabaseRepository.saveDerived(stationDerived);
             timeseriesDatabaseRepository.savePercentils(stationPercentils);
-            logger.info("Proceeding Save in Time Series for process {}", systemConfigurationDTO.getName());
+            logSuccessfulProcess(TIME_SERIES, systemConfigurationDTO.getName());
         }else{
-            logger.info("Skipping Save in Time Series for process {}", systemConfigurationDTO.getName());
+            logSkippingProcess(TIME_SERIES, systemConfigurationDTO.getName());
         }
 
         if(systemConfigurationDTO.getSaveInGIS()){
             gisDatabaseRepository.saveRaw(stationRaw);
             gisDatabaseRepository.saveDerived(stationDerived);
             gisDatabaseRepository.savePercentils(stationPercentils);
-            logger.info("Proceeding Save in Time Series for process {}", systemConfigurationDTO.getName());
+            logSuccessfulProcess(GIS, systemConfigurationDTO.getName());
         }else{
-            logger.info("Skipping Save in Time Series for process {}", systemConfigurationDTO.getName());
+            logSkippingProcess(GIS, systemConfigurationDTO.getName());
         }
+    }
+
+    private void logSuccessfulProcess( String database, String name) {
+        logger.info("Success on saving on {} database for process {}", database, name);
+    }
+
+    private void logSkippingProcess( String database, String name) {
+        logger.info("Skipping to save on {} database for process {}", database, name);
     }
 
 }

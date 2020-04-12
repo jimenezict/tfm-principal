@@ -1,9 +1,12 @@
 package com.uoctfm.principal.service.station;
 
+import com.uoc.tfm.commons.domain.StationsStatus;
+import com.uoctfm.principal.domain.station.Station;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -24,13 +27,26 @@ public class StationStatusImpl implements StationStatus {
     @Override
     public StationsStatusDTO getListStationStatus(String systemStationEndPoints) {
         try {
-            StationsStatusDTO stationsStatusDTO = restTemplate.getForObject(systemStationEndPoints, StationsStatusDTO.class);
+            StationsStatus stationsStatus = restTemplate.getForObject(systemStationEndPoints, StationsStatus.class);
                     logger.info("Captured StationsStatusDTO from the end-point {}", systemStationEndPoints);
+            StationsStatusDTO stationsStatusDTO = mapStationStatus(stationsStatus);
             return stationsStatusDTO;
         } catch (RestClientException e) {
-            logger.error("Fail on capturing StationsStatusDTO from the end-point {}", systemStationEndPoints);
+            logger.error("Fail on capturing from the end-point {}", systemStationEndPoints);
+        } catch (HttpMessageConversionException e) {
+            logger.error("Fail on parsing from end-point {}: ", systemStationEndPoints, e);
         }
         return null;
+    }
+
+    private StationsStatusDTO mapStationStatus(StationsStatus stationsStatus) {
+        StationsStatusDTO stationStatusDTO = new StationsStatusDTO();
+
+        stationsStatus.getStationStatusList().forEach(x -> {
+            stationStatusDTO.addStation(new Station(x.getId(), x.getOccupacy(), x.getSize()));
+        });
+
+        return stationStatusDTO;
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.uoctfm.principal.flow;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.station.calculated.StationDerived;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.domain.station.calculated.StationPercentils;
+import com.uoctfm.principal.domain.station.calculated.StationRaw;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
 import com.uoctfm.principal.service.station.StationCalculation;
 import com.uoctfm.principal.service.station.StationDataStoring;
@@ -12,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Component
@@ -31,8 +32,6 @@ public class SystemFlow {
 
     public void executeById(Integer id) {
 
-        StationDerived stationDerived = new StationDerived();
-
         logger.info("Starting {} process", id);
 
         SystemConfigurationDTO systemConfigurationDTO = systemConfiguration.getSystemConfigurationBy(id);
@@ -48,14 +47,15 @@ public class SystemFlow {
         }
 
         StationsStatusDTO lastStationsStatusDTO = stationStatus.getLastListStationStatus(systemConfigurationDTO.getId());
-        if(nonNull(lastStationsStatusDTO)){
-            logger.warn("{} not found valid latest sample", systemConfigurationDTO.getName());
+        if(isNull(lastStationsStatusDTO)){
+            logger.warn("Not found the latest sample for {}", systemConfigurationDTO.getName().trim());
         }
 
-        stationDataStoring.stationDataStoring(systemConfigurationDTO,
-                stationCalculation.calculateDerived(stationsStatusDTO, lastStationsStatusDTO),
-                stationCalculation.calculatePercentils(stationsStatusDTO),
-                stationCalculation.calculateRaw(stationsStatusDTO));
+        StationDerived stationDerived = stationCalculation.calculateDerived(stationsStatusDTO, lastStationsStatusDTO);
+        StationPercentils stationPercentil = stationCalculation.calculatePercentils(stationsStatusDTO);
+        StationRaw stationRaw = stationCalculation.calculateRaw(stationsStatusDTO);
+
+        stationDataStoring.stationDataStoring(systemConfigurationDTO, stationDerived, stationPercentil, stationRaw);
 
         logger.info("Ending {} process", id);
 
