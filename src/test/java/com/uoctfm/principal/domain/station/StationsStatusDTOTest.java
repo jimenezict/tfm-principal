@@ -6,7 +6,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
 
-import static com.uoctfm.principal.TestBuildHelper.stationsStatusDTO;
+import static com.uoctfm.principal.TestBuildHelper.buildStationsStatusDTO;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -14,7 +14,7 @@ public class StationsStatusDTOTest {
 
     @Test
     public void station_shouldHas3Station_whenIsInitializedWithDefaultValues() {
-        StationsStatusDTO stationsStatusDTO = stationsStatusDTO();
+        StationsStatusDTO stationsStatusDTO = buildStationsStatusDTO();
 
         assertThat(stationsStatusDTO.getExecutionDateTime()).isAfter(LocalDateTime.now().minusMinutes(1l));
         assertThat(stationsStatusDTO.getNumberStations()).isEqualTo(3);

@@ -22,8 +22,8 @@ public class StationStatusImplTest {
     @InjectMocks
     private StationStatus underTest = new StationStatusImpl();
 
-//    @Mock
-//    private SystemSampleRepository systemSampleRepository;
+    @Mock
+    private LastSampleRepository lastSampleRepository;
 
     @Mock
     private RestTemplate restTemplate;
@@ -57,27 +57,27 @@ public class StationStatusImplTest {
         StationsStatusDTO stationsStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
         assertThat(stationsStatusDTO).isNull();
     }
-/*
+
     @Test
     public void getLastListStationStatus_shouldReturnNull_whenNotFindSampleById(){
-        when(systemSampleRepository.findById(0)).thenReturn(null);
+        when(lastSampleRepository.findById(0)).thenReturn(null);
 
-        assertThat(underTest.getLastListStationStatus(0)).isNull();
+        assertThat(underTest.getLastStationStatus(0)).isNull();
 
-        verify(systemSampleRepository).findById(0);
-        verifyNoMoreInteractions(systemSampleRepository);
+        verify(lastSampleRepository).findById(0);
+        verifyNoMoreInteractions(lastSampleRepository);
     }
-
+/*
     @Test
     public void getLastListStationStatus_shouldReturnNull_whenFindSampleByIdButIsOld(){
         StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
         stationsStatusDTO.setExecutionDateTime(LocalDateTime.of(2000, 1, 1, 0,0));
-        when(systemSampleRepository.findById(0)).thenReturn(stationsStatusDTO);
+        when(lastSampleRepository.findById(0)).thenReturn(stationsStatusDTO);
 
         assertThat(underTest.getLastListStationStatus(0)).isNull();
 
-        verify(systemSampleRepository).findById(0);
-        verifyNoMoreInteractions(systemSampleRepository);
+        verify(lastSampleRepository).findById(0);
+        verifyNoMoreInteractions(lastSampleRepository);
     }
 
     @Test

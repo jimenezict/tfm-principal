@@ -33,7 +33,7 @@ public class TestBuildHelper {
         return systemConfigurationList;
     }
 
-    public static StationsStatusDTO stationsStatusDTO() {
+    public static StationsStatusDTO buildStationsStatusDTO() {
         StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
         stationsStatusDTO.setExecutionDateTime(now());
 
@@ -44,7 +44,7 @@ public class TestBuildHelper {
         return stationsStatusDTO;
     }
 
-    public static StationsStatusDTO stationsStatusDTO_higherId() {
+    public static StationsStatusDTO buildStationsStatusDTO_higherId() {
         StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
         stationsStatusDTO.setExecutionDateTime(now());
 

@@ -1,10 +1,10 @@
 package com.uoctfm.principal.flow;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.station.calculated.StationDerived;
+import com.uoctfm.principal.domain.calculated.StationDerived;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
-import com.uoctfm.principal.domain.station.calculated.StationPercentils;
-import com.uoctfm.principal.domain.station.calculated.StationRaw;
+import com.uoctfm.principal.domain.calculated.StationPercentils;
+import com.uoctfm.principal.domain.calculated.StationRaw;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
 import com.uoctfm.principal.service.station.StationCalculation;
 import com.uoctfm.principal.service.station.StationDataStoring;
@@ -46,7 +46,7 @@ public class SystemFlow {
             return;
         }
 
-        StationsStatusDTO lastStationsStatusDTO = stationStatus.getLastListStationStatus(systemConfigurationDTO.getId());
+        StationsStatusDTO lastStationsStatusDTO = stationStatus.getLastStationStatus(systemConfigurationDTO.getId());
         if(isNull(lastStationsStatusDTO)){
             logger.warn("Not found the latest sample for {}", systemConfigurationDTO.getName().trim());
         }

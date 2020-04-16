@@ -6,6 +6,6 @@ public interface StationStatus {
 
     public StationsStatusDTO getListStationStatus(String systemStationEndPoints);
 
-    public StationsStatusDTO getLastListStationStatus(Integer id);
+    public StationsStatusDTO getLastStationStatus(Integer id);
 
 }

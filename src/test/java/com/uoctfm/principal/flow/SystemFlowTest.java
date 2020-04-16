@@ -69,7 +69,7 @@ public class SystemFlowTest {
 
         verify(systemConfiguration).getSystemConfigurationBy(0);
         verify(stationStatus).getListStationStatus(systemConfigurationDTO.getSystemStationEndPoint());
-        verify(stationStatus).getLastListStationStatus(systemConfigurationDTO.getId());
+        verify(stationStatus).getLastStationStatus(systemConfigurationDTO.getId());
         verify(stationDataStoring).stationDataStoring(any(), any(), any(), any());
         verify(stationCalculation).calculateRaw(any());
         verify(stationCalculation).calculateDerived(any(), any());

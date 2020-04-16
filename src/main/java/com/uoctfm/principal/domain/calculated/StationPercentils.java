@@ -1,4 +1,4 @@
-package com.uoctfm.principal.domain.station.calculated;
+package com.uoctfm.principal.domain.calculated;
 
 import java.io.Serializable;
 

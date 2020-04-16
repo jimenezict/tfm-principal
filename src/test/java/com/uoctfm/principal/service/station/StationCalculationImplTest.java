@@ -2,8 +2,8 @@ package com.uoctfm.principal.service.station;
 
 import com.uoctfm.principal.domain.station.Station;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
-import com.uoctfm.principal.domain.station.calculated.StationDerived;
-import com.uoctfm.principal.domain.station.calculated.StationPercentils;
+import com.uoctfm.principal.domain.calculated.StationDerived;
+import com.uoctfm.principal.domain.calculated.StationPercentils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -12,8 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 
-import static com.uoctfm.principal.TestBuildHelper.stationsStatusDTO;
-import static com.uoctfm.principal.TestBuildHelper.stationsStatusDTO_higherId;
+import static com.uoctfm.principal.TestBuildHelper.buildStationsStatusDTO;
+import static com.uoctfm.principal.TestBuildHelper.buildStationsStatusDTO_higherId;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -26,7 +26,7 @@ public class StationCalculationImplTest {
     @Test
     public void calculatePercentils_shouldCalculatePercentil_whenUsesTheHelperClass(){
 
-        StationPercentils stationPercentils = underTest.calculatePercentils(stationsStatusDTO());
+        StationPercentils stationPercentils = underTest.calculatePercentils(buildStationsStatusDTO());
 
         assertThat(stationPercentils.getP0()).isEqualTo(33);
         assertThat(stationPercentils.getP1()).isEqualTo(0);
@@ -44,7 +44,7 @@ public class StationCalculationImplTest {
     @Test
     public void calculateRaw_shouldCalculatePercentil_whenUsesTheHelperClass(){
 
-        StationsStatusDTO stationsStatusDTO = underTest.calculateRaw(stationsStatusDTO()).getStationStatusDTO();
+        StationsStatusDTO stationsStatusDTO = underTest.calculateRaw(buildStationsStatusDTO()).getStationStatusDTO();
 
         assertThat(stationsStatusDTO.getExecutionDateTime()).isAfter(LocalDateTime.now().minusMinutes(1l));
         assertThat(stationsStatusDTO.getNumberStations());
@@ -58,7 +58,7 @@ public class StationCalculationImplTest {
 
     @Test
     public void calculateDerived_shouldValueZero_whenHasNoLastSample() {
-        StationDerived stationDerived = underTest.calculateDerived(stationsStatusDTO(), null);
+        StationDerived stationDerived = underTest.calculateDerived(buildStationsStatusDTO(), null);
 
         assertThat(stationDerived.getStationsStatusDTO().get(1)).isEqualTo(0);
         assertThat(stationDerived.getStationsStatusDTO().get(2)).isEqualTo(0);
@@ -67,7 +67,7 @@ public class StationCalculationImplTest {
 
     @Test
     public void calculateDerived_shouldValueZero_whenSamplesAreIdentical() {
-        StationDerived stationDerived = underTest.calculateDerived(stationsStatusDTO(), stationsStatusDTO());
+        StationDerived stationDerived = underTest.calculateDerived(buildStationsStatusDTO(), buildStationsStatusDTO());
 
         assertThat(stationDerived.getStationsStatusDTO().get(1)).isEqualTo(0);
         assertThat(stationDerived.getStationsStatusDTO().get(2)).isEqualTo(0);
@@ -76,7 +76,7 @@ public class StationCalculationImplTest {
 
     @Test
     public void calculateDerived_shouldValueZero_whenStationsIdAreDifferent() {
-        StationDerived stationDerived = underTest.calculateDerived(stationsStatusDTO(), stationsStatusDTO_higherId());
+        StationDerived stationDerived = underTest.calculateDerived(buildStationsStatusDTO(), buildStationsStatusDTO_higherId());
 
         assertThat(stationDerived.getStationsStatusDTO().get(1)).isEqualTo(10);
         assertThat(stationDerived.getStationsStatusDTO().get(2)).isEqualTo(0);
