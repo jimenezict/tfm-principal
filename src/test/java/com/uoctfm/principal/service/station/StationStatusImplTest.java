@@ -1,6 +1,8 @@
 package com.uoctfm.principal.service.station;
 
+import com.uoc.tfm.commons.domain.StationsStatus;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.repository.configuration.LastSampleRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -8,8 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.time.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -30,8 +30,8 @@ public class StationStatusImplTest {
 
     @Test
     public void getListStationStatus_shouldReturnStationStatusDTOObject_whenItIsCallToAValidEndpoint(){
-        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatusDTO.class))
-          .thenReturn(new StationsStatusDTO());
+        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatus.class))
+          .thenReturn(new StationsStatus());
 
         StationsStatusDTO stationsStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
 
@@ -41,7 +41,7 @@ public class StationStatusImplTest {
 
     @Test
     public void getListStationStatus_shouldReturnNullOObject_whenItIsCallToAValidEndpoint(){
-        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatusDTO.class))
+        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatus.class))
                 .thenReturn(null);
 
         StationsStatusDTO stationsStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
@@ -51,7 +51,7 @@ public class StationStatusImplTest {
 
     @Test
     public void getListStationStatus_shouldThrownException_whenItFailsToCallEndpoint(){
-        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatusDTO.class))
+        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatus.class))
                 .thenThrow(RestClientException.class);
 
         StationsStatusDTO stationsStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);

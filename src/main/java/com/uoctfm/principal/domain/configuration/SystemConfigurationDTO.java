@@ -1,20 +1,23 @@
 package com.uoctfm.principal.domain.configuration;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name="systemconfiguration")
-public class SystemConfigurationDTO {
+public class SystemConfigurationDTO implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
     @Column(name = "systemstationendpoint")
     private String systemStationEndPoint;
+    @Column(name = "systemlocationendpoint")
+    private String systemLocationEndPoint;
     private String name;
     @Column(name = "saveinfilesystem")
     private Boolean saveInFileSystem;
-    @Column(name = "saveintimeseries")
+    @Column(name = "saveintimseseries")
     private Boolean saveInTimeSeries;
     @Column(name = "saveingis")
     private Boolean saveInGIS;
@@ -33,6 +36,14 @@ public class SystemConfigurationDTO {
 
     public void setSystemStationEndPoint(String systemStationEndPoint) {
         this.systemStationEndPoint = systemStationEndPoint;
+    }
+
+    public String getSystemLocationEndPoint() {
+        return systemLocationEndPoint;
+    }
+
+    public void setSystemLocationEndPoint(String systemLocationEndPoint) {
+        this.systemLocationEndPoint = systemLocationEndPoint;
     }
 
     public String getName() {

@@ -34,7 +34,9 @@ public class SystemConfigurationImplTest {
 
         assertThat(systemConfiguration.getId()).isEqualTo(0);
         assertThat(systemConfiguration.getSystemStationEndPoint())
-                .isEqualTo("http://localhost:8483/endpoint/");
+                .isEqualTo("http://localhost:8483/status/");
+        assertThat(systemConfiguration.getSystemLocationEndPoint())
+                .isEqualTo("http://localhost:8483/location/");
         assertThat(systemConfiguration.getName()).isEqualTo("Barcino");
         assertThat(systemConfiguration.getSaveInFileSystem()).isFalse();
         assertThat(systemConfiguration.getSaveInTimeSeries()).isFalse();

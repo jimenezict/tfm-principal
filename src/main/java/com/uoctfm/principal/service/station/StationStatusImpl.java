@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDateTime;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service
 public class StationStatusImpl implements StationStatus {
@@ -29,8 +30,7 @@ public class StationStatusImpl implements StationStatus {
         try {
             StationsStatus stationsStatus = restTemplate.getForObject(systemStationEndPoints, StationsStatus.class);
                     logger.info("Captured StationsStatusDTO from the end-point {}", systemStationEndPoints);
-            StationsStatusDTO stationsStatusDTO = mapStationStatus(stationsStatus);
-            return stationsStatusDTO;
+            return nonNull(stationsStatus) ? mapStationStatus(stationsStatus) : null;
         } catch (RestClientException e) {
             logger.error("Fail on capturing from the end-point {}", systemStationEndPoints);
         } catch (HttpMessageConversionException e) {

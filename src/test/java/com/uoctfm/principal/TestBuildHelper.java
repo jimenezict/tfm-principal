@@ -16,7 +16,8 @@ public class TestBuildHelper {
         SystemConfigurationDTO systemConfiguration = new SystemConfigurationDTO();
         systemConfiguration.setId(0);
         systemConfiguration.setName("Barcino");
-        systemConfiguration.setSystemStationEndPoint("http://localhost:8483/endpoint/");
+        systemConfiguration.setSystemStationEndPoint("http://localhost:8483/status/");
+        systemConfiguration.setSystemLocationEndPoint("http://localhost:8483/location/");
         systemConfiguration.setSaveInFileSystem(false);
         systemConfiguration.setSaveInGIS(false);
         systemConfiguration.setSaveInTimeSeries(false);
