@@ -56,6 +56,7 @@ public class SystemFlow {
         StationRaw stationRaw = stationCalculation.calculateRaw(stationsStatusDTO);
 
         stationDataStoring.stationDataStoring(systemConfigurationDTO, stationDerived, stationPercentil, stationRaw);
+        stationStatus.saveLastStationStatus(stationsStatusDTO, id);
 
         logger.info("Ending {} process", id);
 

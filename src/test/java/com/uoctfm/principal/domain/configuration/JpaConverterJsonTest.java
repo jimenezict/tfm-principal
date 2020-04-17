@@ -21,8 +21,8 @@ public class JpaConverterJsonTest {
     JpaConverterJson underTest = new JpaConverterJson();
 
     @Test
-    public void convertToDatabaseColumn_should() {
-        assertThat(underTest.convertToDatabaseColumn(buildStationsStatusDTO().getStationList())).isEqualTo(LAST_SAMPLE_EXAMPLE);
+    public void convertToDatabaseColumn_shouldReturnLongString_whenMapsToString() {
+        assertThat(underTest.convertToDatabaseColumn(buildStationsStatusDTO().getStationList())).hasSizeGreaterThan(50);
     }
 
     @Test

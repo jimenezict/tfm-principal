@@ -13,3 +13,12 @@ CREATE TABLE uoc.systemconfiguration
 
 insert into  uoc.systemconfiguration (id, name, systemStationEndPoint, systemlocationendpoint, saveInFileSystem, saveInTimeSeries, saveInGIS)
 values (1, 'test', 'http://localhost:8082/status', 'http://localhost:8082/location', false, false, false);
+
+
+CREATE TABLE uoc.lastSample
+(
+  id integer PRIMARY KEY,
+  time timestamp,
+  lastSample varchar
+);
+

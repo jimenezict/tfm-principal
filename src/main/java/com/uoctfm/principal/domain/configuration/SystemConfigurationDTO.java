@@ -17,7 +17,7 @@ public class SystemConfigurationDTO implements Serializable {
     private String name;
     @Column(name = "saveinfilesystem")
     private Boolean saveInFileSystem;
-    @Column(name = "saveintimseseries")
+    @Column(name = "saveintimeseries")
     private Boolean saveInTimeSeries;
     @Column(name = "saveingis")
     private Boolean saveInGIS;

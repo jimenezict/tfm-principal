@@ -9,16 +9,17 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Entity
-@Table(name="lastSample")
+@Table(name="lastsample")
 public class LastSampleDTO implements Serializable {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
     private LocalDateTime time;
 
     @Convert(converter = JpaConverterJson.class)
+    @Column(name = "lastsample")
     private Map<Integer, Station> lastSample;
 
     public Integer getId() {

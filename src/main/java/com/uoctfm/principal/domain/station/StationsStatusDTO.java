@@ -25,6 +25,10 @@ public class StationsStatusDTO {
         this.executionDateTime = executionDateTime;
     }
 
+    public void setStationList(Map<Integer, Station> stationList) {
+        this.stationList = stationList;
+    }
+
     public Map<Integer, Station> getStationList() {
         return stationList;
     }

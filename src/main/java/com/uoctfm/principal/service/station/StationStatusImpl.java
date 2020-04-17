@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 
+import static java.time.LocalDateTime.now;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -33,7 +34,7 @@ public class StationStatusImpl implements StationStatus {
     public StationsStatusDTO getListStationStatus(String systemStationEndPoints) {
         try {
             StationsStatus stationsStatus = restTemplate.getForObject(systemStationEndPoints, StationsStatus.class);
-                    logger.info("Captured StationsStatusDTO from the end-point {}", systemStationEndPoints);
+            logger.info("Captured StationsStatusDTO from the end-point {}", systemStationEndPoints);
             return nonNull(stationsStatus) ? mapStationStatus(stationsStatus) : null;
         } catch (RestClientException e) {
             logger.error("Fail on capturing from the end-point {}", systemStationEndPoints);
@@ -58,11 +59,44 @@ public class StationStatusImpl implements StationStatus {
             return null;
         }
 
-        StationsStatusDTO stationsStatusDTO = mapStationStatus(lastSample);
+        StationsStatusDTO stationsStatusDTO;
+        try {
+            stationsStatusDTO = mapStationStatus(lastSample);
+        } catch (Exception e) {
+            logger.error("Fail on mapping last sample from id {} to StationsStatusDTO.", id, e.getMessage());
+            return null;
+        }
 
-        boolean wasOnLastFiveMinutes = stationsStatusDTO.getExecutionDateTime().isAfter(LocalDateTime.now().minusMinutes(5));
-        if (!wasOnLastFiveMinutes) logger.warn("Not found any sample for {} on database, for the last 5 minutes", id);
+        boolean wasOnLastFiveMinutes = stationsStatusDTO.getExecutionDateTime().isAfter(now().minusMinutes(60));
+        if (!wasOnLastFiveMinutes) {
+            logger.warn("Not found any sample for {} on database, for the last hour", id);
+        } else {
+            logger.info("Success: it was found a sample for {} on database, for the last hour", id);
+        }
         return wasOnLastFiveMinutes ? stationsStatusDTO : null;
+    }
+
+    @Override
+    public void saveLastStationStatus(StationsStatusDTO stationsStatusDTO, Integer id) {
+        LastSampleDTO lastSampleDTO = mapLastSample(stationsStatusDTO, id);
+
+        try {
+            lastSampleRepository.save(lastSampleDTO);
+        }catch (Exception e){
+            logger.error("Fail on saving last sample from the id: {}.", id, e.getMessage());
+            return;
+        }
+
+        logger.info("The sample from the id: {} has been saved.", id);
+    }
+
+    private LastSampleDTO mapLastSample(StationsStatusDTO stationsStatusDTO, Integer id) {
+        LastSampleDTO lastSampleDTO = new LastSampleDTO();
+        lastSampleDTO.setId(id);
+        lastSampleDTO.setTime(now());
+        lastSampleDTO.setLastSample(stationsStatusDTO.getStationList());
+
+        return lastSampleDTO;
     }
 
     private StationsStatusDTO mapStationStatus(StationsStatus stationsStatus) {
@@ -78,10 +112,8 @@ public class StationStatusImpl implements StationStatus {
 
     private StationsStatusDTO mapStationStatus(LastSampleDTO lastSample) {
         StationsStatusDTO stationStatusDTO = new StationsStatusDTO();
-
-        lastSample.getLastSample().keySet().forEach(x -> {
-            stationStatusDTO.addStation(lastSample.getLastSample().get(x));
-        });
+        stationStatusDTO.setExecutionDateTime(lastSample.getTime());
+        stationStatusDTO.setStationList(lastSample.getLastSample());
 
         return stationStatusDTO;
     }}

@@ -1,6 +1,8 @@
 package com.uoctfm.principal.service.station;
 
 import com.uoc.tfm.commons.domain.StationsStatus;
+import com.uoctfm.principal.domain.configuration.LastSampleDTO;
+import com.uoctfm.principal.domain.station.Station;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
 import com.uoctfm.principal.repository.configuration.LastSampleRepository;
 import org.junit.Test;
@@ -11,6 +13,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.uoctfm.principal.TestBuildHelper.buildStationsStatusDTO;
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -59,7 +68,7 @@ public class StationStatusImplTest {
     }
 
     @Test
-    public void getLastListStationStatus_shouldReturnNull_whenNotFindSampleById(){
+    public void getLastStationStatus_shouldReturnNull_whenNotFindSampleById(){
         when(lastSampleRepository.findById(0)).thenReturn(null);
 
         assertThat(underTest.getLastStationStatus(0)).isNull();
@@ -67,43 +76,88 @@ public class StationStatusImplTest {
         verify(lastSampleRepository).findById(0);
         verifyNoMoreInteractions(lastSampleRepository);
     }
-/*
-    @Test
-    public void getLastListStationStatus_shouldReturnNull_whenFindSampleByIdButIsOld(){
-        StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
-        stationsStatusDTO.setExecutionDateTime(LocalDateTime.of(2000, 1, 1, 0,0));
-        when(lastSampleRepository.findById(0)).thenReturn(stationsStatusDTO);
 
-        assertThat(underTest.getLastListStationStatus(0)).isNull();
+    @Test
+    public void getLastStationStatus_shouldReturnNull_whenLastSampleThrowsException(){
+        when(lastSampleRepository.findById(0)).thenThrow(RuntimeException.class);
+
+        assertThat(underTest.getLastStationStatus(0)).isNull();
 
         verify(lastSampleRepository).findById(0);
         verifyNoMoreInteractions(lastSampleRepository);
     }
 
     @Test
-    public void getLastListStationStatus_shouldReturnNull_whenFindSampleByIdButIsNew(){
-        StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
-        stationsStatusDTO.setExecutionDateTime(LocalDateTime.now());
-        when(systemSampleRepository.findById(0)).thenReturn(stationsStatusDTO);
+    public void getLastStationStatus_shouldReturnNull_whenFindSampleByIdButIsOld(){
+        LastSampleDTO lastSampleDTO = new LastSampleDTO();
+        lastSampleDTO.setId(1);
+        lastSampleDTO.setTime(LocalDateTime.of(2000, 1, 1, 0,0));
+        lastSampleDTO.setLastSample(new HashMap<>());
 
-        StationsStatusDTO retStationsStatusDTO = underTest.getLastListStationStatus(0);
+        when(lastSampleRepository.findById(0)).thenReturn(lastSampleDTO);
 
-        assertThat(retStationsStatusDTO.getExecutionDateTime()).isEqualTo(stationsStatusDTO.getExecutionDateTime());
-        verify(systemSampleRepository).findById(0);
-        verifyNoMoreInteractions(systemSampleRepository);
+        assertThat(underTest.getLastStationStatus(0)).isNull();
+        assertThat(lastSampleDTO.getId()).isEqualTo(1);
+
+        verify(lastSampleRepository).findById(0);
+        verifyNoMoreInteractions(lastSampleRepository);
     }
 
     @Test
-    public void getLastListStationStatus_shouldReturnNull_whenFindSampleByIdButIs1minuteOld(){
-        StationsStatusDTO stationsStatusDTO = new StationsStatusDTO();
-        stationsStatusDTO.setExecutionDateTime(LocalDateTime.now().minusMinutes(1));
-        when(systemSampleRepository.findById(0)).thenReturn(stationsStatusDTO);
+    public void getLastStationStatus_shouldReturnStationStatus_whenFindSampleByIdButIsNew(){
+        LastSampleDTO lastSampleDTO = new LastSampleDTO();
+        lastSampleDTO.setId(1);
+        lastSampleDTO.setTime(now());
+        lastSampleDTO.setLastSample(new HashMap<>());
 
-        StationsStatusDTO retStationsStatusDTO = underTest.getLastListStationStatus(0);
+        when(lastSampleRepository.findById(0)).thenReturn(lastSampleDTO);
+        StationsStatusDTO stationsStatusDTO = underTest.getLastStationStatus(0);
 
-        assertThat(retStationsStatusDTO.getExecutionDateTime()).isEqualTo(stationsStatusDTO.getExecutionDateTime());
-        verify(systemSampleRepository).findById(0);
-        verifyNoMoreInteractions(systemSampleRepository);
+        assertThat(stationsStatusDTO.getExecutionDateTime()).isEqualTo(lastSampleDTO.getTime());
+        verify(lastSampleRepository).findById(0);
+        verifyNoMoreInteractions(lastSampleRepository);
     }
-*/
+
+    @Test
+    public void getLastStationStatus_shouldMapCorrectly_whenFindSampleHasValidStations() {
+        LastSampleDTO lastSampleDTO = new LastSampleDTO();
+        lastSampleDTO.setId(1);
+        lastSampleDTO.setTime(now());
+        Map<Integer, Station> stationList = new HashMap<>();
+        stationList.put(1, new Station(1,10,20));
+        stationList.put(2, new Station(2,20,30));
+
+        lastSampleDTO.setLastSample(stationList);
+
+        when(lastSampleRepository.findById(0)).thenReturn(lastSampleDTO);
+        StationsStatusDTO stationsStatusDTO = underTest.getLastStationStatus(0);
+
+        assertThat(stationsStatusDTO.getExecutionDateTime()).isEqualTo(lastSampleDTO.getTime());
+        assertThat(stationsStatusDTO.getStationList().size()).isEqualTo(2);
+
+        verify(lastSampleRepository).findById(0);
+        verifyNoMoreInteractions(lastSampleRepository);
+    }
+
+    @Test
+    public void saveLastStationStatus_shouldSaveLastStationStatus_whenMapsFromValidStationStatus() {
+        StationsStatusDTO stationStatus = buildStationsStatusDTO();
+
+        underTest.saveLastStationStatus(stationStatus, 1);
+
+        verify(lastSampleRepository).save(any());
+        verifyNoMoreInteractions(lastSampleRepository);
+    }
+
+    @Test
+    public void saveLastStationStatus_shouldCaptureException_whenSaveThrowsException() {
+        StationsStatusDTO stationStatus = buildStationsStatusDTO();
+        when(lastSampleRepository.save(any())).thenThrow(RuntimeException.class);
+
+        underTest.saveLastStationStatus(stationStatus, 1);
+
+        verify(lastSampleRepository).save(any());
+        verifyNoMoreInteractions(lastSampleRepository);
+    }
+
 }

@@ -74,6 +74,7 @@ public class SystemFlowTest {
         verify(stationCalculation).calculateRaw(any());
         verify(stationCalculation).calculateDerived(any(), any());
         verify(stationCalculation).calculatePercentils(any());
+        verify(stationStatus).saveLastStationStatus(any(), any());
 
         verifyNoMoreInteractions(stationStatus);
         verifyNoMoreInteractions(stationCalculation);

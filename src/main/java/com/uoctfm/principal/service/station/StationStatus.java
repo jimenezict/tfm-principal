@@ -8,4 +8,6 @@ public interface StationStatus {
 
     public StationsStatusDTO getLastStationStatus(Integer id);
 
+    public void saveLastStationStatus(StationsStatusDTO stationsStatus, Integer id);
+
 }

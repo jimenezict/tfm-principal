@@ -33,7 +33,7 @@ public class MainFlow {
             new Thread(() -> systemFlow.executeById(systemConfiguration.getId())).start();
         });
 
-        logger.info("Starting End process");
+        logger.info("Starting Main process");
     }
 
 }
