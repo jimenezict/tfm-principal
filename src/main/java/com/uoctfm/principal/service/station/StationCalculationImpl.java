@@ -1,11 +1,14 @@
 package com.uoctfm.principal.service.station;
 
+import com.uoctfm.principal.domain.calculated.StationStatistics;
 import com.uoctfm.principal.domain.station.Station;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
 import com.uoctfm.principal.domain.calculated.StationDerived;
 import com.uoctfm.principal.domain.calculated.StationPercentils;
 import com.uoctfm.principal.domain.calculated.StationRaw;
+import com.uoctfm.principal.service.station.calculation.StatisticalService;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -16,6 +19,9 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Service
 public class StationCalculationImpl implements StationCalculation {
     private Logger logger = getLogger(StationCalculationImpl.class);
+
+    @Autowired
+    StatisticalService statisticalService;
 
     @Override
     public StationPercentils calculatePercentils(StationsStatusDTO stationsStatusDTO) {
@@ -46,15 +52,39 @@ public class StationCalculationImpl implements StationCalculation {
 
     @Override
     public StationDerived calculateDerived(StationsStatusDTO stationsStatusDTO, StationsStatusDTO lastStationsStatusDTO) {
-        logger.info("Starting the calculations of the derivates for {} over {} stations",
+        logger.info("Starting the calculations of the derivates over {} stations", stationsStatusDTO.getNumberStations());
+
+        StationDerived stationDerived = new StationDerived();
+
+        try {
+            if (isNull(lastStationsStatusDTO)) {
+                logger.warn("There is no sample from the last capture, all values will be zero");
+                stationDerived = emptyStationCalculation(stationsStatusDTO);
+            }
+            stationDerived = stationCalculation(stationsStatusDTO, lastStationsStatusDTO);
+        } catch (Exception e) {
+            logger.error("Fail on the derived calculation");
+        }
+
+        return stationDerived;
+    }
+
+    @Override
+    public StationRaw calculateRaw(StationsStatusDTO stationsStatusDTO) {
+        logger.info("Starting the calculations of the calculateRaw for {} over {} stations",
                 "TBD",
                 stationsStatusDTO.getNumberStations());
+        return new StationRaw(stationsStatusDTO);
+    }
 
-        if (isNull(lastStationsStatusDTO)) {
-            logger.warn("There is no sample from the last capture, all values will be zero");
-            return emptyStationCalculation(stationsStatusDTO);
-        }
-        return stationCalculation(stationsStatusDTO, lastStationsStatusDTO);
+    @Override
+    public StationStatistics calculateStatistics(StationsStatusDTO stationsStatus) {
+        logger.info("Starting the calculations of the calculateStatistics over {} stations",stationsStatus.getNumberStations());
+        int entropy = statisticalService.calculateEntropy(stationsStatus);
+        double entropyNormalized = stationsStatus.getStationList().size() > 0 ? (double) entropy / stationsStatus.getStationList().size() : 0;
+        double average = statisticalService.calculatePercentage(stationsStatus);
+        logger.info("Ending the calculateStatistics with values {} stations: {} : {}",stationsStatus.getNumberStations(), entropyNormalized, average);
+        return new StationStatistics(entropy, entropyNormalized , average);
     }
 
     private StationDerived emptyStationCalculation(StationsStatusDTO stationsStatusDTO) {
@@ -83,13 +113,5 @@ public class StationCalculationImpl implements StationCalculation {
             stationDerived.addStationStatus(id, newValue - oldValue);
         });
         return stationDerived;
-    }
-
-    @Override
-    public StationRaw calculateRaw(StationsStatusDTO stationsStatusDTO) {
-        logger.info("Starting the calculations of the calculateRaw for {} over {} stations",
-                "TBD",
-                stationsStatusDTO.getNumberStations());
-        return new StationRaw(stationsStatusDTO);
     }
 }

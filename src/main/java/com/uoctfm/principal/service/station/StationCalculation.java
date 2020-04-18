@@ -3,6 +3,7 @@ package com.uoctfm.principal.service.station;
 import com.uoctfm.principal.domain.calculated.StationDerived;
 import com.uoctfm.principal.domain.calculated.StationPercentils;
 import com.uoctfm.principal.domain.calculated.StationRaw;
+import com.uoctfm.principal.domain.calculated.StationStatistics;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
 
 public interface StationCalculation {
@@ -12,5 +13,7 @@ public interface StationCalculation {
     public StationDerived calculateDerived(StationsStatusDTO stationsStatusDTO, StationsStatusDTO lastStationsStatusDTO);
 
     public StationRaw calculateRaw(StationsStatusDTO stationsStatusDTO);
+
+    public StationStatistics calculateStatistics(StationsStatusDTO stationsStatus);
 
 }

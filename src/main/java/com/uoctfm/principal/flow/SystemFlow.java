@@ -1,5 +1,6 @@
 package com.uoctfm.principal.flow;
 
+import com.uoctfm.principal.domain.calculated.StationStatistics;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.calculated.StationDerived;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
@@ -54,6 +55,7 @@ public class SystemFlow {
         StationDerived stationDerived = stationCalculation.calculateDerived(stationsStatusDTO, lastStationsStatusDTO);
         StationPercentils stationPercentil = stationCalculation.calculatePercentils(stationsStatusDTO);
         StationRaw stationRaw = stationCalculation.calculateRaw(stationsStatusDTO);
+        StationStatistics stationStatistics = stationCalculation.calculateStatistics(stationsStatusDTO);
 
         stationDataStoring.stationDataStoring(systemConfigurationDTO, stationDerived, stationPercentil, stationRaw);
         stationStatus.saveLastStationStatus(stationsStatusDTO, id);
