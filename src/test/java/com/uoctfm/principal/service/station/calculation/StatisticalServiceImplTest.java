@@ -7,8 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.awt.*;
-
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,12 +28,12 @@ public class StatisticalServiceImplTest {
 
     @Test
     public void calculatePercentage_shouldReturnZero_whenTheSystemIsEmptyDistributed() {
-        assertThat(underTest.calculatePercentage(buildEmptyStationStatusDTO())).isEqualTo(0.0);
+        assertThat(underTest.calculateAverage(buildEmptyStationStatusDTO())).isEqualTo(0.0);
     }
 
     @Test
     public void calculatePercentage_shouldReturnZero_whenTheSystemIsWellDistributed() {
-        assertThat(underTest.calculatePercentage(buildBalancedStationsStatusDTO())).isEqualTo(5.333333333333333);
+        assertThat(underTest.calculateAverage(buildBalancedStationsStatusDTO())).isEqualTo(5.333333333333333);
     }
 
     private StationsStatusDTO buildBalancedStationsStatusDTO() {

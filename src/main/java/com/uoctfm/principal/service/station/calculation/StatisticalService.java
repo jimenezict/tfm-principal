@@ -6,5 +6,6 @@ public interface StatisticalService {
 
     public int calculateEntropy(StationsStatusDTO stationsStatus);
 
-    public double calculatePercentage(StationsStatusDTO stationsStatus);
+    public double calculateAverage(StationsStatusDTO stationsStatus);
+
 }

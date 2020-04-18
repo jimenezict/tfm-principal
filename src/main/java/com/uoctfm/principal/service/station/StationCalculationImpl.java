@@ -82,7 +82,7 @@ public class StationCalculationImpl implements StationCalculation {
         logger.info("Starting the calculations of the calculateStatistics over {} stations",stationsStatus.getNumberStations());
         int entropy = statisticalService.calculateEntropy(stationsStatus);
         double entropyNormalized = stationsStatus.getStationList().size() > 0 ? (double) entropy / stationsStatus.getStationList().size() : 0;
-        double average = statisticalService.calculatePercentage(stationsStatus);
+        double average = statisticalService.calculateAverage(stationsStatus);
         logger.info("Ending the calculateStatistics with values {} stations: {} : {}",stationsStatus.getNumberStations(), entropyNormalized, average);
         return new StationStatistics(entropy, entropyNormalized , average);
     }

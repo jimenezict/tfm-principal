@@ -19,7 +19,7 @@ public class StatisticalServiceImpl implements StatisticalService{
     }
 
     @Override
-    public double calculatePercentage(StationsStatusDTO stationsStatus) {
+    public double calculateAverage(StationsStatusDTO stationsStatus) {
         return stationsStatus.getStationList()
                 .values()
                 .stream()
