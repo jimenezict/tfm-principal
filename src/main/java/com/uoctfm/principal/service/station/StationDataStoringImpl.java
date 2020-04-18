@@ -4,9 +4,9 @@ import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.calculated.StationDerived;
 import com.uoctfm.principal.domain.calculated.StationPercentils;
 import com.uoctfm.principal.domain.calculated.StationRaw;
-import com.uoctfm.principal.repository.reporting.FileSystemDatabaseRepository;
-import com.uoctfm.principal.repository.reporting.GisDatabaseRepository;
-import com.uoctfm.principal.repository.reporting.TimeseriesDatabaseRepository;
+import com.uoctfm.principal.repository.load.FileSystemDatabaseRepository;
+import com.uoctfm.principal.repository.load.GisDatabaseRepository;
+import com.uoctfm.principal.repository.load.TimeseriesDatabaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class StationDataStoringImpl implements StationDataStoring {
         if(systemConfigurationDTO.getSaveInFileSystem()){
             fileSystemDatabaseRepository.saveRaw(stationRaw);
             fileSystemDatabaseRepository.saveDerived(stationDerived);
-            fileSystemDatabaseRepository.savePercentils(stationPercentils);
+            fileSystemDatabaseRepository.savePercentils(stationPercentils, );
             logSuccessfulProcess(FILE_SYSTEM, systemConfigurationDTO.getName());
         }else{
             logSkippingProcess(FILE_SYSTEM, systemConfigurationDTO.getName());
@@ -44,7 +44,7 @@ public class StationDataStoringImpl implements StationDataStoring {
         if(systemConfigurationDTO.getSaveInTimeSeries()){
             timeseriesDatabaseRepository.saveRaw(stationRaw);
             timeseriesDatabaseRepository.saveDerived(stationDerived);
-            timeseriesDatabaseRepository.savePercentils(stationPercentils);
+            timeseriesDatabaseRepository.savePercentils(stationPercentils, );
             logSuccessfulProcess(TIME_SERIES, systemConfigurationDTO.getName());
         }else{
             logSkippingProcess(TIME_SERIES, systemConfigurationDTO.getName());
@@ -53,7 +53,7 @@ public class StationDataStoringImpl implements StationDataStoring {
         if(systemConfigurationDTO.getSaveInGIS()){
             gisDatabaseRepository.saveRaw(stationRaw);
             gisDatabaseRepository.saveDerived(stationDerived);
-            gisDatabaseRepository.savePercentils(stationPercentils);
+            gisDatabaseRepository.savePercentils(stationPercentils, );
             logSuccessfulProcess(GIS, systemConfigurationDTO.getName());
         }else{
             logSkippingProcess(GIS, systemConfigurationDTO.getName());

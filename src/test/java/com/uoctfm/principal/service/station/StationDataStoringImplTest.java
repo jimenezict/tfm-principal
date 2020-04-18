@@ -1,9 +1,9 @@
 package com.uoctfm.principal.service.station;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.repository.reporting.FileSystemDatabaseRepository;
-import com.uoctfm.principal.repository.reporting.GisDatabaseRepository;
-import com.uoctfm.principal.repository.reporting.TimeseriesDatabaseRepository;
+import com.uoctfm.principal.repository.load.FileSystemDatabaseRepository;
+import com.uoctfm.principal.repository.load.GisDatabaseRepository;
+import com.uoctfm.principal.repository.load.TimeseriesDatabaseRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -51,7 +51,7 @@ public class StationDataStoringImplTest {
 
         verify(fileSystemDatabaseRepository).saveRaw(any());
         verify(fileSystemDatabaseRepository).saveDerived(any());
-        verify(fileSystemDatabaseRepository).savePercentils(any());
+        verify(fileSystemDatabaseRepository).savePercentils(any(), );
 
         verifyNoMoreInteractions(fileSystemDatabaseRepository);
         verifyNoInteractions(timeseriesDatabaseRepository);
@@ -67,7 +67,7 @@ public class StationDataStoringImplTest {
 
         verify(timeseriesDatabaseRepository).saveRaw(any());
         verify(timeseriesDatabaseRepository).saveDerived(any());
-        verify(timeseriesDatabaseRepository).savePercentils(any());
+        verify(timeseriesDatabaseRepository).savePercentils(any(), );
 
         verifyNoInteractions(fileSystemDatabaseRepository);
         verifyNoMoreInteractions(timeseriesDatabaseRepository);
@@ -83,7 +83,7 @@ public class StationDataStoringImplTest {
 
         verify(gisDatabaseRepository).saveRaw(any());
         verify(gisDatabaseRepository).saveDerived(any());
-        verify(gisDatabaseRepository).savePercentils(any());
+        verify(gisDatabaseRepository).savePercentils(any(), );
 
         verifyNoInteractions(fileSystemDatabaseRepository);
         verifyNoInteractions(timeseriesDatabaseRepository);
