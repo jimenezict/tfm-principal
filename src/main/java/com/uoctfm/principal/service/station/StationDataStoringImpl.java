@@ -5,9 +5,9 @@ import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.calculated.StationDerived;
 import com.uoctfm.principal.domain.calculated.StationPercentils;
 import com.uoctfm.principal.domain.calculated.StationRaw;
-import com.uoctfm.principal.repository.load.FileSystemDatabaseRepository;
-import com.uoctfm.principal.repository.load.GisDatabaseRepository;
-import com.uoctfm.principal.repository.load.TimeseriesDatabaseRepository;
+import com.uoctfm.principal.repository.load.service.FileSystemDatabaseService;
+import com.uoctfm.principal.repository.load.service.GisDatabaseService;
+import com.uoctfm.principal.repository.load.service.TimeseriesDatabaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,38 +23,38 @@ public class StationDataStoringImpl implements StationDataStoring {
     private static String GIS = "GIS";
 
     @Autowired
-    private FileSystemDatabaseRepository fileSystemDatabaseRepository;
+    private FileSystemDatabaseService fileSystemDatabaseService;
 
     @Autowired
-    private TimeseriesDatabaseRepository timeseriesDatabaseRepository;
+    private TimeseriesDatabaseService timeseriesDatabaseService;
 
     @Autowired
-    private GisDatabaseRepository gisDatabaseRepository;
+    private GisDatabaseService gisDatabaseService;
 
     @Override
     public void stationDataStoring(SystemConfigurationDTO systemConfigurationDTO, StationDerived stationDerived, StationPercentils stationPercentils, StationRaw stationRaw, StationStatistics stationStatistics) {
         if(systemConfigurationDTO.getSaveInFileSystem()){
-            fileSystemDatabaseRepository.saveRaw(stationRaw);
-            fileSystemDatabaseRepository.saveDerived(stationDerived);
-            fileSystemDatabaseRepository.savePercentils(stationPercentils, stationStatistics);
+            fileSystemDatabaseService.saveRaw(stationRaw);
+            fileSystemDatabaseService.saveDerived(stationDerived);
+            fileSystemDatabaseService.savePercentils(stationPercentils, stationStatistics);
             logSuccessfulProcess(FILE_SYSTEM, systemConfigurationDTO.getName());
         }else{
             logSkippingProcess(FILE_SYSTEM, systemConfigurationDTO.getName());
         }
 
         if(systemConfigurationDTO.getSaveInTimeSeries()){
-            timeseriesDatabaseRepository.saveRaw(stationRaw);
-            timeseriesDatabaseRepository.saveDerived(stationDerived);
-            timeseriesDatabaseRepository.savePercentils(stationPercentils, stationStatistics);
+            timeseriesDatabaseService.saveRaw(stationRaw);
+            timeseriesDatabaseService.saveDerived(stationDerived);
+            timeseriesDatabaseService.savePercentils(stationPercentils, stationStatistics);
             logSuccessfulProcess(TIME_SERIES, systemConfigurationDTO.getName());
         }else{
             logSkippingProcess(TIME_SERIES, systemConfigurationDTO.getName());
         }
 
         if(systemConfigurationDTO.getSaveInGIS()){
-            gisDatabaseRepository.saveRaw(stationRaw);
-            gisDatabaseRepository.saveDerived(stationDerived);
-            gisDatabaseRepository.savePercentils(stationPercentils, stationStatistics);
+            gisDatabaseService.saveRaw(stationRaw);
+            gisDatabaseService.saveDerived(stationDerived);
+            gisDatabaseService.savePercentils(stationPercentils, stationStatistics);
             logSuccessfulProcess(GIS, systemConfigurationDTO.getName());
         }else{
             logSkippingProcess(GIS, systemConfigurationDTO.getName());

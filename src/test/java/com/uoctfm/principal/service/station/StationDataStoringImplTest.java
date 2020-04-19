@@ -1,9 +1,9 @@
 package com.uoctfm.principal.service.station;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.repository.load.FileSystemDatabaseRepository;
-import com.uoctfm.principal.repository.load.GisDatabaseRepository;
-import com.uoctfm.principal.repository.load.TimeseriesDatabaseRepository;
+import com.uoctfm.principal.repository.load.service.FileSystemDatabaseService;
+import com.uoctfm.principal.repository.load.service.GisDatabaseService;
+import com.uoctfm.principal.repository.load.service.TimeseriesDatabaseService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,13 +23,13 @@ public class StationDataStoringImplTest {
     private StationDataStoring underTest = new StationDataStoringImpl();
 
     @Mock
-    private FileSystemDatabaseRepository fileSystemDatabaseRepository = new FileSystemDatabaseRepository();
+    private FileSystemDatabaseService fileSystemDatabaseRepository = new FileSystemDatabaseService();
 
     @Mock
-    private TimeseriesDatabaseRepository timeseriesDatabaseRepository = new TimeseriesDatabaseRepository();
+    private TimeseriesDatabaseService timeseriesDatabaseRepository = new TimeseriesDatabaseService();
 
     @Mock
-    private GisDatabaseRepository gisDatabaseRepository = new GisDatabaseRepository();
+    private GisDatabaseService gisDatabaseRepository = new GisDatabaseService();
 
     @Test
     public void stationDataStoring_shouldExecuteOnlyFileSystem_whenConfigurationAllowsFileSystem(){

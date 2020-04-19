@@ -21,6 +21,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'uoc:tfm-commons-domain:1.0-SNAPSHOT'
     runtime 'org.postgresql:postgresql'
+
+    compile 'org.influxdb:influxdb-java:2.5'
     
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
