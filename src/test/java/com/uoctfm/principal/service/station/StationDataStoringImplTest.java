@@ -1,6 +1,7 @@
 package com.uoctfm.principal.service.station;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
+import com.uoctfm.principal.repository.load.repository.PolicyPool;
 import com.uoctfm.principal.repository.load.service.FileSystemDatabaseService;
 import com.uoctfm.principal.repository.load.service.GisDatabaseService;
 import com.uoctfm.principal.repository.load.service.TimeseriesDatabaseService;
@@ -31,6 +32,9 @@ public class StationDataStoringImplTest {
     @Mock
     private GisDatabaseService gisDatabaseRepository = new GisDatabaseService();
 
+    @Mock
+    private PolicyPool policyPool = new PolicyPool();
+
     @Test
     public void stationDataStoring_shouldExecuteOnlyFileSystem_whenConfigurationAllowsFileSystem(){
         SystemConfigurationDTO systemConfigurationDTO = buildSystemConfigurationDTO();
@@ -49,11 +53,13 @@ public class StationDataStoringImplTest {
 
         underTest.stationDataStoring(systemConfigurationDTO, null, null, null, null);
 
+        verify(policyPool).createDatabaseIfNotExists(any());
         verify(fileSystemDatabaseRepository).saveRaw(any());
         verify(fileSystemDatabaseRepository).saveDerived(any());
         verify(fileSystemDatabaseRepository).savePercentils(any(), any());
 
         verifyNoMoreInteractions(fileSystemDatabaseRepository);
+        verifyNoMoreInteractions(policyPool);
         verifyNoInteractions(timeseriesDatabaseRepository);
         verifyNoInteractions(gisDatabaseRepository);
     }

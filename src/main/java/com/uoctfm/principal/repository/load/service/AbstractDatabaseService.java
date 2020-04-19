@@ -7,6 +7,12 @@ import com.uoctfm.principal.domain.calculated.StationStatistics;
 
 public abstract class AbstractDatabaseService {
 
+    private String systemName;
+
+    public final void setSystemName(String systemName) {
+        this.systemName = systemName;
+    }
+
     public void saveRaw(StationRaw stationRaw){};
 
     public void savePercentils(StationPercentils stationPercentils, StationStatistics stationStatistics){};

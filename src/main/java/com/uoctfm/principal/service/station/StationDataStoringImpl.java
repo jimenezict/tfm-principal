@@ -5,6 +5,7 @@ import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.calculated.StationDerived;
 import com.uoctfm.principal.domain.calculated.StationPercentils;
 import com.uoctfm.principal.domain.calculated.StationRaw;
+import com.uoctfm.principal.repository.load.repository.PolicyPool;
 import com.uoctfm.principal.repository.load.service.FileSystemDatabaseService;
 import com.uoctfm.principal.repository.load.service.GisDatabaseService;
 import com.uoctfm.principal.repository.load.service.TimeseriesDatabaseService;
@@ -31,9 +32,14 @@ public class StationDataStoringImpl implements StationDataStoring {
     @Autowired
     private GisDatabaseService gisDatabaseService;
 
+    @Autowired
+    private PolicyPool policyPool;
+
     @Override
     public void stationDataStoring(SystemConfigurationDTO systemConfigurationDTO, StationDerived stationDerived, StationPercentils stationPercentils, StationRaw stationRaw, StationStatistics stationStatistics) {
         if(systemConfigurationDTO.getSaveInFileSystem()){
+            policyPool.createDatabaseIfNotExists(systemConfigurationDTO.getName());
+            fileSystemDatabaseService.setSystemName(systemConfigurationDTO.getName());
             fileSystemDatabaseService.saveRaw(stationRaw);
             fileSystemDatabaseService.saveDerived(stationDerived);
             fileSystemDatabaseService.savePercentils(stationPercentils, stationStatistics);
@@ -43,6 +49,7 @@ public class StationDataStoringImpl implements StationDataStoring {
         }
 
         if(systemConfigurationDTO.getSaveInTimeSeries()){
+            timeseriesDatabaseService.setSystemName(systemConfigurationDTO.getName());
             timeseriesDatabaseService.saveRaw(stationRaw);
             timeseriesDatabaseService.saveDerived(stationDerived);
             timeseriesDatabaseService.savePercentils(stationPercentils, stationStatistics);
@@ -52,6 +59,7 @@ public class StationDataStoringImpl implements StationDataStoring {
         }
 
         if(systemConfigurationDTO.getSaveInGIS()){
+            gisDatabaseService.setSystemName(systemConfigurationDTO.getName());
             gisDatabaseService.saveRaw(stationRaw);
             gisDatabaseService.saveDerived(stationDerived);
             gisDatabaseService.savePercentils(stationPercentils, stationStatistics);
