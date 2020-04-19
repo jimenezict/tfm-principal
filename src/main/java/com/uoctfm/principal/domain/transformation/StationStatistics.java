@@ -1,4 +1,4 @@
-package com.uoctfm.principal.domain.calculated;
+package com.uoctfm.principal.domain.transformation;
 
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
 

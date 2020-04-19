@@ -1,4 +1,4 @@
-package com.uoctfm.principal.repository.load.repository;
+package com.uoctfm.principal.repository.load.timeseries;
 
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;

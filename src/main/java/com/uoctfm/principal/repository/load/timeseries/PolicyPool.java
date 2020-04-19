@@ -1,12 +1,10 @@
-package com.uoctfm.principal.repository.load.repository;
+package com.uoctfm.principal.repository.load.timeseries;
 
 import org.influxdb.InfluxDB;
-import org.influxdb.InfluxDBFactory;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
-import static com.uoctfm.principal.repository.load.repository.InfluxConnector.getInfluxConnector;
-import static java.util.Objects.isNull;
+import static com.uoctfm.principal.repository.load.timeseries.InfluxConnector.getInfluxConnector;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Component

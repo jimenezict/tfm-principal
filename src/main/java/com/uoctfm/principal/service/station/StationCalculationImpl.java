@@ -1,12 +1,12 @@
 package com.uoctfm.principal.service.station;
 
-import com.uoctfm.principal.domain.calculated.StationStatistics;
+import com.uoctfm.principal.domain.transformation.StationStatistics;
 import com.uoctfm.principal.domain.station.Station;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
-import com.uoctfm.principal.domain.calculated.StationDerived;
-import com.uoctfm.principal.domain.calculated.StationPercentils;
-import com.uoctfm.principal.domain.calculated.StationRaw;
-import com.uoctfm.principal.service.station.calculation.StatisticalService;
+import com.uoctfm.principal.domain.transformation.StationDerived;
+import com.uoctfm.principal.domain.transformation.StationPercentils;
+import com.uoctfm.principal.domain.transformation.StationRaw;
+import com.uoctfm.principal.service.transformation.StatisticalService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

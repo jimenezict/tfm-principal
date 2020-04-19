@@ -1,14 +1,14 @@
-package com.uoctfm.principal.service.station;
+package com.uoctfm.principal.service.load;
 
-import com.uoctfm.principal.domain.calculated.StationStatistics;
+import com.uoctfm.principal.domain.transformation.StationStatistics;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.calculated.StationDerived;
-import com.uoctfm.principal.domain.calculated.StationPercentils;
-import com.uoctfm.principal.domain.calculated.StationRaw;
-import com.uoctfm.principal.repository.load.repository.PolicyPool;
-import com.uoctfm.principal.repository.load.service.FileSystemDatabaseService;
-import com.uoctfm.principal.repository.load.service.GisDatabaseService;
-import com.uoctfm.principal.repository.load.service.TimeseriesDatabaseService;
+import com.uoctfm.principal.domain.transformation.StationDerived;
+import com.uoctfm.principal.domain.transformation.StationPercentils;
+import com.uoctfm.principal.domain.transformation.StationRaw;
+import com.uoctfm.principal.repository.load.timeseries.PolicyPool;
+import com.uoctfm.principal.service.load.databases.FileSystemDatabaseService;
+import com.uoctfm.principal.service.load.databases.GisDatabaseService;
+import com.uoctfm.principal.service.load.databases.TimeseriesDatabaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

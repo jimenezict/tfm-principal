@@ -1,4 +1,4 @@
-package com.uoctfm.principal.repository.load.repository;
+package com.uoctfm.principal.repository.load.timeseries;
 
 import org.influxdb.dto.Pong;
 import org.junit.Before;
@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.uoctfm.principal.repository.load.repository.InfluxConnector.getInfluxConnector;
+import static com.uoctfm.principal.repository.load.timeseries.InfluxConnector.getInfluxConnector;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)

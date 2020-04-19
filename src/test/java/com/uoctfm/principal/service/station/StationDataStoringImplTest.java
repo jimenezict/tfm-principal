@@ -1,10 +1,12 @@
 package com.uoctfm.principal.service.station;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.repository.load.repository.PolicyPool;
-import com.uoctfm.principal.repository.load.service.FileSystemDatabaseService;
-import com.uoctfm.principal.repository.load.service.GisDatabaseService;
-import com.uoctfm.principal.repository.load.service.TimeseriesDatabaseService;
+import com.uoctfm.principal.repository.load.timeseries.PolicyPool;
+import com.uoctfm.principal.service.load.databases.FileSystemDatabaseService;
+import com.uoctfm.principal.service.load.databases.GisDatabaseService;
+import com.uoctfm.principal.service.load.databases.TimeseriesDatabaseService;
+import com.uoctfm.principal.service.load.StationDataStoring;
+import com.uoctfm.principal.service.load.StationDataStoringImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

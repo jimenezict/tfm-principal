@@ -1,14 +1,14 @@
 package com.uoctfm.principal.flow;
 
-import com.uoctfm.principal.domain.calculated.StationStatistics;
+import com.uoctfm.principal.domain.transformation.StationStatistics;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.calculated.StationDerived;
+import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
-import com.uoctfm.principal.domain.calculated.StationPercentils;
-import com.uoctfm.principal.domain.calculated.StationRaw;
+import com.uoctfm.principal.domain.transformation.StationPercentils;
+import com.uoctfm.principal.domain.transformation.StationRaw;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
 import com.uoctfm.principal.service.station.StationCalculation;
-import com.uoctfm.principal.service.station.StationDataStoring;
+import com.uoctfm.principal.service.load.StationDataStoring;
 import com.uoctfm.principal.service.station.StationStatus;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

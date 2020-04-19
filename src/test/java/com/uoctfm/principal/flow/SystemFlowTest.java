@@ -4,7 +4,7 @@ import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.station.StationsStatusDTO;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
 import com.uoctfm.principal.service.station.StationCalculation;
-import com.uoctfm.principal.service.station.StationDataStoring;
+import com.uoctfm.principal.service.load.StationDataStoring;
 import com.uoctfm.principal.service.station.StationStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
