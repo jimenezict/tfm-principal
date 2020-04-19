@@ -1,9 +1,9 @@
-package com.uoctfm.principal.service.station;
+package com.uoctfm.principal.service.extraction;
 
 import com.uoc.tfm.commons.domain.StationsStatus;
 import com.uoctfm.principal.domain.configuration.LastSampleDTO;
-import com.uoctfm.principal.domain.station.Station;
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.domain.extraction.Station;
+import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.repository.configuration.LastSampleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +12,6 @@ import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.time.LocalDateTime;
 
 import static java.time.LocalDateTime.now;
 import static java.util.Objects.isNull;

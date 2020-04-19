@@ -1,11 +1,11 @@
 package com.uoctfm.principal.flow;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
-import com.uoctfm.principal.service.station.StationCalculation;
+import com.uoctfm.principal.service.transformation.StationCalculation;
 import com.uoctfm.principal.service.load.StationDataStoring;
-import com.uoctfm.principal.service.station.StationStatus;
+import com.uoctfm.principal.service.extraction.StationStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

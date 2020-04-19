@@ -1,10 +1,12 @@
-package com.uoctfm.principal.service.station;
+package com.uoctfm.principal.service.extraction;
 
 import com.uoctfm.principal.domain.transformation.StationStatistics;
-import com.uoctfm.principal.domain.station.Station;
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.domain.extraction.Station;
+import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.domain.transformation.StationPercentils;
+import com.uoctfm.principal.service.transformation.StationCalculation;
+import com.uoctfm.principal.service.transformation.StationCalculationImpl;
 import com.uoctfm.principal.service.transformation.StatisticalService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

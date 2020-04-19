@@ -1,7 +1,7 @@
-package com.uoctfm.principal.service.station.calculation;
+package com.uoctfm.principal.service.extraction.calculation;
 
-import com.uoctfm.principal.domain.station.Station;
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.domain.extraction.Station;
+import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.service.transformation.StatisticalService;
 import com.uoctfm.principal.service.transformation.StatisticalServiceImpl;
 import org.junit.Test;

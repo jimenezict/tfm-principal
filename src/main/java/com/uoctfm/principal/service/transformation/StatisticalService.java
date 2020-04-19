@@ -1,6 +1,6 @@
 package com.uoctfm.principal.service.transformation;
 
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 
 public interface StatisticalService {
 

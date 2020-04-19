@@ -1,10 +1,9 @@
 package com.uoctfm.principal;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.station.Station;
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.domain.extraction.Station;
+import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

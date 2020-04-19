@@ -1,10 +1,10 @@
-package com.uoctfm.principal.service.station;
+package com.uoctfm.principal.service.transformation;
 
 import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.domain.transformation.StationPercentils;
 import com.uoctfm.principal.domain.transformation.StationRaw;
 import com.uoctfm.principal.domain.transformation.StationStatistics;
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 
 public interface StationCalculation {
 

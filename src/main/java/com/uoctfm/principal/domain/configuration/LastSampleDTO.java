@@ -1,7 +1,7 @@
 package com.uoctfm.principal.domain.configuration;
 
 import com.uoctfm.principal.domain.configuration.converter.JpaConverterJson;
-import com.uoctfm.principal.domain.station.Station;
+import com.uoctfm.principal.domain.extraction.Station;
 
 import javax.persistence.*;
 import java.io.Serializable;

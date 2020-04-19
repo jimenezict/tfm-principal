@@ -1,4 +1,4 @@
-package com.uoctfm.principal.domain.station;
+package com.uoctfm.principal.domain.extraction;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

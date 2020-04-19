@@ -1,8 +1,5 @@
 package com.uoctfm.principal.domain.transformation;
 
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static java.time.LocalDateTime.now;

@@ -1,9 +1,9 @@
-package com.uoctfm.principal.service.station;
+package com.uoctfm.principal.service.extraction;
 
 import com.uoc.tfm.commons.domain.StationsStatus;
 import com.uoctfm.principal.domain.configuration.LastSampleDTO;
-import com.uoctfm.principal.domain.station.Station;
-import com.uoctfm.principal.domain.station.StationsStatusDTO;
+import com.uoctfm.principal.domain.extraction.Station;
+import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.repository.configuration.LastSampleRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +13,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
