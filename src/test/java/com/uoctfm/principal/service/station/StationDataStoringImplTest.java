@@ -35,7 +35,7 @@ public class StationDataStoringImplTest {
     public void stationDataStoring_shouldExecuteOnlyFileSystem_whenConfigurationAllowsFileSystem(){
         SystemConfigurationDTO systemConfigurationDTO = buildSystemConfigurationDTO();
 
-        underTest.stationDataStoring(systemConfigurationDTO, null, null, null);
+        underTest.stationDataStoring(systemConfigurationDTO, null, null, null, null);
 
         verifyNoMoreInteractions(fileSystemDatabaseRepository);
         verifyNoMoreInteractions(timeseriesDatabaseRepository);
@@ -47,11 +47,11 @@ public class StationDataStoringImplTest {
         SystemConfigurationDTO systemConfigurationDTO = buildSystemConfigurationDTO();
         systemConfigurationDTO.setSaveInFileSystem(true);
 
-        underTest.stationDataStoring(systemConfigurationDTO, null, null, null);
+        underTest.stationDataStoring(systemConfigurationDTO, null, null, null, null);
 
         verify(fileSystemDatabaseRepository).saveRaw(any());
         verify(fileSystemDatabaseRepository).saveDerived(any());
-        verify(fileSystemDatabaseRepository).savePercentils(any(), );
+        verify(fileSystemDatabaseRepository).savePercentils(any(), any());
 
         verifyNoMoreInteractions(fileSystemDatabaseRepository);
         verifyNoInteractions(timeseriesDatabaseRepository);
@@ -63,11 +63,11 @@ public class StationDataStoringImplTest {
         SystemConfigurationDTO systemConfigurationDTO = buildSystemConfigurationDTO();
         systemConfigurationDTO.setSaveInTimeSeries(true);
 
-        underTest.stationDataStoring(systemConfigurationDTO, null, null, null);
+        underTest.stationDataStoring(systemConfigurationDTO, null, null, null, null);
 
         verify(timeseriesDatabaseRepository).saveRaw(any());
         verify(timeseriesDatabaseRepository).saveDerived(any());
-        verify(timeseriesDatabaseRepository).savePercentils(any(), );
+        verify(timeseriesDatabaseRepository).savePercentils(any(), any());
 
         verifyNoInteractions(fileSystemDatabaseRepository);
         verifyNoMoreInteractions(timeseriesDatabaseRepository);
@@ -79,11 +79,11 @@ public class StationDataStoringImplTest {
         SystemConfigurationDTO systemConfigurationDTO = buildSystemConfigurationDTO();
         systemConfigurationDTO.setSaveInGIS(true);
 
-        underTest.stationDataStoring(systemConfigurationDTO, null, null, null);
+        underTest.stationDataStoring(systemConfigurationDTO, null, null, null, null);
 
         verify(gisDatabaseRepository).saveRaw(any());
         verify(gisDatabaseRepository).saveDerived(any());
-        verify(gisDatabaseRepository).savePercentils(any(), );
+        verify(gisDatabaseRepository).savePercentils(any(), any());
 
         verifyNoInteractions(fileSystemDatabaseRepository);
         verifyNoInteractions(timeseriesDatabaseRepository);
