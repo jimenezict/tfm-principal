@@ -4,19 +4,63 @@ import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.domain.transformation.StationPercentils;
 import com.uoctfm.principal.domain.transformation.StationRaw;
 import com.uoctfm.principal.domain.transformation.StationStatistics;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractDatabaseService {
 
-    private String systemName;
+    Logger logger = LoggerFactory.getLogger(AbstractDatabaseService.class);
+    private static String FILE_SYSTEM = "File System";
+    private static String TIME_SERIES = "Time Series";
+    private static String GIS = "GIS";
 
-    public final void setSystemName(String systemName) {
-        this.systemName = systemName;
+    protected StationDerived stationDerived;
+    protected StationPercentils stationPercentils;
+    protected StationRaw stationRaw;
+    protected StationStatistics stationStatistics;
+
+    protected String databaseType;
+    protected String processName;
+
+    public final void databaseServiceSetter(StationDerived stationDerived,
+                                                   StationPercentils stationPercentils,
+                                                   StationRaw stationRaw,
+                                                   StationStatistics stationStatistics,
+                                                   String databaseType,
+                                                   String processName) {
+        this.stationDerived = stationDerived;
+        this.stationPercentils = stationPercentils;
+        this.stationRaw = stationRaw;
+        this.stationStatistics = stationStatistics;
+        this.databaseType = databaseType;
+        this.processName = processName;
     }
 
-    public void saveRaw(StationRaw stationRaw){};
+    public void databaseServiceExecutor(boolean executeStep) {
+        if (executeStep) {
+            saveRaw(stationRaw);
+            saveDerived(stationDerived);
+            savePercentils(stationPercentils, stationStatistics);
+            logSuccessfulProcess(databaseType, processName);
+            return;
+        }
+        logSkippingProcess(databaseType, processName);
+    }
 
-    public void savePercentils(StationPercentils stationPercentils, StationStatistics stationStatistics){};
+    public abstract void initialize();
 
-    public void saveDerived(StationDerived stationDerived){};
+    public abstract void saveRaw(StationRaw stationRaw);
+
+    public abstract void saveDerived(StationDerived stationDerived);
+
+    public abstract void savePercentils(StationPercentils stationPercentils, StationStatistics stationStatistics);
+
+    private void logSuccessfulProcess(String database, String name) {
+        logger.info("Success on saving on {} database for process {}", database, name);
+    }
+
+    private void logSkippingProcess(String database, String name) {
+        logger.info("Skipping to save on {} database for process {}", database, name);
+    }
 
 }

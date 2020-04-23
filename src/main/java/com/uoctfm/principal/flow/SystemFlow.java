@@ -7,8 +7,10 @@ import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.domain.transformation.StationPercentils;
 import com.uoctfm.principal.domain.transformation.StationRaw;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
+import com.uoctfm.principal.service.load.databases.FileSystemDatabaseService;
+import com.uoctfm.principal.service.load.databases.GisDatabaseService;
+import com.uoctfm.principal.service.load.databases.TimeseriesDatabaseService;
 import com.uoctfm.principal.service.transformation.StationCalculation;
-import com.uoctfm.principal.service.load.StationDataStoring;
 import com.uoctfm.principal.service.extraction.StationStatus;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,11 @@ public class SystemFlow {
     @Autowired
     private StationCalculation stationCalculation;
     @Autowired
-    private StationDataStoring stationDataStoring;
+    private FileSystemDatabaseService fileSystemDatabaseService;
+    @Autowired
+    private GisDatabaseService gisDatabaseService;
+    @Autowired
+    private TimeseriesDatabaseService timeseriesDatabaseService;
 
     private Logger logger = getLogger(SystemFlow.class);
 
@@ -57,7 +63,15 @@ public class SystemFlow {
         StationRaw stationRaw = stationCalculation.calculateRaw(stationsStatusDTO);
         StationStatistics stationStatistics = stationCalculation.calculateStatistics(stationsStatusDTO);
 
-        stationDataStoring.stationDataStoring(systemConfigurationDTO, stationDerived, stationPercentil, stationRaw, stationStatistics);
+        fileSystemDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "File System", systemConfigurationDTO.getName());
+        fileSystemDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInFileSystem());
+
+        gisDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "GIS", systemConfigurationDTO.getName());
+        gisDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInGIS());
+
+        timeseriesDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "Time Series", systemConfigurationDTO.getName());
+        timeseriesDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInTimeSeries());
+
         stationStatus.saveLastStationStatus(stationsStatusDTO, id);
 
         logger.info("Ending {} process", id);

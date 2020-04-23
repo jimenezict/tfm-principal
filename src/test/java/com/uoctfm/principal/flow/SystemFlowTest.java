@@ -3,14 +3,17 @@ package com.uoctfm.principal.flow;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
+import com.uoctfm.principal.service.load.databases.FileSystemDatabaseService;
+import com.uoctfm.principal.service.load.databases.GisDatabaseService;
+import com.uoctfm.principal.service.load.databases.TimeseriesDatabaseService;
 import com.uoctfm.principal.service.transformation.StationCalculation;
-import com.uoctfm.principal.service.load.StationDataStoring;
 import com.uoctfm.principal.service.extraction.StationStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.uoctfm.principal.TestBuildHelper.buildSystemConfigurationDTO;
@@ -27,7 +30,11 @@ public class SystemFlowTest {
     @Mock
     private StationCalculation stationCalculation;
     @Mock
-    private StationDataStoring stationDataStoring;
+    private FileSystemDatabaseService fileSystemDatabaseService;
+    @Mock
+    private GisDatabaseService gisDatabaseService;
+    @Mock
+    private TimeseriesDatabaseService timeseriesDatabaseService;
 
     @InjectMocks
     SystemFlow underTest = new SystemFlow();
@@ -41,7 +48,6 @@ public class SystemFlowTest {
         verifyNoMoreInteractions(systemConfiguration);
         verifyNoInteractions(stationStatus);
         verifyNoInteractions(stationCalculation);
-        verifyNoInteractions(stationDataStoring);
     }
 
     @Test
@@ -56,7 +62,6 @@ public class SystemFlowTest {
         verifyNoMoreInteractions(systemConfiguration);
         verifyNoMoreInteractions(stationStatus);
         verifyNoInteractions(stationCalculation);
-        verifyNoInteractions(stationDataStoring);
     }
 
     @Test
@@ -70,7 +75,6 @@ public class SystemFlowTest {
         verify(systemConfiguration).getSystemConfigurationBy(0);
         verify(stationStatus).getListStationStatus(systemConfigurationDTO.getSystemStationEndPoint());
         verify(stationStatus).getLastStationStatus(systemConfigurationDTO.getId());
-        verify(stationDataStoring).stationDataStoring(any(), any(), any(), any(), any());
         verify(stationCalculation).calculateRaw(any());
         verify(stationCalculation).calculateDerived(any(), any());
         verify(stationCalculation).calculatePercentils(any());
@@ -79,7 +83,6 @@ public class SystemFlowTest {
 
         verifyNoMoreInteractions(stationStatus);
         verifyNoMoreInteractions(stationCalculation);
-        verifyNoMoreInteractions(stationDataStoring);
     }
 
 

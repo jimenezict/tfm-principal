@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 public class GisDatabaseService extends AbstractDatabaseService {
 
     @Override
+    public void initialize() {
+
+    }
+
+    @Override
     public void saveRaw(StationRaw stationRaw){};
 
     @Override
