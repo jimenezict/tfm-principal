@@ -3,9 +3,9 @@
 CREATE TABLE uoc.systemconfiguration
 (
   id integer PRIMARY KEY,
-  name character(100),
-  systemstationendpoint character(100),
-  systemlocationendpoint character(100),
+  name varchar(100),
+  systemstationendpoint varchar(100),
+  systemlocationendpoint varchar(100),
   saveinfilesystem boolean,
   saveintimeseries boolean,
   saveingis boolean

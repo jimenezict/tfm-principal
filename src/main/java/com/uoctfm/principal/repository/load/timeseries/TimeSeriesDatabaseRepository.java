@@ -1,4 +1,9 @@
 package com.uoctfm.principal.repository.load.timeseries;
 
-public class TimeSeriesDatabaseRepository {
+import org.influxdb.dto.BatchPoints;
+
+public interface TimeSeriesDatabaseRepository {
+
+    public void saveListPoint(InfluxConnector influxConnector, BatchPoints point);
+
 }

@@ -1,19 +1,25 @@
 package com.uoctfm.principal.repository.load.timeseries;
 
-import org.influxdb.dto.Pong;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static com.uoctfm.principal.TestBuildHelper.buildDummyBatchPoint;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class InfluxConnectorTest {
+public class TimeSeriesDatabaseRepositoryImplTest {
 
     InfluxConnector influxConnector;
     private String database = "NeverLand";
+
+    @InjectMocks
+    TimeSeriesDatabaseRepositoryImpl underTest;
 
     @Before
     public void setUp() {
@@ -21,14 +27,10 @@ public class InfluxConnectorTest {
     }
 
     @Test
-    public void ping_shouldResponse_whenConnectsToTestDatabase() {
-        Pong response = influxConnector.getInfluxConnector().ping();
-        assertThat(response.getVersion()).isEqualTo("1.8.0");
-    }
-
-    @Test
-    public void showdatabase_shouldReturnNeverLand_whenNeverLandDatabaseIsCreated() {
-        assertThat(influxConnector.getInfluxConnector().describeDatabases().contains(database)).isTrue();
+    public void saveListPoint_shouldSaveListPoints_returnListOfPoints() {
+        underTest.saveListPoint(influxConnector, buildDummyBatchPoint("NeverLand"));
+        underTest.saveListPoint(influxConnector, buildDummyBatchPoint("NeverLand"));
+        assertTrue(true);
     }
 
     @After

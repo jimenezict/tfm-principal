@@ -38,9 +38,10 @@ public abstract class AbstractDatabaseService {
 
     public void databaseServiceExecutor(boolean executeStep) {
         if (executeStep) {
-            saveRaw(stationRaw);
-            saveDerived(stationDerived);
-            savePercentils(stationPercentils, stationStatistics);
+            initialize();
+            saveRaw();
+            saveDerived();
+            savePercentils();
             logSuccessfulProcess(databaseType, processName);
             return;
         }
@@ -49,11 +50,11 @@ public abstract class AbstractDatabaseService {
 
     public abstract void initialize();
 
-    public abstract void saveRaw(StationRaw stationRaw);
+    public abstract void saveRaw();
 
-    public abstract void saveDerived(StationDerived stationDerived);
+    public abstract void saveDerived();
 
-    public abstract void savePercentils(StationPercentils stationPercentils, StationStatistics stationStatistics);
+    public abstract void savePercentils();
 
     private void logSuccessfulProcess(String database, String name) {
         logger.info("Success on saving on {} database for process {}", database, name);

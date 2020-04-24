@@ -6,26 +6,38 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import static java.util.Objects.isNull;
+import java.util.Optional;
 
-@Component
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 public class InfluxConnector {
 
     Logger logger = LoggerFactory.getLogger(InfluxConnector.class);
-    private static InfluxDB influxConnector = null;
+    private InfluxDB influxDb = null;
 
-    private String influxConnection = "http://localhost:8086";
+    private String connectionString = "http://localhost:8086";
 
-    private InfluxConnector() {
-        influxConnector = InfluxDBFactory.connect(influxConnection, "uoc", "uoc");
+    public InfluxConnector(String database) {
+        influxDb = InfluxDBFactory.connect(connectionString);
+        if(!influxDb.describeDatabases().contains(database)) {
+            influxDb.createDatabase(database);
+            logger.info("Creating {}", database);
+        }
+        influxDb.createRetentionPolicy("defaultPolicy", database, "3d", 1, true);
+        influxDb.setLogLevel(InfluxDB.LogLevel.BASIC);
+        influxDb.setDatabase(database);
+
         logger.info("Created a connection string to: {} with username {} and version {}.",
-                influxConnection, "uoc", influxConnector.version());
+                connectionString, database, influxDb.version());
     }
 
-    public static InfluxDB getInfluxConnector() {
-        if(isNull(influxConnector)){
-            new InfluxConnector();
-        }
-        return influxConnector;
+    public InfluxDB getInfluxConnector() {
+        return influxDb;
+    }
+
+    public void closeInfluxConnector() {
+        if(nonNull(influxDb)) influxDb.close();
     }
 }

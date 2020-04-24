@@ -16,12 +16,12 @@ public class GisDatabaseService extends AbstractDatabaseService {
     }
 
     @Override
-    public void saveRaw(StationRaw stationRaw){};
+    public void saveRaw(){};
 
     @Override
-    public void savePercentils(StationPercentils stationPercentils, StationStatistics stationStatistics){};
+    public void savePercentils(){};
 
     @Override
-    public void saveDerived(StationDerived stationDerived){};
+    public void saveDerived(){};
 
 }

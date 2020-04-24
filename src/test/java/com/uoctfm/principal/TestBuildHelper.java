@@ -3,11 +3,14 @@ package com.uoctfm.principal;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.extraction.Station;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
+import org.influxdb.dto.BatchPoints;
+import org.influxdb.dto.Point;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class TestBuildHelper {
 
@@ -52,5 +55,22 @@ public class TestBuildHelper {
         stationsStatusDTO.addStation(new Station(6, 22, 30));
 
         return stationsStatusDTO;
+    }
+
+    public static BatchPoints buildDummyBatchPoint(String database) {
+        BatchPoints batchPoints = BatchPoints
+                .database(database)
+                .retentionPolicy("defaultPolicy")
+                .build();
+
+        Point p1 = Point.measurement("dummy").time(System.currentTimeMillis(), MILLISECONDS).addField("id", 1).build();
+        Point p2 = Point.measurement("dummy").time(System.currentTimeMillis(), MILLISECONDS).addField("id", 2).build();
+        Point p3 = Point.measurement("dummy").time(System.currentTimeMillis(), MILLISECONDS).addField("id", 3).build();
+
+        batchPoints.point(p1);
+        batchPoints.point(p2);
+        batchPoints.point(p3);
+
+        return batchPoints;
     }
 }
