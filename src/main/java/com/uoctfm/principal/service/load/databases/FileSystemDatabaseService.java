@@ -1,18 +1,34 @@
 package com.uoctfm.principal.service.load.databases;
 
-import com.uoctfm.principal.domain.transformation.StationDerived;
-import com.uoctfm.principal.domain.transformation.StationPercentils;
-import com.uoctfm.principal.domain.transformation.StationRaw;
-import com.uoctfm.principal.domain.transformation.StationStatistics;
+import com.uoctfm.principal.repository.load.filesystem.FoldersRepository;
+import com.uoctfm.principal.repository.load.filesystem.FoldersRepositoryImpl;
 import com.uoctfm.principal.service.load.AbstractDatabaseService;
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
 
-@Service
+import static java.time.LocalDate.now;
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class FileSystemDatabaseService extends AbstractDatabaseService {
+
+    FoldersRepository foldersRepository;
+    Logger logger = getLogger(FileSystemDatabaseService.class);
+    String dateSystemFolder;
 
     @Override
     public void initialize() {
+        foldersRepository = new FoldersRepositoryImpl();
 
+        if(!foldersRepository.hasSystemFolder(processName)) {
+            logger.info("Creating system folder {}", processName);
+            foldersRepository.createSystemFolder(processName);
+        }
+
+        if(!foldersRepository.hasDateFolder(processName, now())) {
+            logger.info("Creating date folder for system {}", processName);
+            foldersRepository.createDateFolder(processName, now());
+        }
+
+        dateSystemFolder = processName + "/" + now().toString();
     }
 
     @Override

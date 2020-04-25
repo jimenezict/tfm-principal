@@ -24,6 +24,10 @@ public class FoldersRepositoryImpl implements FoldersRepository {
 
     @Override
     public void createDateFolder(String system, LocalDate date) {
-
+        (new File(system + "/" + date.toString())).mkdir();
+        (new File(system + "/" + date.toString() + "/" + "derived")).mkdir();
+        (new File(system + "/" + date.toString() + "/" + "statistics")).mkdir();
+        (new File(system + "/" + date.toString() + "/" + "raw")).mkdir();
+        (new File(system + "/" + date.toString() + "/" + "percentils")).mkdir();
     }
 }

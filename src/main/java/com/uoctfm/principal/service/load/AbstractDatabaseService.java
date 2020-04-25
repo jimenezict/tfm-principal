@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 public abstract class AbstractDatabaseService {
 
     Logger logger = LoggerFactory.getLogger(AbstractDatabaseService.class);
-    private static String FILE_SYSTEM = "File System";
-    private static String TIME_SERIES = "Time Series";
-    private static String GIS = "GIS";
+    protected static String FILE_SYSTEM = "File System";
+    protected static String TIME_SERIES = "Time Series";
+    protected static String GIS = "GIS";
 
     protected StationDerived stationDerived;
     protected StationPercentils stationPercentils;

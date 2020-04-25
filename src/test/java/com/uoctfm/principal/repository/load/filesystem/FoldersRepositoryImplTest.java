@@ -67,7 +67,7 @@ public class FoldersRepositoryImplTest {
 
     @Test
     public void createSystemFolder_shouldCreateFolder_whenDoesntExists () {
-        String newFolder = SYSTEM_NAME + "_TEST_FOLDER";
+        String newFolder = SYSTEM_NAME;
         underTest.createSystemFolder(newFolder);
 
         assertThat(Files.exists(Paths.get(newFolder))).isTrue();
@@ -75,7 +75,7 @@ public class FoldersRepositoryImplTest {
     }
 
     @Test
-    public void createSystemFolder_shouldCreateDateFolder_whenDoesntExists () {
+    public void createDateFolder_shouldDateFolder_whenDoesntExists () {
         String newFolder = SYSTEM_NAME + "/" + now().toString();
         underTest.createDateFolder(SYSTEM_NAME, now());
 
@@ -85,7 +85,7 @@ public class FoldersRepositoryImplTest {
 
     @After
     public void setDown() throws IOException {
-        FileUtils.deleteDirectory(new File(SYSTEM_NAME));
+          FileUtils.deleteDirectory(new File(SYSTEM_NAME));
     }
 
 }
