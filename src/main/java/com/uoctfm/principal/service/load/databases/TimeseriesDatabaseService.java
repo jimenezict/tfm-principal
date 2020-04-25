@@ -1,24 +1,17 @@
 package com.uoctfm.principal.service.load.databases;
 
 import com.uoctfm.principal.domain.extraction.Station;
-import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.domain.transformation.StationPercentils;
-import com.uoctfm.principal.domain.transformation.StationRaw;
 import com.uoctfm.principal.domain.transformation.StationStatistics;
 import com.uoctfm.principal.repository.load.timeseries.InfluxConnector;
-import com.uoctfm.principal.repository.load.timeseries.PolicyPool;
 import com.uoctfm.principal.repository.load.timeseries.TimeSeriesDatabaseRepository;
 import com.uoctfm.principal.repository.load.timeseries.TimeSeriesDatabaseRepositoryImpl;
 import com.uoctfm.principal.service.load.AbstractDatabaseService;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import static java.time.LocalDateTime.now;
 import static java.util.Arrays.asList;

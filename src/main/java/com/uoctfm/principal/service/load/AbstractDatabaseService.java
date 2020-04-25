@@ -42,10 +42,10 @@ public abstract class AbstractDatabaseService {
             saveRaw();
             saveDerived();
             savePercentils();
-            logSuccessfulProcess(databaseType, processName);
+            logSuccessfulProcess();
             return;
         }
-        logSkippingProcess(databaseType, processName);
+        logSkippingProcess();
     }
 
     public abstract void initialize();
@@ -56,12 +56,12 @@ public abstract class AbstractDatabaseService {
 
     public abstract void savePercentils();
 
-    private void logSuccessfulProcess(String database, String name) {
-        logger.info("Success on saving on {} database for process {}", database, name);
+    private void logSuccessfulProcess() {
+        logger.info("Success on saving on {} database for process {}", databaseType, processName);
     }
 
-    private void logSkippingProcess(String database, String name) {
-        logger.info("Skipping to save on {} database for process {}", database, name);
+    private void logSkippingProcess() {
+        logger.info("Skipping to save on {} database for process {}", databaseType, processName);
     }
 
 }
