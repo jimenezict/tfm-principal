@@ -22,6 +22,7 @@ dependencies {
     implementation 'uoc:tfm-commons-domain:1.0-SNAPSHOT'
     runtime 'org.postgresql:postgresql'
 
+    compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
     compile 'org.influxdb:influxdb-java:2.8'
     
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

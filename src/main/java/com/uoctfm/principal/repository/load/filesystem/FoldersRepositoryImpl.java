@@ -1,10 +1,13 @@
 package com.uoctfm.principal.repository.load.filesystem;
 
+import org.springframework.stereotype.Repository;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 
+@Repository
 public class FoldersRepositoryImpl implements FoldersRepository {
 
     @Override
