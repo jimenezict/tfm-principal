@@ -22,6 +22,10 @@ dependencies {
     implementation 'uoc:tfm-commons-domain:1.0-SNAPSHOT'
     runtime 'org.postgresql:postgresql'
 
+    compile "org.hibernate:hibernate-core:5.2.12.Final"
+    compile "org.hibernate:hibernate-spatial:5.2.12.Final"
+    compile "com.bedatadriven:jackson-datatype-jts:2.4"
+
     compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
     compile 'org.influxdb:influxdb-java:2.8'
     

@@ -28,8 +28,6 @@ public class SystemFlow {
     private StationStatus stationStatus;
     @Autowired
     private StationCalculation stationCalculation;
-    @Autowired
-    private GisDatabaseService gisDatabaseService;
 
     private Logger logger = getLogger(SystemFlow.class);
 
@@ -63,6 +61,7 @@ public class SystemFlow {
         fileSystemDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "File System", systemConfigurationDTO.getName());
         fileSystemDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInFileSystem());
 
+        GisDatabaseService gisDatabaseService = new GisDatabaseService();
         gisDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "GIS", systemConfigurationDTO.getName());
         gisDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInGIS());
 

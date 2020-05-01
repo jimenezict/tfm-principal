@@ -1,5 +1,3 @@
-
-
 CREATE TABLE uoc.systemconfiguration
 (
   id integer PRIMARY KEY,
@@ -11,14 +9,24 @@ CREATE TABLE uoc.systemconfiguration
   saveingis boolean
 )
 
-insert into  uoc.systemconfiguration (id, name, systemStationEndPoint, systemlocationendpoint, saveInFileSystem, saveInTimeSeries, saveInGIS)
-values (1, 'test', 'http://localhost:8082/status', 'http://localhost:8082/location', false, false, false);
-
+-- insert into  uoc.systemconfiguration (id, name, systemStationEndPoint, systemlocationendpoint, saveInFileSystem, saveInTimeSeries, saveInGIS)
+-- values (1, 'test', 'http://localhost:8082/status', 'http://localhost:8082/location', false, false, false);
 
 CREATE TABLE uoc.lastSample
 (
   id integer PRIMARY KEY,
   time timestamp,
   lastSample varchar
+);
+
+CREATE SEQUENCE globalstatistical_id_seq START 1;
+
+create table uoc.globalstatistical (
+  id integer PRIMARY KEY NOT NULL DEFAULT nextval('globalstatistical_id_seq'),
+  system integer,
+  point geography(POINT),
+  average decimal,
+  entropy integer,
+  entropyNormalized decimal
 );
 
