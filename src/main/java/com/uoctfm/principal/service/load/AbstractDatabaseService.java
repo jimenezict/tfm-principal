@@ -56,6 +56,10 @@ public abstract class AbstractDatabaseService {
 
     public abstract void savePercentils();
 
+    public final String getProcessName() {
+        return processName;
+    }
+
     private void logSuccessfulProcess() {
         logger.info("Success on saving on {} database for process {}", databaseType, processName);
     }
