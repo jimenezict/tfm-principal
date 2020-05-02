@@ -6,6 +6,10 @@ import com.uoctfm.principal.domain.extraction.Location;
 import com.uoctfm.principal.domain.extraction.Station;
 import com.uoctfm.principal.domain.extraction.StationsLocationDTO;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
+import com.uoctfm.principal.domain.load.databases.GlobalStatistical;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import jdk.nashorn.internal.objects.Global;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 
@@ -88,5 +92,30 @@ public class TestBuildHelper {
         stationsLocation.addStation(5,0,0,"Gracia");
 
         return stationsLocation;
+    }
+
+    public static StationsLocationDTO buildStationsLocationDTO() {
+        StationsLocationDTO stationsLocationDTO = new StationsLocationDTO();
+        stationsLocationDTO.setExecutionDateTime(now());
+        stationsLocationDTO.addLocation(new Location(1,0,0,"Clot"));
+        stationsLocationDTO.addLocation(new Location(2,0,0,"SantVi"));
+        stationsLocationDTO.addLocation(new Location(3,0,0,"Alpens"));
+        stationsLocationDTO.addLocation(new Location(4,0,0,"Lima"));
+        stationsLocationDTO.addLocation(new Location(5,0,0,"Gracia"));
+
+        return stationsLocationDTO;
+    }
+
+    public static GlobalStatistical buildGlobalStatistical() {
+        GeometryFactory geometryFactory = new GeometryFactory();
+
+        GlobalStatistical globalStatistical = new GlobalStatistical();
+        globalStatistical.setAverage(0.1);
+        globalStatistical.setEntropy(1);
+        globalStatistical.setEntropyNormalized(0.2);
+        globalStatistical.setPoint(geometryFactory.createPoint(new Coordinate(0, 0)));
+        globalStatistical.setSystem(1);
+
+        return globalStatistical;
     }
 }
