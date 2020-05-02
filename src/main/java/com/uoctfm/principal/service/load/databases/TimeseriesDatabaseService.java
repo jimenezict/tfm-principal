@@ -41,7 +41,7 @@ public class TimeseriesDatabaseService extends AbstractDatabaseService {
     }
 
     @Override
-    public void savePercentils() {
+    public void saveStatistics() {
         timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(asList(generatePercentilPoint(stationPercentils))));
         timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(asList(generateStatisticsPoint(stationStatistics))));
     }

@@ -1,5 +1,6 @@
 package com.uoctfm.principal.service.load;
 
+import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.domain.transformation.StationPercentils;
 import com.uoctfm.principal.domain.transformation.StationRaw;
@@ -21,19 +22,21 @@ public abstract class AbstractDatabaseService {
 
     protected String databaseType;
     protected String processName;
+    protected SystemConfigurationDTO systemConfigurationDTO;
 
     public final void databaseServiceSetter(StationDerived stationDerived,
                                                    StationPercentils stationPercentils,
                                                    StationRaw stationRaw,
                                                    StationStatistics stationStatistics,
                                                    String databaseType,
-                                                   String processName) {
+                                                   SystemConfigurationDTO systemConfigurationDTO) {
         this.stationDerived = stationDerived;
         this.stationPercentils = stationPercentils;
         this.stationRaw = stationRaw;
         this.stationStatistics = stationStatistics;
         this.databaseType = databaseType;
-        this.processName = processName;
+        this.processName = systemConfigurationDTO.getName();
+        this.systemConfigurationDTO = systemConfigurationDTO;
     }
 
     public void databaseServiceExecutor(boolean executeStep) {
@@ -41,7 +44,7 @@ public abstract class AbstractDatabaseService {
             initialize();
             saveRaw();
             saveDerived();
-            savePercentils();
+            saveStatistics();
             logSuccessfulProcess();
             return;
         }
@@ -54,7 +57,7 @@ public abstract class AbstractDatabaseService {
 
     public abstract void saveDerived();
 
-    public abstract void savePercentils();
+    public abstract void saveStatistics();
 
     public final String getProcessName() {
         return processName;

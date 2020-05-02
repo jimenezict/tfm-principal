@@ -1,4 +1,4 @@
-package com.uoctfm.principal.service.extraction;
+package com.uoctfm.principal.service.extraction.stationStatus;
 
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 

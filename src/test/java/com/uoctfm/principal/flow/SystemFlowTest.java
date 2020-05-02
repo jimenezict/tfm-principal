@@ -7,13 +7,12 @@ import com.uoctfm.principal.service.load.databases.FileSystemDatabaseService;
 import com.uoctfm.principal.service.load.databases.GisDatabaseService;
 import com.uoctfm.principal.service.load.databases.TimeseriesDatabaseService;
 import com.uoctfm.principal.service.transformation.StationCalculation;
-import com.uoctfm.principal.service.extraction.StationStatus;
+import com.uoctfm.principal.service.extraction.stationStatus.StationStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static com.uoctfm.principal.TestBuildHelper.buildSystemConfigurationDTO;

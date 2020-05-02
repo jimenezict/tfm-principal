@@ -1,5 +1,6 @@
 package com.uoctfm.principal.service.load.databases;
 
+import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static com.uoctfm.principal.TestBuildHelper.buildSystemConfigurationDTO;
 import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,7 +26,10 @@ public class FileSystemDatabaseServiceTest {
 
     @Before
     public void setUp() {
-        underTest.databaseServiceSetter(null, null, null, null, "File System", SYSTEM_NAME);
+        SystemConfigurationDTO systemConfigurationDTO = buildSystemConfigurationDTO();
+        systemConfigurationDTO.setName(SYSTEM_NAME);
+
+        underTest.databaseServiceSetter(null, null, null, null, "File System", systemConfigurationDTO);
     }
 
     @Test

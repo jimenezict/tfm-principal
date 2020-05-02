@@ -11,7 +11,7 @@ import com.uoctfm.principal.service.load.databases.FileSystemDatabaseService;
 import com.uoctfm.principal.service.load.databases.GisDatabaseService;
 import com.uoctfm.principal.service.load.databases.TimeseriesDatabaseService;
 import com.uoctfm.principal.service.transformation.StationCalculation;
-import com.uoctfm.principal.service.extraction.StationStatus;
+import com.uoctfm.principal.service.extraction.stationStatus.StationStatus;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -58,15 +58,15 @@ public class SystemFlow {
         StationStatistics stationStatistics = stationCalculation.calculateStatistics(stationsStatusDTO);
 
         FileSystemDatabaseService fileSystemDatabaseService = new FileSystemDatabaseService();
-        fileSystemDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "File System", systemConfigurationDTO.getName());
+        fileSystemDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "File System", systemConfigurationDTO);
         fileSystemDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInFileSystem());
 
         GisDatabaseService gisDatabaseService = new GisDatabaseService();
-        gisDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "GIS", systemConfigurationDTO.getName());
+        gisDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "GIS", systemConfigurationDTO);
         gisDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInGIS());
 
         TimeseriesDatabaseService timeseriesDatabaseService = new TimeseriesDatabaseService();
-        timeseriesDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "Time Series", systemConfigurationDTO.getName());
+        timeseriesDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "Time Series", systemConfigurationDTO);
         timeseriesDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInTimeSeries());
 
         stationStatus.saveLastStationStatus(stationsStatusDTO, id);

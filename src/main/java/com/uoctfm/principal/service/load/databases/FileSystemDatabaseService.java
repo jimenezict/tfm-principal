@@ -3,12 +3,7 @@ package com.uoctfm.principal.service.load.databases;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.extraction.Station;
 import com.uoctfm.principal.domain.load.databases.StationDerivedCsv;
-import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.repository.load.filesystem.FoldersRepository;
 import com.uoctfm.principal.repository.load.filesystem.FoldersRepositoryImpl;
 import com.uoctfm.principal.service.load.AbstractDatabaseService;
@@ -62,7 +57,7 @@ public class FileSystemDatabaseService extends AbstractDatabaseService {
     }
 
     @Override
-    public void savePercentils(){
+    public void saveStatistics(){
         writeListOnFile(asList(stationPercentils), "percentils", "percentils");
         writeListOnFile(asList(stationStatistics), "statistics", "statistics");
     };

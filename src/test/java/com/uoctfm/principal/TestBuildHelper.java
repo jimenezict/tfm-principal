@@ -1,11 +1,15 @@
 package com.uoctfm.principal;
 
+import com.uoc.tfm.commons.domain.StationsLocation;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
+import com.uoctfm.principal.domain.extraction.Location;
 import com.uoctfm.principal.domain.extraction.Station;
+import com.uoctfm.principal.domain.extraction.StationsLocationDTO;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,5 +76,17 @@ public class TestBuildHelper {
         batchPoints.point(p3);
 
         return batchPoints;
+    }
+
+    public static StationsLocation buildStationsLocation() {
+        StationsLocation stationsLocation = new StationsLocation(LocalDate.now());
+
+        stationsLocation.addStation(1,0,0,"Clot");
+        stationsLocation.addStation(2,0,0,"SantVi");
+        stationsLocation.addStation(3,0,0,"Alpens");
+        stationsLocation.addStation(4,0,0,"Lima");
+        stationsLocation.addStation(5,0,0,"Gracia");
+
+        return stationsLocation;
     }
 }

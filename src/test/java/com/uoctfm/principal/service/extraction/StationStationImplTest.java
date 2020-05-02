@@ -5,6 +5,8 @@ import com.uoctfm.principal.domain.configuration.LastSampleDTO;
 import com.uoctfm.principal.domain.extraction.Station;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.repository.configuration.LastSampleRepository;
+import com.uoctfm.principal.service.extraction.stationStatus.StationStatus;
+import com.uoctfm.principal.service.extraction.stationStatus.StationStatusImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class StationStatusImplTest {
+public class StationStationImplTest {
 
     private static final String DUMMY_SCB_TEXT = "http://localhost:8080/list-of-station/";
 
