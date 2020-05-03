@@ -12,6 +12,8 @@ interface GlobalStatisticalRepository extends JpaRepository<GlobalStatistical, L
 
     Optional<GlobalStatistical> findById(Long id);
 
+    Optional<GlobalStatistical> findBySystem(Integer system);
+
     List findAllBySystem(Integer id);
 
 }

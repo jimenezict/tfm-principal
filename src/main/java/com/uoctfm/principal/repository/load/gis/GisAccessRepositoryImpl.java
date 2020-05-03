@@ -5,8 +5,6 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
-
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Service
@@ -23,8 +21,8 @@ public class GisAccessRepositoryImpl implements GisAccessRepository {
     }
 
     @Override
-    public GlobalStatistical findBySystem(String system) {
-        return null;
+    public GlobalStatistical findBySystem(Integer system) {
+        return globalStatisticalRepository.findBySystem(system).orElse(null);
     }
 
     @Override

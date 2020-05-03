@@ -2,6 +2,7 @@ package com.uoctfm.principal.service.load.databases;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.extraction.StationsLocationDTO;
+import com.uoctfm.principal.domain.transformation.StationDataWrapper;
 import com.uoctfm.principal.repository.load.gis.GisAccessRepository;
 import com.uoctfm.principal.service.extraction.stationLocation.StationLocation;
 import com.uoctfm.principal.service.transformation.LocationAndStationMergeService;
@@ -36,32 +37,26 @@ public class GisDatabaseServiceTest {
     @Mock
     LocationAndStationMergeService locationAndStationMergeService;
 
+    StationDataWrapper stationDataWrapper;
+    SystemConfigurationDTO systemConfigurationDTO;
+
     @Before
     public void setUp() {
         when(stationLocation.getListLocationStatus(any())).thenReturn(buildStationsLocationDTO());
-
-        SystemConfigurationDTO systemConfigurationDTO = buildSystemConfigurationDTO();
-        systemConfigurationDTO.setName(SYSTEM_NAME);
-
-        underTest.databaseServiceSetter(
-                buildStationDerived(),
+        stationDataWrapper = new StationDataWrapper(buildStationDerived(),
                 buildStationPercentil(),
                 buildStationRaw(),
-                buildStationStatistics(),
-                "GIS",
-                systemConfigurationDTO);
+                buildStationStatistics());
+
+        systemConfigurationDTO = buildSystemConfigurationDTO();
+        systemConfigurationDTO.setName(SYSTEM_NAME);
     }
 
     @Test
     public void initialize_shouldPopulateStationLocationDTO_whenPassesTheBuildFromTheHelper() {
-        underTest.initialize();
+        underTest.initialize(stationDataWrapper, systemConfigurationDTO);
 
-        StationsLocationDTO stationsLocationDTO = underTest.stationLocationDTO;
-
-        assertThat(stationsLocationDTO.getNumberStations()).isEqualTo(5);
-
-        verify(stationLocation).getListLocationStatus(any());
-        verifyNoMoreInteractions(stationLocation);
+        verifyNoInteractions(stationLocation);
         verifyNoInteractions(gisAccessRepository);
         verifyNoInteractions(locationAndStationMergeService);
     }
@@ -70,8 +65,7 @@ public class GisDatabaseServiceTest {
     public void saveStatistics_shouldSaveStationLocationDTO_whenPassesTheBuildFromTheHelper() {
         when(locationAndStationMergeService.mergeStatisticalDate(any(), any())).thenReturn(buildGlobalStatistical());
 
-        underTest.initialize();
-        underTest.saveStatistics();
+        underTest.saveStatistics(stationDataWrapper, systemConfigurationDTO);
 
         verify(stationLocation).getListLocationStatus(any());
         verify(locationAndStationMergeService).mergeStatisticalDate(any(), any());
@@ -85,7 +79,7 @@ public class GisDatabaseServiceTest {
 
     @Test
     public void saveDerived_shouldDoNothing_whenCallsToSaveDerived() {
-        underTest.saveDerived();
+        underTest.saveDerived(stationDataWrapper, systemConfigurationDTO);
 
         verifyNoInteractions(stationLocation);
         verifyNoInteractions(locationAndStationMergeService);

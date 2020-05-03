@@ -6,7 +6,7 @@ public interface GisAccessRepository {
 
     public GlobalStatistical findById(Long id);
 
-    public GlobalStatistical findBySystem(String system);
+    public GlobalStatistical findBySystem(Integer system);
 
     public void save(GlobalStatistical globalStatistical);
 }

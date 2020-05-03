@@ -1,11 +1,8 @@
 package com.uoctfm.principal.flow;
 
-import com.uoctfm.principal.domain.transformation.StationStatistics;
+import com.uoctfm.principal.domain.transformation.*;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
-import com.uoctfm.principal.domain.transformation.StationPercentils;
-import com.uoctfm.principal.domain.transformation.StationRaw;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
 import com.uoctfm.principal.service.load.databases.FileSystemDatabaseService;
 import com.uoctfm.principal.service.load.databases.GisDatabaseService;
@@ -28,6 +25,8 @@ public class SystemFlow {
     private StationStatus stationStatus;
     @Autowired
     private StationCalculation stationCalculation;
+    @Autowired
+    private GisDatabaseService gisDatabaseService;
 
     private Logger logger = getLogger(SystemFlow.class);
 
@@ -57,13 +56,13 @@ public class SystemFlow {
         StationRaw stationRaw = stationCalculation.calculateRaw(stationsStatusDTO);
         StationStatistics stationStatistics = stationCalculation.calculateStatistics(stationsStatusDTO);
 
+        StationDataWrapper stationDataWrapper = new StationDataWrapper(stationDerived, stationPercentil, stationRaw, stationStatistics);
+
+        gisDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInGIS(), "Gis", stationDataWrapper, systemConfigurationDTO);
+
         FileSystemDatabaseService fileSystemDatabaseService = new FileSystemDatabaseService();
         fileSystemDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "File System", systemConfigurationDTO);
-        fileSystemDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInFileSystem());
-
-        GisDatabaseService gisDatabaseService = new GisDatabaseService();
-        gisDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "GIS", systemConfigurationDTO);
-        gisDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInGIS());
+        fileSystemDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInFileSystem());        
 
         TimeseriesDatabaseService timeseriesDatabaseService = new TimeseriesDatabaseService();
         timeseriesDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "Time Series", systemConfigurationDTO);
