@@ -63,6 +63,10 @@ public abstract class AbstractDatabaseService {
         return processName;
     }
 
+    public final SystemConfigurationDTO getSystemConfigurationDTO() {
+        return systemConfigurationDTO;
+    }
+
     private void logSuccessfulProcess() {
         logger.info("Success on saving on {} database for process {}", databaseType, processName);
     }

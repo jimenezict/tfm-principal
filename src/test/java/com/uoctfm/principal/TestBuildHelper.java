@@ -114,7 +114,7 @@ public class TestBuildHelper {
         globalStatistical.setEntropy(1);
         globalStatistical.setEntropyNormalized(0.2);
         globalStatistical.setPoint(geometryFactory.createPoint(new Coordinate(0, 0)));
-        globalStatistical.setSystem(1);
+        globalStatistical.setSystem(100000);
 
         return globalStatistical;
     }

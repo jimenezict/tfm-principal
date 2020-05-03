@@ -75,6 +75,7 @@ public class GisDatabaseServiceTest {
 
         verify(stationLocation).getListLocationStatus(any());
         verify(locationAndStationMergeService).mergeStatisticalDate(any(), any());
+        verify(gisAccessRepository).findBySystem(any());
         verify(gisAccessRepository).save(any());
 
         verifyNoMoreInteractions(stationLocation);

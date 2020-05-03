@@ -23,6 +23,11 @@ public class GisAccessRepositoryImpl implements GisAccessRepository {
     }
 
     @Override
+    public GlobalStatistical findBySystem(String system) {
+        return null;
+    }
+
+    @Override
     public void save(GlobalStatistical globalStatistical) {
         globalStatisticalRepository.save(globalStatistical);
     }

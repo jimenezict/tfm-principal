@@ -4,6 +4,6 @@ import com.uoctfm.principal.domain.extraction.StationsLocationDTO;
 
 public interface StationLocation {
 
-    public StationsLocationDTO getListLocationStatus(String systemLocationEndPoints);
+    StationsLocationDTO getListLocationStatus(String systemLocationEndPoints);
 
 }

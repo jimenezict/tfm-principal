@@ -9,5 +9,7 @@ public interface LocationAndStationMergeService {
 
     GlobalStatistical mergeStatisticalDate(StationsLocationDTO stationLocationDTO, StationStatistics stationStatistics);
 
-    void mergeRawlData(StationsLocationDTO stationLocationDTO, StationRaw stationRaw);
+    void mergeRawData(StationsLocationDTO stationLocationDTO, StationRaw stationRaw);
+
+    GlobalStatistical updateStatisticalData(GlobalStatistical globalStatistical, StationStatistics stationStatistics);
 }
