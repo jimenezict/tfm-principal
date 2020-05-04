@@ -6,16 +6,19 @@ import com.uoctfm.principal.domain.extraction.Location;
 import com.uoctfm.principal.domain.extraction.Station;
 import com.uoctfm.principal.domain.extraction.StationsLocationDTO;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
-import com.uoctfm.principal.domain.load.databases.GlobalStatistical;
+import com.uoctfm.principal.domain.load.databases.gis.GlobalStatistical;
+import com.uoctfm.principal.domain.load.databases.gis.StationSystemRaw;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
-import jdk.nashorn.internal.objects.Global;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.time.LocalDateTime.now;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -117,5 +120,29 @@ public class TestBuildHelper {
         globalStatistical.setSystem(100000);
 
         return globalStatistical;
+    }
+
+    public static StationSystemRaw buildStationSystemRaw(Long id, Integer system, Integer station, com.vividsolutions.jts.geom.Point point, Integer stationSize, Integer numBicicles) {
+        StationSystemRaw stationSystemRaw = new StationSystemRaw();
+        stationSystemRaw.setId(id);
+        stationSystemRaw.setSystem(system);
+        stationSystemRaw.setStation(station);
+        stationSystemRaw.setPoint(point);
+        stationSystemRaw.setStationSize(stationSize);
+        stationSystemRaw.setNumBicicles(numBicicles);
+
+        return stationSystemRaw;
+    }
+
+    public static Set<StationSystemRaw> buildStationSystemRawSet() {
+        Set<StationSystemRaw> stationSystemRawsSet = new HashSet<>();
+
+        stationSystemRawsSet.add(buildStationSystemRaw(null, null, 1, null, 30, 10));
+        stationSystemRawsSet.add(buildStationSystemRaw(null, null, 2, null, 30, 10));
+        stationSystemRawsSet.add(buildStationSystemRaw(null, null, 3, null, 30, 10));
+        stationSystemRawsSet.add(buildStationSystemRaw(null, null, 4, null, 30, 10));
+        stationSystemRawsSet.add(buildStationSystemRaw(null, null, 5, null, 30, 10));
+
+        return stationSystemRawsSet;
     }
 }

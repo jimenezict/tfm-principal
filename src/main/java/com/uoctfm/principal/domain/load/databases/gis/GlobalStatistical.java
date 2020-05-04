@@ -1,4 +1,4 @@
-package com.uoctfm.principal.domain.load.databases;
+package com.uoctfm.principal.domain.load.databases.gis;
 
 import com.vividsolutions.jts.geom.Point;
 

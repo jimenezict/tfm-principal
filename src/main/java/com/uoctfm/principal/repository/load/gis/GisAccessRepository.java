@@ -1,12 +1,20 @@
 package com.uoctfm.principal.repository.load.gis;
 
-import com.uoctfm.principal.domain.load.databases.GlobalStatistical;
+import com.uoctfm.principal.domain.load.databases.gis.GlobalStatistical;
+import com.uoctfm.principal.domain.load.databases.gis.StationSystemRaw;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 public interface GisAccessRepository {
 
-    public GlobalStatistical findById(Long id);
+    GlobalStatistical findById(Long id);
 
-    public GlobalStatistical findBySystem(Integer system);
+    GlobalStatistical findBySystem(Integer system);
 
-    public void save(GlobalStatistical globalStatistical);
+    void saveGlobal(GlobalStatistical globalStatistical);
+
+    void saveStationSystem(Set<StationSystemRaw> stationSystemRawToSave);
+
+    TreeSet<StationSystemRaw> findStationSystem(Integer systemId);
 }

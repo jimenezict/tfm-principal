@@ -1,8 +1,5 @@
 package com.uoctfm.principal.repository.load.gis;
 
-import com.uoctfm.principal.domain.load.databases.GlobalStatistical;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +19,7 @@ public class GisAccessRepositoryImplTest {
 
     @Before
     public void setUp() {
-        underTest.save(buildGlobalStatistical());
+        underTest.saveGlobal(buildGlobalStatistical());
     }
 
     @Test

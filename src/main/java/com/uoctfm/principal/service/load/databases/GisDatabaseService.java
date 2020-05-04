@@ -2,7 +2,8 @@ package com.uoctfm.principal.service.load.databases;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.extraction.StationsLocationDTO;
-import com.uoctfm.principal.domain.load.databases.GlobalStatistical;
+import com.uoctfm.principal.domain.load.databases.gis.GlobalStatistical;
+import com.uoctfm.principal.domain.load.databases.gis.StationSystemRaw;
 import com.uoctfm.principal.domain.transformation.StationDataWrapper;
 import com.uoctfm.principal.repository.load.gis.GisAccessRepository;
 import com.uoctfm.principal.service.extraction.stationLocation.StationLocation;
@@ -12,14 +13,19 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.TreeSet;
+
+import static java.lang.Integer.valueOf;
 import static java.util.Objects.nonNull;
+import static java.util.stream.Collectors.toSet;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Service
 public class GisDatabaseService extends AbstractDatabaseStateLessService {
 
     @Autowired
-    StationLocation stationLocation ;
+    StationLocation stationLocation;
 
     @Autowired
     GisAccessRepository gisAccessRepository;
@@ -35,8 +41,24 @@ public class GisDatabaseService extends AbstractDatabaseStateLessService {
 
     @Override
     public void saveRaw(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
-        StationsLocationDTO stationsLocationDTO = stationLocation.getListLocationStatus(systemConfigurationDTO.getSystemLocationEndPoint());
-        locationAndStationMergeService.mergeRawData(stationsLocationDTO, stationDataWrapper.getStationRaw());
+        StationsLocationDTO locationList = stationLocation.getListLocationStatus(systemConfigurationDTO.getSystemLocationEndPoint());
+        Set<StationSystemRaw> stationSystemRaw = locationAndStationMergeService.mergeRawData(locationList, stationDataWrapper.getStationRaw());
+        TreeSet<StationSystemRaw> databaseStationSystemRaw = gisAccessRepository.findStationSystem(valueOf(systemConfigurationDTO.getId()));
+
+        logger.info("Found {} register on Station System Raw table (GIS) for system {}.", stationSystemRaw.size(), systemConfigurationDTO.getName());
+
+        Set<StationSystemRaw> stationSystemRawToSave =
+                stationSystemRaw.stream().map(localStationSystemRaw -> {
+                    localStationSystemRaw.setSystem(systemConfigurationDTO.getId());
+                    if (databaseStationSystemRaw.contains(localStationSystemRaw)) {
+                        localStationSystemRaw.setId(databaseStationSystemRaw.floor(localStationSystemRaw).getId());
+                    }
+                    return localStationSystemRaw;
+                }).collect(toSet());
+
+        logger.info("Inserting/Updating {} register on Station System Raw table (GIS) for system {}.", stationSystemRawToSave.size(), systemConfigurationDTO.getName());
+
+        gisAccessRepository.saveStationSystem(stationSystemRawToSave);
     }
 
     @Override
@@ -44,15 +66,15 @@ public class GisDatabaseService extends AbstractDatabaseStateLessService {
         StationsLocationDTO stationsLocationDTO = stationLocation.getListLocationStatus(systemConfigurationDTO.getSystemLocationEndPoint());
         GlobalStatistical globalStatistical = gisAccessRepository.findBySystem(systemConfigurationDTO.getId());
 
-        if(nonNull(globalStatistical)) {
+        if (nonNull(globalStatistical)) {
             logger.info("Found register for {} ({}) on Global Statistical table, proceeding to update", systemConfigurationDTO.getName(), globalStatistical.getSystem());
             locationAndStationMergeService.updateStatisticalData(globalStatistical, stationDataWrapper.getStationStatistics());
         } else {
-            logger.info("Not found register for {} ({}) on Global Statistical table, proceeding to insert",systemConfigurationDTO.getName(), systemConfigurationDTO.getId());
+            logger.info("Not found register for {} ({}) on Global Statistical table, proceeding to insert", systemConfigurationDTO.getName(), systemConfigurationDTO.getId());
             globalStatistical = locationAndStationMergeService.mergeStatisticalDate(stationsLocationDTO, stationDataWrapper.getStationStatistics());
             globalStatistical.setSystem(systemConfigurationDTO.getId());
         }
-        gisAccessRepository.save(globalStatistical);
+        gisAccessRepository.saveGlobal(globalStatistical);
     }
 
     @Override

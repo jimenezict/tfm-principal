@@ -1,6 +1,6 @@
 package com.uoctfm.principal.repository.load.gis;
 
-import com.uoctfm.principal.domain.load.databases.GlobalStatistical;
+import com.uoctfm.principal.domain.load.databases.gis.GlobalStatistical;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

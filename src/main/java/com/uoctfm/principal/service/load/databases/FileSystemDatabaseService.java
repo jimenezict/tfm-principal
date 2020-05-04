@@ -3,7 +3,7 @@ package com.uoctfm.principal.service.load.databases;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.uoctfm.principal.domain.load.databases.StationDerivedCsv;
+import com.uoctfm.principal.domain.load.databases.filesystem.StationDerivedCsv;
 import com.uoctfm.principal.repository.load.filesystem.FoldersRepository;
 import com.uoctfm.principal.repository.load.filesystem.FoldersRepositoryImpl;
 import com.uoctfm.principal.service.load.AbstractDatabaseService;

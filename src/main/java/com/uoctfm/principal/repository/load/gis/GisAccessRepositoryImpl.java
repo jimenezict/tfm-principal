@@ -1,9 +1,13 @@
 package com.uoctfm.principal.repository.load.gis;
 
-import com.uoctfm.principal.domain.load.databases.GlobalStatistical;
+import com.uoctfm.principal.domain.load.databases.gis.GlobalStatistical;
+import com.uoctfm.principal.domain.load.databases.gis.StationSystemRaw;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -26,8 +30,18 @@ public class GisAccessRepositoryImpl implements GisAccessRepository {
     }
 
     @Override
-    public void save(GlobalStatistical globalStatistical) {
+    public void saveGlobal(GlobalStatistical globalStatistical) {
         globalStatisticalRepository.save(globalStatistical);
+    }
+
+    @Override
+    public void saveStationSystem(Set<StationSystemRaw> stationSystemRawToSave) {
+
+    }
+
+    @Override
+    public TreeSet<StationSystemRaw> findStationSystem(Integer systemId) {
+        return null;
     }
 
 }
