@@ -1,13 +1,11 @@
 package com.uoctfm.principal.repository.load.gis;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.uoctfm.principal.TestBuildHelper.buildGlobalStatistical;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -16,11 +14,6 @@ public class GisAccessRepositoryImplTest {
 
     @Autowired
     private GisAccessRepositoryImpl underTest;
-
-    @Before
-    public void setUp() {
-        underTest.saveGlobal(buildGlobalStatistical());
-    }
 
     @Test
     public void findById_shouldReturnNoResult_whenIdIsFour() {
