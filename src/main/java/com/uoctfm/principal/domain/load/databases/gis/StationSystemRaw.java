@@ -9,7 +9,7 @@ import java.util.Objects;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name="globalstatistical")
+@Table(name="stationsystemraw")
 public class StationSystemRaw implements Comparable{
 
     @Id
@@ -23,8 +23,10 @@ public class StationSystemRaw implements Comparable{
     @Column(columnDefinition="geometry(Point,4326)")
     Point point;
 
+    @Column(name = "stationsize")
     Integer stationSize;
 
+    @Column(name = "numbicicles")
     Integer numBicicles;
 
     public Long getId() {

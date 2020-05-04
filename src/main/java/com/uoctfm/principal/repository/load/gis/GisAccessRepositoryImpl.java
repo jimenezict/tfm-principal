@@ -19,6 +19,9 @@ public class GisAccessRepositoryImpl implements GisAccessRepository {
     @Autowired
     private GlobalStatisticalRepository globalStatisticalRepository;
 
+    @Autowired
+    private StationSystemRawRepository stationSystemRawRepository;
+
     @Override
     public GlobalStatistical findById(Long id) {
         return globalStatisticalRepository.findById(id).orElse(null);
@@ -36,12 +39,12 @@ public class GisAccessRepositoryImpl implements GisAccessRepository {
 
     @Override
     public void saveStationSystem(Set<StationSystemRaw> stationSystemRawToSave) {
-
+        stationSystemRawRepository.saveAll(stationSystemRawToSave);
     }
 
     @Override
     public TreeSet<StationSystemRaw> findStationSystem(Integer systemId) {
-        return null;
+        return stationSystemRawRepository.findAllBySystem(systemId);
     }
 
 }

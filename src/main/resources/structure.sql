@@ -30,3 +30,13 @@ create table uoc.globalstatistical (
   entropyNormalized decimal
 );
 
+create sequence stationsystemraw_id_seq START 1;
+
+create table uoc.stationsystemraw (
+    id integer PRIMARY KEY NOT NULL DEFAULT nextval('stationsystemraw_id_seq'),
+    system integer,
+    station integer,
+    point geography(POINT),
+    stationSize integer,
+    numBicicles integer
+);
