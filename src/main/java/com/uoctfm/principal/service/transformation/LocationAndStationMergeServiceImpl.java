@@ -68,6 +68,7 @@ public class LocationAndStationMergeServiceImpl implements LocationAndStationMer
                 logger.warn("Fail setting to location point for {} and address {} ", location.getId(), location.getAddress());
             } else {
                 stationSystemRaw.setPoint(geometryFactory.createPoint(new Coordinate(location.getLatitude(), location.getLongitude())));
+                stationSystemRaw.setAddress(location.getAddress());
             }
 
             stationSystemRawSet.add(stationSystemRaw);

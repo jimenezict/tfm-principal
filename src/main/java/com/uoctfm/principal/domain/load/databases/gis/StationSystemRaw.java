@@ -29,6 +29,8 @@ public class StationSystemRaw implements Comparable{
     @Column(name = "numbicicles")
     Integer numBicicles;
 
+    String address;
+
     public Long getId() {
         return id;
     }
@@ -75,6 +77,14 @@ public class StationSystemRaw implements Comparable{
 
     public void setNumBicicles(Integer numBicicles) {
         this.numBicicles = numBicicles;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override

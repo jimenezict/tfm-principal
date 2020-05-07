@@ -12,9 +12,11 @@ CREATE TABLE uoc.systemconfiguration
 -- insert into  uoc.systemconfiguration (id, name, systemStationEndPoint, systemlocationendpoint, saveInFileSystem, saveInTimeSeries, saveInGIS)
 -- values (1, 'test', 'http://localhost:8082/status', 'http://localhost:8082/location', false, false, false);
 
+CREATE SEQUENCE lastSample_id_seq START 1;
+
 CREATE TABLE uoc.lastSample
 (
-  id integer PRIMARY KEY,
+  id integer PRIMARY KEY NOT NULL DEFAULT nextval('lastSample_id_seq'),
   time timestamp,
   lastSample varchar
 );
@@ -38,5 +40,6 @@ create table uoc.stationsystemraw (
     station integer,
     point geography(POINT),
     stationSize integer,
-    numBicicles integer
+    numBicicles integer,
+    address varchar
 );
