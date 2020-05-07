@@ -4,6 +4,9 @@ import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.uoctfm.principal.domain.load.databases.filesystem.StationDerivedCsv;
+import com.uoctfm.principal.domain.load.databases.filesystem.StationPercentilsCsv;
+import com.uoctfm.principal.domain.load.databases.filesystem.StationRawCsv;
+import com.uoctfm.principal.domain.load.databases.filesystem.StationStatisticsCsv;
 import com.uoctfm.principal.repository.load.filesystem.FoldersRepository;
 import com.uoctfm.principal.repository.load.filesystem.FoldersRepositoryImpl;
 import com.uoctfm.principal.service.load.AbstractDatabaseService;
@@ -13,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,7 @@ public class FileSystemDatabaseService extends AbstractDatabaseService {
     @Override
     public void saveRaw(){
         List<Object> stationList = new ArrayList<>();
-        stationRaw.getStationStatusDTO().getStationList().values().forEach(x -> stationList.add(x));
+        stationRaw.getStationStatusDTO().getStationList().values().forEach(x -> stationList.add(new StationRawCsv(x)));
 
         writeListOnFile(stationList, "raw", "raw");
 
@@ -58,18 +60,18 @@ public class FileSystemDatabaseService extends AbstractDatabaseService {
 
     @Override
     public void saveStatistics(){
-        writeListOnFile(asList(stationPercentils), "percentils", "percentils");
-        writeListOnFile(asList(stationStatistics), "statistics", "statistics");
+        writeListOnFile(asList(new StationPercentilsCsv(stationPercentils)), "percentils", "percentils");
+        writeListOnFile(asList(new StationStatisticsCsv(stationStatistics)), "statistics", "statistics");
     };
 
     @Override
     public void saveDerived(){
-        List<StationDerivedCsv> stationList = new ArrayList<>();
+        List<Object> stationDerivedCsv = new ArrayList<>();
         stationDerived.getStationsStatusDTO().keySet().forEach(x -> {
-            stationList.add(new StationDerivedCsv(x, stationDerived.getStationsStatusDTO().get(x), LocalDateTime.now()));
+            stationDerivedCsv.add(new StationDerivedCsv(x, stationDerived.getStationsStatusDTO().get(x)));
         });
 
-        writeListOnFile(asList(stationDerived), "derived", "derived");
+        writeListOnFile(stationDerivedCsv, "derived", "derived");
     };
 
     private void writeListOnFile(List<Object> fileLine, String folder, String subName) {

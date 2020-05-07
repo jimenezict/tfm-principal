@@ -1,17 +1,19 @@
 package com.uoctfm.principal.domain.load.databases.filesystem;
 
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class StationDerivedCsv {
+import java.io.Serializable;
+
+@JsonPropertyOrder({"time","date"})
+public class StationDerivedCsv extends BaseCsv implements Serializable {
 
     private int station;
     private int measurement;
-    private LocalDateTime time;
 
-    public StationDerivedCsv(int station, int measurement, LocalDateTime time){
+    public StationDerivedCsv(int station, int measurement){
+        super();
         this.station = station;
         this.measurement = measurement;
-        this.time = time;
     }
 
     public int getStation() {
@@ -22,7 +24,4 @@ public class StationDerivedCsv {
         return measurement;
     }
 
-    public LocalDateTime getTime() {
-        return time;
-    }
 }
