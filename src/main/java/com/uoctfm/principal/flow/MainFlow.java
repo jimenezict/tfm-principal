@@ -21,7 +21,7 @@ public class MainFlow {
     @Autowired
     private SystemFlow systemFlow;
 
-    private Logger logger = getLogger(MainFlow.class);
+    private final Logger logger = getLogger(MainFlow.class);
 
     @Scheduled(cron = "0 0/1 * 1/1 * ?")
     public void execute() {
@@ -29,9 +29,12 @@ public class MainFlow {
 
         logger.info("Starting Main process, will be executed {} processes", systemConfigurationList.size());
 
-        systemConfigurationList.forEach(systemConfiguration -> {
-            new Thread(() -> systemFlow.executeById(systemConfiguration.getId())).start();
-        });
+        systemConfigurationList
+                .stream()
+                .filter(systemConfiguration -> systemConfiguration.getMasterEnable())
+                .forEach(systemConfiguration -> {
+                    new Thread(() -> systemFlow.executeById(systemConfiguration.getId())).start();
+                });
 
         logger.info("Starting Main process");
     }

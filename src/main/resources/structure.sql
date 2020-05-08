@@ -7,13 +7,11 @@ CREATE TABLE uoc.systemconfiguration
   saveinfilesystem boolean,
   saveintimeseries boolean,
   saveingis boolean
-)
+);
 
--- insert into  uoc.systemconfiguration (id, name, systemStationEndPoint, systemlocationendpoint, saveInFileSystem, saveInTimeSeries, saveInGIS)
--- values (1, 'test', 'http://localhost:8082/status', 'http://localhost:8082/location', false, false, false);
+alter table uoc.systemconfiguration add column masterenable boolean default false;
 
 CREATE SEQUENCE lastSample_id_seq START 1;
-
 CREATE TABLE uoc.lastSample
 (
   id integer PRIMARY KEY NOT NULL DEFAULT nextval('lastSample_id_seq'),
@@ -22,7 +20,6 @@ CREATE TABLE uoc.lastSample
 );
 
 CREATE SEQUENCE globalstatistical_id_seq START 1;
-
 create table uoc.globalstatistical (
   id integer PRIMARY KEY NOT NULL DEFAULT nextval('globalstatistical_id_seq'),
   system integer,
@@ -33,7 +30,6 @@ create table uoc.globalstatistical (
 );
 
 create sequence stationsystemraw_id_seq START 1;
-
 create table uoc.stationsystemraw (
     id integer PRIMARY KEY NOT NULL DEFAULT nextval('stationsystemraw_id_seq'),
     system integer,

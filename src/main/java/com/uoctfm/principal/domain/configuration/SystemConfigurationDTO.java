@@ -21,6 +21,8 @@ public class SystemConfigurationDTO implements Serializable {
     private Boolean saveInTimeSeries;
     @Column(name = "saveingis")
     private Boolean saveInGIS;
+    @Column(name = "masterenable")
+    private Boolean masterEnable;
 
     public Integer getId() {
         return id;
@@ -76,5 +78,13 @@ public class SystemConfigurationDTO implements Serializable {
 
     public void setSaveInGIS(Boolean saveInGIS) {
         this.saveInGIS = saveInGIS;
+    }
+
+    public Boolean getMasterEnable() {
+        return masterEnable;
+    }
+
+    public void setMasterEnable(Boolean masterEnable) {
+        this.masterEnable = masterEnable;
     }
 }

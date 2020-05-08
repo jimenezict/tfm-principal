@@ -13,7 +13,6 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 
-import javax.persistence.Column;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,6 +33,14 @@ public class TestBuildHelper {
         systemConfiguration.setSaveInFileSystem(false);
         systemConfiguration.setSaveInGIS(false);
         systemConfiguration.setSaveInTimeSeries(false);
+        systemConfiguration.setMasterEnable(true);
+
+        return systemConfiguration;
+    }
+
+    public static SystemConfigurationDTO buildDisabledSystemConfigurationDTO() {
+        SystemConfigurationDTO systemConfiguration = buildSystemConfigurationDTO();
+        systemConfiguration.setMasterEnable(false);
 
         return systemConfiguration;
     }
@@ -44,6 +51,13 @@ public class TestBuildHelper {
         systemConfigurationList.add(buildSystemConfigurationDTO());
 
         return systemConfigurationList;
+    }
+
+    public static List<SystemConfigurationDTO> buildSystemConfigurationListDTOWithAUnabledConfiguration() {
+        List<SystemConfigurationDTO> buildSystemConfigurationListDTO = buildSystemConfigurationListDTO();
+        buildSystemConfigurationListDTO.add(buildDisabledSystemConfigurationDTO());
+
+        return buildSystemConfigurationListDTO;
     }
 
     public static StationsStatusDTO buildStationsStatusDTO() {
