@@ -1,22 +1,18 @@
 package com.uoctfm.principal.service.load.databases;
 
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.load.databases.filesystem.StationDerivedCsv;
 import com.uoctfm.principal.domain.load.databases.filesystem.StationPercentilsCsv;
 import com.uoctfm.principal.domain.load.databases.filesystem.StationRawCsv;
 import com.uoctfm.principal.domain.load.databases.filesystem.StationStatisticsCsv;
+import com.uoctfm.principal.domain.transformation.StationDataWrapper;
+import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.repository.load.filesystem.FoldersRepository;
-import com.uoctfm.principal.repository.load.filesystem.FoldersRepositoryImpl;
-import com.uoctfm.principal.service.load.AbstractDatabaseService;
+import com.uoctfm.principal.service.load.AbstractDatabaseStateLessService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,17 +20,17 @@ import static java.time.LocalDate.now;
 import static java.util.Arrays.asList;
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class FileSystemDatabaseService extends AbstractDatabaseService {
+@Service
+public class FileSystemDatabaseService extends AbstractDatabaseStateLessService {
 
     @Autowired
     FoldersRepository foldersRepository;
 
     Logger logger = getLogger(FileSystemDatabaseService.class);
-    String dateSystemFolder;
 
     @Override
-    public void initialize() {
-        foldersRepository = new FoldersRepositoryImpl();
+    public void initialize(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
+        String processName = systemConfigurationDTO.getName();
 
         if(!foldersRepository.hasSystemFolder(processName)) {
             logger.info("Creating system folder {}", processName);
@@ -45,58 +41,37 @@ public class FileSystemDatabaseService extends AbstractDatabaseService {
             logger.info("Creating date folder for system {}", processName);
             foldersRepository.createDateFolder(processName, now());
         }
-
-        dateSystemFolder = processName + "/" + now().toString();
     }
 
     @Override
-    public void saveRaw(){
+    public void saveRaw(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
         List<Object> stationList = new ArrayList<>();
-        stationRaw.getStationStatusDTO().getStationList().values().forEach(x -> stationList.add(new StationRawCsv(x)));
 
-        writeListOnFile(stationList, "raw", "raw");
+        stationDataWrapper
+                .getStationRaw()
+                .getStationStatusDTO()
+                .getStationList()
+                .values()
+                .forEach(station -> stationList.add(new StationRawCsv(station)));
 
+        foldersRepository.writeListOnFile(stationList,  "raw", systemConfigurationDTO);
     }
 
     @Override
-    public void saveStatistics(){
-        writeListOnFile(asList(new StationPercentilsCsv(stationPercentils)), "percentils", "percentils");
-        writeListOnFile(asList(new StationStatisticsCsv(stationStatistics)), "statistics", "statistics");
-    };
+    public void saveStatistics(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
+        foldersRepository.writeListOnFile(asList(new StationPercentilsCsv(stationDataWrapper.getStationPercentils())),  "percentils", systemConfigurationDTO);
+        foldersRepository.writeListOnFile(asList(new StationStatisticsCsv(stationDataWrapper.getStationStatistics())),  "statistics", systemConfigurationDTO);
+    }
 
     @Override
-    public void saveDerived(){
+    public void saveDerived(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
         List<Object> stationDerivedCsv = new ArrayList<>();
+        StationDerived stationDerived = stationDataWrapper.getStationDerived();
         stationDerived.getStationsStatusDTO().keySet().forEach(x -> {
             stationDerivedCsv.add(new StationDerivedCsv(x, stationDerived.getStationsStatusDTO().get(x)));
         });
 
-        writeListOnFile(stationDerivedCsv, "derived", "derived");
-    };
-
-    private void writeListOnFile(List<Object> fileLine, String folder, String subName) {
-        try {
-            Writer writer = getFileWriter(folder, subName);
-            StatefulBeanToCsv sbc = getStatefulBean(writer);
-
-            sbc.write(fileLine);
-            writer.close();
-        } catch (Exception e) {
-            logger.error("Fail on writing in {} File System process. ", processName, e);
-        }
-    }
-
-    private FileWriter getFileWriter(String folder, String subName) throws IOException {
-        return new FileWriter(dateSystemFolder
-                + "/" + folder + "/" + subName + "-"
-                + LocalTime.now().toString().replace(':','_').substring(0, 8)
-                + ".csv");
-    }
-
-    private StatefulBeanToCsv getStatefulBean(Writer writer) {
-        return new StatefulBeanToCsvBuilder(writer)
-                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-                .build();
+        foldersRepository.writeListOnFile(stationDerivedCsv, "derived", systemConfigurationDTO);
     }
 
 }

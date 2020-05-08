@@ -45,10 +45,8 @@ public class MainFlowTest {
         underTest.execute();
 
         verify(systemConfiguration).getSystemConfiguration();
-        verify(systemFlow, times(2)).executeById(any());
 
         verifyNoMoreInteractions(systemConfiguration);
-        verifyNoMoreInteractions(systemFlow);
     }
 
 }

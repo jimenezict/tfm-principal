@@ -1,55 +1,100 @@
 package com.uoctfm.principal.service.load.databases;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.junit.After;
+import com.uoctfm.principal.domain.transformation.StationDataWrapper;
+import com.uoctfm.principal.repository.load.filesystem.FoldersRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.List;
 
 import static com.uoctfm.principal.TestBuildHelper.buildSystemConfigurationDTO;
-import static java.time.LocalDate.now;
+import static com.uoctfm.principal.TestDataBuildHelper.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FileSystemDatabaseServiceTest {
 
-    private FileSystemDatabaseService underTest = new FileSystemDatabaseService();
+    @InjectMocks
+    private FileSystemDatabaseService underTest;
 
-    private static final String SYSTEM_NAME = "SystemName";
+    @Mock
+    private FoldersRepository foldersRepository;
+
+    @Captor
+    ArgumentCaptor stationList;
+
+    private static final String SYSTEM_NAME = "NeverLand";
+    StationDataWrapper stationDataWrapper;
+    SystemConfigurationDTO systemConfigurationDTO;
 
     @Before
     public void setUp() {
-        SystemConfigurationDTO systemConfigurationDTO = buildSystemConfigurationDTO();
-        systemConfigurationDTO.setName(SYSTEM_NAME);
+        stationDataWrapper = new StationDataWrapper(buildStationDerived(),
+                buildStationPercentil(),
+                buildStationRaw(),
+                buildStationStatistics());
 
-        underTest.databaseServiceSetter(null, null, null, null, "File System", systemConfigurationDTO);
+        systemConfigurationDTO = buildSystemConfigurationDTO();
+        systemConfigurationDTO.setName(SYSTEM_NAME);
     }
 
     @Test
     public void initialize_shouldCreateFolder_whenNotExists () {
-        String newFolder = SYSTEM_NAME + "/" + now().toString();
+        when(foldersRepository.hasSystemFolder(any())).thenReturn(false);
+        when(foldersRepository.hasDateFolder(any(), any())).thenReturn(false);
 
-        underTest.initialize();
+        underTest.initialize(stationDataWrapper, systemConfigurationDTO);
 
-        assertThat(Files.exists(Paths.get(newFolder))).isTrue();
+        verify(foldersRepository).createSystemFolder(any());
+        verify(foldersRepository).createDateFolder(any(), any());
     }
 
     @Test
     public void initialize_shouldNotCreateFolder_whenTheAlreadyExists () {
-        underTest.initialize();
-        underTest.initialize();
+        underTest.initialize(stationDataWrapper, systemConfigurationDTO);
+        underTest.initialize(stationDataWrapper, systemConfigurationDTO);
     }
 
-    @After
-    public void setDown() throws IOException {
-        FileUtils.deleteDirectory(new File(SYSTEM_NAME));
+    @Test
+    public void saveRaw_shouldSaveSameSizeAsStationRawList_whenUsesTheSetUpValues() {
+        underTest.saveRaw(stationDataWrapper, systemConfigurationDTO);
+
+        verify(foldersRepository).writeListOnFile((List<Object>) stationList.capture(), anyString(), any());
+        List<Object> value = (List<Object>) stationList.getValue();
+        assertThat(value.size()).isEqualTo(3);
+
+        verifyNoMoreInteractions(foldersRepository);
+    }
+
+    @Test
+    public void saveDerived_shouldSaveSameSizeAsStationDerivedList_whenUsesTheSetUpValues() {
+        underTest.saveDerived(stationDataWrapper, systemConfigurationDTO);
+
+        verify(foldersRepository).writeListOnFile((List<Object>) stationList.capture(), anyString(), any());
+        List<Object> value = (List<Object>) stationList.getValue();
+        assertThat(value.size()).isEqualTo(5);
+
+        verifyNoMoreInteractions(foldersRepository);
+    }
+
+    @Test
+    public void saveStatistics_shouldSaveStatisticAndPercentils_whenUsesTheSetUpValues() {
+        underTest.saveStatistics(stationDataWrapper, systemConfigurationDTO);
+
+        verify(foldersRepository, times(2))
+                .writeListOnFile((List<Object>) stationList.capture(), anyString(), any());
+
+        verifyNoMoreInteractions(foldersRepository);
     }
 
 }

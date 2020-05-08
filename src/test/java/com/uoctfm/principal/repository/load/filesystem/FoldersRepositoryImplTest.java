@@ -1,5 +1,7 @@
 package com.uoctfm.principal.repository.load.filesystem;
 
+import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
+import com.uoctfm.principal.domain.load.databases.filesystem.StationPercentilsCsv;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -14,8 +16,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Clock;
+import java.util.List;
 
+import static com.uoctfm.principal.TestBuildHelper.buildSystemConfigurationDTO;
+import static com.uoctfm.principal.TestDataBuildHelper.buildStationPercentil;
+import static com.uoctfm.principal.TestDataBuildHelper.buildStationRaw;
 import static java.time.LocalDate.now;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -81,6 +88,17 @@ public class FoldersRepositoryImplTest {
 
         assertThat(Files.exists(Paths.get(newFolder))).isTrue();
         assertThat(Files.exists(Paths.get(newFolder + "dummy"))).isFalse();
+    }
+
+    @Test
+    public void writeListOnFile_shouldNotThrowException_whenRawFileIsSaved () {
+        String newFolder = SYSTEM_NAME;
+        underTest.createSystemFolder(newFolder);
+        underTest.createDateFolder(newFolder, now());
+
+        SystemConfigurationDTO buildSystemConfiguration = buildSystemConfigurationDTO();
+        buildSystemConfiguration.setName(SYSTEM_NAME);
+        underTest.writeListOnFile(asList(new StationPercentilsCsv(buildStationPercentil())),  "percentils", buildSystemConfiguration);
     }
 
     @After
