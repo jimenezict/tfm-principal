@@ -1,19 +1,21 @@
 package com.uoctfm.principal.service.load.databases;
 
+import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.extraction.Station;
+import com.uoctfm.principal.domain.transformation.StationDataWrapper;
+import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.domain.transformation.StationPercentils;
 import com.uoctfm.principal.domain.transformation.StationStatistics;
 import com.uoctfm.principal.repository.load.timeseries.InfluxConnector;
 import com.uoctfm.principal.repository.load.timeseries.TimeSeriesDatabaseRepository;
-import com.uoctfm.principal.repository.load.timeseries.TimeSeriesDatabaseRepositoryImpl;
 import com.uoctfm.principal.service.load.AbstractDatabaseService;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static java.time.LocalDateTime.now;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.stream.Collectors.toList;
@@ -21,39 +23,54 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class TimeseriesDatabaseService extends AbstractDatabaseService {
 
-    InfluxConnector influxConnector;
+    @Autowired
     TimeSeriesDatabaseRepository timeSeriesDatabaseRepository;
 
     @Override
-    public void initialize() {
-        influxConnector = new InfluxConnector(super.processName);
-        timeSeriesDatabaseRepository = new TimeSeriesDatabaseRepositoryImpl();
+    public void initialize(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
+
     }
 
     @Override
-    public void saveRaw() {
-        List<Point> rawPoints = stationRaw.getStationStatusDTO().getStationList().values()
+    public void saveRaw(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
+        InfluxConnector influxConnector = new InfluxConnector(systemConfigurationDTO.getName());
+
+        List<Point> rawPoints = stationDataWrapper.getStationRaw().getStationStatusDTO().getStationList().values()
                 .stream()
                 .map(x -> generateRawPoint(x))
                 .collect(toList());
 
-        timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(rawPoints));
+        timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(rawPoints, systemConfigurationDTO));
+
+        influxConnector.closeInfluxConnector();
     }
 
     @Override
-    public void saveStatistics() {
-        timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(asList(generatePercentilPoint(stationPercentils))));
-        timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(asList(generateStatisticsPoint(stationStatistics))));
+    public void saveStatistics(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
+        InfluxConnector influxConnector = new InfluxConnector(systemConfigurationDTO.getName());
+
+        StationPercentils stationPercentils = stationDataWrapper.getStationPercentils();
+        StationStatistics stationStatistics = stationDataWrapper.getStationStatistics();
+
+        timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(asList(generatePercentilPoint(stationPercentils)), systemConfigurationDTO));
+        timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(asList(generateStatisticsPoint(stationStatistics)), systemConfigurationDTO));
+
+        influxConnector.closeInfluxConnector();
     }
 
     @Override
-    public void saveDerived() {
+    public void saveDerived(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
+        InfluxConnector influxConnector = new InfluxConnector(systemConfigurationDTO.getName());
+
+        StationDerived stationDerived = stationDataWrapper.getStationDerived();
         List<Point> derivedPoints = stationDerived.getStationsStatusDTO().keySet()
                 .stream()
                 .map(x -> generateDerivedPoint(x, stationDerived.getStationsStatusDTO().get(x)))
                 .collect(toList());
 
-        timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(derivedPoints));
+        timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(derivedPoints, systemConfigurationDTO));
+
+        influxConnector.closeInfluxConnector();
     }
 
     private Point generateDerivedPoint(Integer key, Integer value) {
@@ -103,14 +120,15 @@ public class TimeseriesDatabaseService extends AbstractDatabaseService {
                 .build();
     }
 
-    private BatchPoints mapToBatchPoints(List<Point> rawPoints) {
+    private BatchPoints mapToBatchPoints(List<Point> rawPoints, SystemConfigurationDTO systemConfigurationDTO) {
         BatchPoints batchPoints = BatchPoints
-                .database(super.processName)
+                .database(systemConfigurationDTO.getName())
                 .retentionPolicy("defaultPolicy")
                 .build();
 
         rawPoints.forEach(x -> batchPoints.point(x));
         return batchPoints;
     }
+
 
 }

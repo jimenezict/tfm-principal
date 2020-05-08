@@ -29,6 +29,8 @@ public class SystemFlow {
     private GisDatabaseService gisDatabaseService;
     @Autowired
     private FileSystemDatabaseService fileSystemDatabaseService;
+    @Autowired
+    private TimeseriesDatabaseService timeseriesDatabaseService;
 
     private Logger logger = getLogger(SystemFlow.class);
 
@@ -62,10 +64,7 @@ public class SystemFlow {
 
         gisDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInGIS(), "Gis", stationDataWrapper, systemConfigurationDTO);
         fileSystemDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInFileSystem(), "File System", stationDataWrapper, systemConfigurationDTO);
-
-        TimeseriesDatabaseService timeseriesDatabaseService = new TimeseriesDatabaseService();
-        timeseriesDatabaseService.databaseServiceSetter(stationDerived, stationPercentil, stationRaw, stationStatistics, "Time Series", systemConfigurationDTO);
-        timeseriesDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInTimeSeries());
+        timeseriesDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInTimeSeries(), "Timeseries", stationDataWrapper, systemConfigurationDTO);
 
         stationStatus.saveLastStationStatus(stationsStatusDTO, id);
 

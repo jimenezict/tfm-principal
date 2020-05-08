@@ -7,7 +7,7 @@ import com.uoctfm.principal.domain.load.databases.gis.StationSystemRaw;
 import com.uoctfm.principal.domain.transformation.StationDataWrapper;
 import com.uoctfm.principal.repository.load.gis.GisAccessRepository;
 import com.uoctfm.principal.service.extraction.stationLocation.StationLocation;
-import com.uoctfm.principal.service.load.AbstractDatabaseStateLessService;
+import com.uoctfm.principal.service.load.AbstractDatabaseService;
 import com.uoctfm.principal.service.transformation.LocationAndStationMergeService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import static java.util.stream.Collectors.toSet;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Service
-public class GisDatabaseService extends AbstractDatabaseStateLessService {
+public class GisDatabaseService extends AbstractDatabaseService {
 
     @Autowired
     StationLocation stationLocation;

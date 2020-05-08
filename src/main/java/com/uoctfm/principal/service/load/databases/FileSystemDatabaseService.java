@@ -8,7 +8,7 @@ import com.uoctfm.principal.domain.load.databases.filesystem.StationStatisticsCs
 import com.uoctfm.principal.domain.transformation.StationDataWrapper;
 import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.repository.load.filesystem.FoldersRepository;
-import com.uoctfm.principal.service.load.AbstractDatabaseStateLessService;
+import com.uoctfm.principal.service.load.AbstractDatabaseService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import static java.util.Arrays.asList;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Service
-public class FileSystemDatabaseService extends AbstractDatabaseStateLessService {
+public class FileSystemDatabaseService extends AbstractDatabaseService {
 
     @Autowired
     FoldersRepository foldersRepository;
