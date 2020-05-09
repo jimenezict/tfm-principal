@@ -23,7 +23,7 @@ public class StatisticalServiceImpl implements StatisticalService{
         return stationsStatus.getStationList()
                 .values()
                 .stream()
-                .mapToInt(station -> station.getPercentil())
+                .mapToInt(station -> station.getPercentage())
                 .average()
                 .orElse(0.0);
     }

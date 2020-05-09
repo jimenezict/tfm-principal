@@ -35,7 +35,7 @@ public class StatisticalServiceImplTest {
 
     @Test
     public void calculatePercentage_shouldReturnZero_whenTheSystemIsWellDistributed() {
-        assertThat(underTest.calculateAverage(buildBalancedStationsStatusDTO())).isEqualTo(5.333333333333333);
+        assertThat(underTest.calculateAverage(buildBalancedStationsStatusDTO())).isEqualTo(57.333333333333336);
     }
 
     private StationsStatusDTO buildBalancedStationsStatusDTO() {
