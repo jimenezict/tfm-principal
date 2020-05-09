@@ -23,10 +23,13 @@ CREATE SEQUENCE globalstatistical_id_seq START 1;
 create table uoc.globalstatistical (
   id integer PRIMARY KEY NOT NULL DEFAULT nextval('globalstatistical_id_seq'),
   system integer,
+  name varchar,
   point geography(POINT),
   average decimal,
   entropy integer,
-  entropyNormalized decimal
+  entropyNormalized decimal,
+  longitude decimal,
+  latitude decimal
 );
 
 create sequence stationsystemraw_id_seq START 1;

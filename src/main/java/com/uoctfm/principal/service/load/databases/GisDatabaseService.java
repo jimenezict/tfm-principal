@@ -73,6 +73,7 @@ public class GisDatabaseService extends AbstractDatabaseService {
             logger.info("Not found register for {} ({}) on Global Statistical table, proceeding to insert", systemConfigurationDTO.getName(), systemConfigurationDTO.getId());
             globalStatistical = locationAndStationMergeService.mergeStatisticalDate(stationsLocationDTO, stationDataWrapper.getStationStatistics());
             globalStatistical.setSystem(systemConfigurationDTO.getId());
+            globalStatistical.setName(systemConfigurationDTO.getName());
         }
         gisAccessRepository.saveGlobal(globalStatistical);
     }

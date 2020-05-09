@@ -13,16 +13,24 @@ public class GlobalStatistical {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     Long id;
-
     Integer system;
-
+    String name;
     @Column(columnDefinition="geometry(Point,4326)")
     Point point;
-
     double average;
     Integer entropy;
     @Column(name = "entropynormalized")
     double entropyNormalized;
+    double longitude;
+    double latitude;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Integer getSystem() {
         return system;
@@ -30,6 +38,14 @@ public class GlobalStatistical {
 
     public void setSystem(Integer system) {
         this.system = system;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Point getPoint() {
@@ -62,5 +78,21 @@ public class GlobalStatistical {
 
     public void setEntropyNormalized(double entropyNormalized) {
         this.entropyNormalized = entropyNormalized;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 }

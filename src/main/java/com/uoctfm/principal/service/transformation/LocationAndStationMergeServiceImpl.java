@@ -32,6 +32,8 @@ public class LocationAndStationMergeServiceImpl implements LocationAndStationMer
 
         GlobalStatistical globalStatistical = new GlobalStatistical();
         globalStatistical.setPoint(geometryFactory.createPoint(new Coordinate(location.getLatitude(), location.getLongitude())));
+        globalStatistical.setLatitude(location.getLatitude());
+        globalStatistical.setLongitude(location.getLongitude());
         if (nonNull(stationStatistics)) {
             globalStatistical.setEntropyNormalized(stationStatistics.getEntropyNormalized());
             globalStatistical.setEntropy(stationStatistics.getEntropy());
