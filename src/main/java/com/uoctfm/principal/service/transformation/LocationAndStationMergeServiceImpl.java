@@ -71,6 +71,8 @@ public class LocationAndStationMergeServiceImpl implements LocationAndStationMer
             } else {
                 stationSystemRaw.setPoint(geometryFactory.createPoint(new Coordinate(location.getLatitude(), location.getLongitude())));
                 stationSystemRaw.setAddress(location.getAddress());
+                stationSystemRaw.setLongitude(location.getLongitude());
+                stationSystemRaw.setLatitude(location.getLatitude());
             }
 
             stationSystemRawSet.add(stationSystemRaw);

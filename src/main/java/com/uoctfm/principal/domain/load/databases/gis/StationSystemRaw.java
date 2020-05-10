@@ -31,6 +31,11 @@ public class StationSystemRaw implements Comparable{
 
     String address;
 
+    @Column(name = "longitude")
+    double longitude;
+    @Column(name = "latitude")
+    double latitude;
+
     public Long getId() {
         return id;
     }
@@ -85,6 +90,22 @@ public class StationSystemRaw implements Comparable{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     @Override

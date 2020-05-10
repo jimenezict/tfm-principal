@@ -40,5 +40,7 @@ create table uoc.stationsystemraw (
     point geography(POINT),
     stationSize integer,
     numBicicles integer,
-    address varchar
+    address varchar,
+    longitude decimal,
+    latitude decimal
 );
