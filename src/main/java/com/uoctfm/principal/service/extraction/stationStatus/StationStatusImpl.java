@@ -102,7 +102,7 @@ public class StationStatusImpl implements StationStatus {
     private StationsStatusDTO mapStationStatus(StationsStatus stationsStatus, String systemStationEndPoints) {
         StationsStatusDTO stationStatusDTO = new StationsStatusDTO();
         stationStatusDTO.setExecutionDateTime(stationsStatus.getTimestamp());
-        if(stationStatusDTO.getStationList().size() == 0) {
+        if(stationsStatus.getStationStatusList().isEmpty()) {
             logger.warn("Due to an unexpected reason, the returned size for the call to {} is empty", systemStationEndPoints);
             return null;
         }

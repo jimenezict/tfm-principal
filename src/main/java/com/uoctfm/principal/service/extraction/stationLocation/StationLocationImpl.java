@@ -28,7 +28,7 @@ public class StationLocationImpl implements StationLocation {
         try {
             stationsLocation = restTemplate.getForObject(systemLocationEndPoints, StationsLocation.class);
             logger.info("Captured StationsLocationDTO from the end-point {}", systemLocationEndPoints);
-            return nonNull(stationsLocation) ? mapStationLocation(stationsLocation) : null;
+            return nonNull(stationsLocation) ? mapStationLocation(stationsLocation, systemLocationEndPoints) : null;
         } catch (RestClientException e) {
             logger.error("Fail on capturing from the end-point {}", systemLocationEndPoints);
         } catch (HttpMessageConversionException e) {
@@ -40,9 +40,12 @@ public class StationLocationImpl implements StationLocation {
         return null;
     }
 
-    private static StationsLocationDTO mapStationLocation(StationsLocation stationsLocation) {
+    private StationsLocationDTO mapStationLocation(StationsLocation stationsLocation, String systemLocationEndPoints) {
         StationsLocationDTO stationLocationDTO = new StationsLocationDTO();
-        if(stationLocationDTO.getLocationList().size() == 0) return null;
+        if(stationsLocation.getStationLocationList().isEmpty()) {
+            logger.warn("Due to an unexpected reason, the returned size for the call to {} is empty", systemLocationEndPoints);
+            return null;
+        }
         stationsLocation
                 .getStationLocationList()
                 .stream()
