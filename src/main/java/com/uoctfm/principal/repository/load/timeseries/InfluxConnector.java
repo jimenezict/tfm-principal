@@ -38,6 +38,10 @@ public class InfluxConnector {
     }
 
     public void closeInfluxConnector() {
-        if(nonNull(influxDb)) influxDb.close();
+        if(nonNull(influxDb)) {
+            influxDb.close();
+            return;
+        };
+        logger.error("Connector was not close to {} with username {}");
     }
 }

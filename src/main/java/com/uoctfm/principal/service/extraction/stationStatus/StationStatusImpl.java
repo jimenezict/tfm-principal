@@ -38,6 +38,8 @@ public class StationStatusImpl implements StationStatus {
             logger.error("Fail on capturing from the end-point {}", systemStationEndPoints);
         } catch (HttpMessageConversionException e) {
             logger.error("Fail on parsing from end-point {}: ", systemStationEndPoints, e);
+        } catch (Exception e) {
+            logger.error("Fail with general exception from end-point {}: ", systemStationEndPoints, e);
         }
         return null;
     }
@@ -100,6 +102,7 @@ public class StationStatusImpl implements StationStatus {
     private StationsStatusDTO mapStationStatus(StationsStatus stationsStatus) {
         StationsStatusDTO stationStatusDTO = new StationsStatusDTO();
         stationStatusDTO.setExecutionDateTime(stationsStatus.getTimestamp());
+        if(stationStatusDTO.getStationList().size() == 0) return null;
 
         stationsStatus.getStationStatusList().forEach(x -> {
             stationStatusDTO.addStation(new Station(x.getId(), x.getOccupacy(), x.getSize()));

@@ -1,12 +1,18 @@
+ALTER USER postgres PASSWORD 'Passw0rd';
+
+CREATE SCHEMA uoc;
+
 CREATE TABLE uoc.systemconfiguration
 (
-  id integer PRIMARY KEY,
-  name varchar(100),
-  systemstationendpoint varchar(100),
-  systemlocationendpoint varchar(100),
+  id integer NOT NULL,
+  name character varying(100),
+  systemstationendpoint character varying(100),
+  systemlocationendpoint character varying(100),
   saveinfilesystem boolean,
   saveintimeseries boolean,
-  saveingis boolean
+  saveingis boolean,
+  masterenable boolean DEFAULT false,
+  CONSTRAINT systemconfiguration_pkey PRIMARY KEY (id)
 );
 
 alter table uoc.systemconfiguration add column masterenable boolean default false;
