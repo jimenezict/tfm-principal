@@ -33,7 +33,7 @@ public class StationStatusImpl implements StationStatus {
         try {
             StationsStatus stationsStatus = restTemplate.getForObject(systemStationEndPoints, StationsStatus.class);
             logger.info("Captured StationsStatusDTO from the end-point {}", systemStationEndPoints);
-            return nonNull(stationsStatus) ? mapStationStatus(stationsStatus) : null;
+            return nonNull(stationsStatus) ? mapStationStatus(stationsStatus, systemStationEndPoints) : null;
         } catch (RestClientException e) {
             logger.error("Fail on capturing from the end-point {}", systemStationEndPoints);
         } catch (HttpMessageConversionException e) {
@@ -99,10 +99,13 @@ public class StationStatusImpl implements StationStatus {
         return lastSampleDTO;
     }
 
-    private StationsStatusDTO mapStationStatus(StationsStatus stationsStatus) {
+    private StationsStatusDTO mapStationStatus(StationsStatus stationsStatus, String systemStationEndPoints) {
         StationsStatusDTO stationStatusDTO = new StationsStatusDTO();
         stationStatusDTO.setExecutionDateTime(stationsStatus.getTimestamp());
-        if(stationStatusDTO.getStationList().size() == 0) return null;
+        if(stationStatusDTO.getStationList().size() == 0) {
+            logger.warn("Due to an unexpected reason, the returned size for the call to {} is empty", systemStationEndPoints);
+            return null;
+        }
 
         stationsStatus.getStationStatusList().forEach(x -> {
             stationStatusDTO.addStation(new Station(x.getId(), x.getOccupacy(), x.getSize()));
