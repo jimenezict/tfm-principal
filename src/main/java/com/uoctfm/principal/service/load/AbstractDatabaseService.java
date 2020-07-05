@@ -13,7 +13,6 @@ public abstract class AbstractDatabaseService {
         if (executeStep) {
             initialize(stationDataWrapper, systemConfigurationDTO);
             saveRaw(stationDataWrapper, systemConfigurationDTO);
-            saveDerived(stationDataWrapper, systemConfigurationDTO);
             saveStatistics(stationDataWrapper, systemConfigurationDTO);
             logSuccessfulProcess(databaseType, systemConfigurationDTO);
             return;
