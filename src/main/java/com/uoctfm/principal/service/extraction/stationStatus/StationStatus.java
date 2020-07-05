@@ -6,8 +6,4 @@ public interface StationStatus {
 
     public StationsStatusDTO getListStationStatus(String systemStationEndPoints);
 
-    public StationsStatusDTO getLastStationStatus(Integer id);
-
-    public void saveLastStationStatus(StationsStatusDTO stationsStatus, Integer id);
-
 }

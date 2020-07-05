@@ -30,17 +30,6 @@ public class StationLocationImplTest {
     private RestTemplate restTemplate;
 
     @Test
-    public void getListStationStatus_shouldReturnStationStatusDTOObject_whenItIsCallToAValidEndpoint() {
-        when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsLocation.class))
-                .thenReturn(new StationsLocation(LocalDate.now()));
-
-        StationsLocationDTO stationsLocationDTO = underTest.getListLocationStatus(DUMMY_SCB_TEXT);
-
-        assertThat(stationsLocationDTO).isNotNull();
-        assertThat(stationsLocationDTO).isInstanceOf(StationsLocationDTO.class);
-    }
-
-    @Test
     public void getListStationStatus_shouldReturnNullOObject_whenItIsCallToAValidEndpoint() {
         when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsLocation.class))
                 .thenReturn(null);

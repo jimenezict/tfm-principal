@@ -50,23 +50,15 @@ public class SystemFlow {
             return;
         }
 
-        StationsStatusDTO lastStationsStatusDTO = stationStatus.getLastStationStatus(systemConfigurationDTO.getId());
-        if(isNull(lastStationsStatusDTO)){
-            logger.warn("Not found the latest sample for {}", systemConfigurationDTO.getName().trim());
-        }
-
-        StationDerived stationDerived = stationCalculation.calculateDerived(stationsStatusDTO, lastStationsStatusDTO);
         StationPercentils stationPercentil = stationCalculation.calculatePercentils(stationsStatusDTO);
         StationRaw stationRaw = stationCalculation.calculateRaw(stationsStatusDTO);
         StationStatistics stationStatistics = stationCalculation.calculateStatistics(stationsStatusDTO);
 
-        StationDataWrapper stationDataWrapper = new StationDataWrapper(stationDerived, stationPercentil, stationRaw, stationStatistics);
+        StationDataWrapper stationDataWrapper = new StationDataWrapper(null, stationPercentil, stationRaw, stationStatistics);
 
         gisDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInGIS(), "Gis", stationDataWrapper, systemConfigurationDTO);
         fileSystemDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInFileSystem(), "File System", stationDataWrapper, systemConfigurationDTO);
         timeseriesDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInTimeSeries(), "Timeseries", stationDataWrapper, systemConfigurationDTO);
-
-        stationStatus.saveLastStationStatus(stationsStatusDTO, id);
 
         logger.info("Ending {} process", id);
 
