@@ -34,20 +34,6 @@ public class StationStatusImplTest {
     private RestTemplate restTemplate;
 
     @Test
-    public void getListStationStatus_shouldReturnStationStatusDTOObject_whenItIsCallToAValidEndpointAndHasStationsOnTheList(){
-        StationsStatus stationsStatus = new StationsStatus();
-        stationsStatus.addStation(1,10,5);
-
-        when(restTemplate.getForObject(DUMMY_SCB_TEXT, any()))
-                .thenReturn(stationsStatus);
-
-        StationsStatusDTO stationsStatusDTO = underTest.getListStationStatus(DUMMY_SCB_TEXT);
-
-        assertThat(stationsStatusDTO).isNotNull();
-        assertThat(stationsStatusDTO).isInstanceOf(StationsStatusDTO.class);
-    }
-
-    @Test
     public void getListStationStatus_shouldReturnStationStatusDTOObject_whenItIsCallToAValidEndpointButHasNoStationsOnTheList(){
         when(restTemplate.getForObject(DUMMY_SCB_TEXT, StationsStatus.class))
           .thenReturn(new StationsStatus());
