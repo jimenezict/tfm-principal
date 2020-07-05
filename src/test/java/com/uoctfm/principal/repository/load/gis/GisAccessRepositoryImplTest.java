@@ -16,13 +16,8 @@ public class GisAccessRepositoryImplTest {
     private GisAccessRepositoryImpl underTest;
 
     @Test
-    public void findById_shouldReturnNoResult_whenIdIsFour() {
-        assertThat(underTest.findById(4L)).isNull();
-    }
-
-    @Test
     public void findById_shouldReturnNoResult_whenIdIsNotValid() {
-        assertThat(underTest.findById(1000L)).isNull();
+        assertThat(underTest.findById(100000L)).isNull();
     }
 
 }
