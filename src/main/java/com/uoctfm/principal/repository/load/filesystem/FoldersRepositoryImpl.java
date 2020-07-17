@@ -56,6 +56,7 @@ public class FoldersRepositoryImpl implements FoldersRepository {
             StatefulBeanToCsv sbc = getStatefulBean(writer);
 
             sbc.write(fileLine);
+            writer.flush();
             writer.close();
         } catch (Exception e) {
             logger.error("Fail on writing in {} File System process. ", getDataSystemFolder(systemConfigurationDTO), e);
