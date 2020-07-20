@@ -23,7 +23,7 @@ public class MainFlow {
 
     private final Logger logger = getLogger(MainFlow.class);
 
-    @Scheduled(cron = "0 0/5 * 1/1 * ?")
+    @Scheduled(cron = "0 0/3 * 1/1 * ?")
     public void execute() {
         List<SystemConfigurationDTO> systemConfigurationList = systemConfiguration.getSystemConfiguration();
 

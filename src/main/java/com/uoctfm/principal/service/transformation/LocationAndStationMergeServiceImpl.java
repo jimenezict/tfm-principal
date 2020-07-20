@@ -27,7 +27,8 @@ public class LocationAndStationMergeServiceImpl implements LocationAndStationMer
 
     @Override
     public GlobalStatistical mergeStatisticalDate(StationsLocationDTO stationLocationDTO, StationStatistics stationStatistics) {
-        Location location = stationLocationDTO.getLocationList().get(1);
+        Map<Integer, Location> locationList = stationLocationDTO.getLocationList();
+        Location location = locationList.get(locationList.keySet().toArray()[0]);
         GeometryFactory geometryFactory = new GeometryFactory();
 
         GlobalStatistical globalStatistical = new GlobalStatistical();
