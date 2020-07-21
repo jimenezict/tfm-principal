@@ -15,16 +15,16 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class MainFlowTest {
+public class MainFlowImplTest {
 
     @Mock
     private SystemConfiguration systemConfiguration;
 
     @Mock
-    private SystemFlow systemFlow;
+    private SystemFlowImpl systemFlowImpl;
 
     @InjectMocks
-    MainFlow underTest = new MainFlow();
+    MainFlowImpl underTest = new MainFlowImpl();
 
     @Test
     public void execute_shouldAvoidExecutions_whenNotFoundConfiguration() {
@@ -35,7 +35,7 @@ public class MainFlowTest {
         verify(systemConfiguration).getSystemConfiguration();
         verifyNoMoreInteractions(systemConfiguration);
 
-        verifyNoInteractions(systemFlow);
+        verifyNoInteractions(systemFlowImpl);
     }
 
     @Test

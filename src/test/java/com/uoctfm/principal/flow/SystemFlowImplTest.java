@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-public class SystemFlowTest {
+public class SystemFlowImplTest {
 
     @Mock
     private SystemConfiguration systemConfiguration;
@@ -36,7 +36,7 @@ public class SystemFlowTest {
     private TimeseriesDatabaseService timeseriesDatabaseService;
 
     @InjectMocks
-    SystemFlow underTest = new SystemFlow();
+    SystemFlowImpl underTest = new SystemFlowImpl();
 
     @Test
     public void executeById_shouldSkip_whenNotFoundConfiguration() {
