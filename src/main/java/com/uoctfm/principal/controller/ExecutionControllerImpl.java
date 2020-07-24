@@ -29,7 +29,7 @@ public class ExecutionControllerImpl implements ExecutionController {
         logger.info("Ending Main process by the execution end-point with duration {}", System.currentTimeMillis() - startTime);
     }
 
-    @GetMapping("/execution/{id}")
+    @GetMapping("/execution/{id}/")
     public void doExecutionById(@PathVariable("id") Integer id) {
         long startTime = System.currentTimeMillis();
         logger.info("Starting Main process by the execution end-point");
