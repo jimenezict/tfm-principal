@@ -1,9 +1,12 @@
 package com.uoctfm.principal.flow;
 
+import com.uoctfm.principal.domain.configuration.SystemStatisticsDTO;
 import com.uoctfm.principal.domain.transformation.*;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
+import com.uoctfm.principal.repository.configuration.SystemStatisticsRepository;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
+import com.uoctfm.principal.service.configuration.SystemStatistics;
 import com.uoctfm.principal.service.load.databases.FileSystemDatabaseService;
 import com.uoctfm.principal.service.load.databases.GisDatabaseService;
 import com.uoctfm.principal.service.load.databases.TimeseriesDatabaseService;
@@ -12,6 +15,8 @@ import com.uoctfm.principal.service.extraction.stationStatus.StationStatus;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 import static java.util.Objects.isNull;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -31,12 +36,15 @@ public class SystemFlowImpl implements SystemFlow {
     private FileSystemDatabaseService fileSystemDatabaseService;
     @Autowired
     private TimeseriesDatabaseService timeseriesDatabaseService;
+    @Autowired
+    private SystemStatistics systemStatistics;
 
     private Logger logger = getLogger(SystemFlowImpl.class);
 
     @Override
     public void executeById(Integer id) {
 
+        long startTime = System.currentTimeMillis();
         logger.info("Starting {} process", id);
 
         SystemConfigurationDTO systemConfigurationDTO = systemConfiguration.getSystemConfigurationBy(id);
@@ -62,7 +70,8 @@ public class SystemFlowImpl implements SystemFlow {
         timeseriesDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInTimeSeries(), "Timeseries", stationDataWrapper, systemConfigurationDTO);
 
         logger.info("Ending {} process", id);
-
+        SystemStatisticsDTO systemStatisticsDTO = new SystemStatisticsDTO(id, LocalDateTime.now(), Integer.valueOf((int) (System.currentTimeMillis() - startTime)));
+        systemStatistics.insert(systemStatisticsDTO);
     }
 
     private boolean checkSystemConfiguration(Integer id, SystemConfigurationDTO systemConfigurationDTO) {

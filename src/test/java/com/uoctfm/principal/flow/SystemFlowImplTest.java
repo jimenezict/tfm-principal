@@ -3,6 +3,7 @@ package com.uoctfm.principal.flow;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.service.configuration.SystemConfiguration;
+import com.uoctfm.principal.service.configuration.SystemStatistics;
 import com.uoctfm.principal.service.load.databases.FileSystemDatabaseService;
 import com.uoctfm.principal.service.load.databases.GisDatabaseService;
 import com.uoctfm.principal.service.load.databases.TimeseriesDatabaseService;
@@ -34,6 +35,8 @@ public class SystemFlowImplTest {
     private GisDatabaseService gisDatabaseService;
     @Mock
     private TimeseriesDatabaseService timeseriesDatabaseService;
+    @Mock
+    private SystemStatistics systemStatistics;
 
     @InjectMocks
     SystemFlowImpl underTest = new SystemFlowImpl();
@@ -47,6 +50,7 @@ public class SystemFlowImplTest {
         verifyNoMoreInteractions(systemConfiguration);
         verifyNoInteractions(stationStatus);
         verifyNoInteractions(stationCalculation);
+        verifyNoInteractions(systemStatistics);
     }
 
     @Test
@@ -61,6 +65,7 @@ public class SystemFlowImplTest {
         verifyNoMoreInteractions(systemConfiguration);
         verifyNoMoreInteractions(stationStatus);
         verifyNoInteractions(stationCalculation);
+        verifyNoInteractions(systemStatistics);
     }
 
     @Test
@@ -76,11 +81,11 @@ public class SystemFlowImplTest {
         verify(stationCalculation).calculateRaw(any());
         verify(stationCalculation).calculatePercentils(any());
         verify(stationCalculation).calculateStatistics(any());
+        verify(systemStatistics).insert(any());
 
         verifyNoMoreInteractions(stationStatus);
         verifyNoMoreInteractions(stationCalculation);
+        verifyNoMoreInteractions(systemStatistics);
     }
-
-
 
 }

@@ -1,4 +1,4 @@
-package com.uoctfm.principal.domain.configuration;
+package com.uoctfm.principal.domain.configuration.converter;
 
 import com.uoctfm.principal.domain.configuration.converter.JpaConverterJson;
 import com.uoctfm.principal.domain.extraction.Station;

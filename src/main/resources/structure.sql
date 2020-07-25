@@ -50,3 +50,11 @@ create table uoc.stationsystemraw (
     longitude decimal,
     latitude decimal
 );
+
+create sequence systemstatistics_id_seq START 1;
+create table uoc.systemstatistics (
+    id integer PRIMARY KEY NOT NULL DEFAULT nextval('systemstatistics_id_seq'),
+    systemid integer,
+    executiontime timestamp,
+    executioninmiliseconds integer
+);
