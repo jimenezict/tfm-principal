@@ -10,7 +10,6 @@ values ('santander','http://localhost:8085/status/es/santander/tusbic','http://l
 insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
 values ('dublin','http://localhost:8085/status/ie/dublin/dublinbikes','http://localhost:8085/location/ie/dublinbikes',true,true,true,true);
 
-
 insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
 values ('marseille','http://localhost:8085/status/fr/marseille/levelo-mpm','http://localhost:8085/location/fr/levelo-mpm',true,true,true,true);
 
