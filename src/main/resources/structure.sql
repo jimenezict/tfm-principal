@@ -2,17 +2,17 @@ ALTER USER postgres PASSWORD 'Passw0rd';
 
 CREATE SCHEMA uoc;
 
+CREATE SEQUENCE systemconfiguration_id_seq START 1;
 CREATE TABLE uoc.systemconfiguration
 (
-  id integer NOT NULL,
+  id integer PRIMARY KEY NOT NULL DEFAULT nextval('systemconfiguration_id_seq'),
   name character varying(100),
   systemstationendpoint character varying(100),
   systemlocationendpoint character varying(100),
   saveinfilesystem boolean,
   saveintimeseries boolean,
   saveingis boolean,
-  masterenable boolean DEFAULT false,
-  CONSTRAINT systemconfiguration_pkey PRIMARY KEY (id)
+  masterenable boolean DEFAULT false
 );
 
 alter table uoc.systemconfiguration add column masterenable boolean default false;
