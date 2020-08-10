@@ -24,29 +24,29 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class FoldersRepositoryImpl implements FoldersRepository {
 
     Logger logger = getLogger(FoldersRepositoryImpl.class);
+    private static final String ROOT_FOLDER = "SBS/";
 
     @Override
     public boolean hasSystemFolder(String system) {
-        return Files.exists(Paths.get(system));
+        return Files.exists(Paths.get(ROOT_FOLDER + system));
     }
 
     @Override
     public boolean hasDateFolder(String system, LocalDate date) {
-        return hasSystemFolder(system) && Files.exists(Paths.get(system + "/" + date.toString())) ? true : false;
+        return hasSystemFolder(system) && Files.exists(Paths.get(ROOT_FOLDER + system + "/" + date.toString())) ? true : false;
     }
 
     @Override
     public void createSystemFolder(String system) {
-        (new File(system)).mkdir();
+        (new File(ROOT_FOLDER + system)).mkdir();
     }
 
     @Override
     public void createDateFolder(String system, LocalDate date) {
-        (new File(system + "/" + date.toString())).mkdir();
-        (new File(system + "/" + date.toString() + "/" + "derived")).mkdir();
-        (new File(system + "/" + date.toString() + "/" + "statistics")).mkdir();
-        (new File(system + "/" + date.toString() + "/" + "raw")).mkdir();
-        (new File(system + "/" + date.toString() + "/" + "percentils")).mkdir();
+        (new File(ROOT_FOLDER + system + "/" + date.toString())).mkdir();
+        (new File(ROOT_FOLDER + system + "/" + date.toString() + "/" + "statistics")).mkdir();
+        (new File(ROOT_FOLDER + system + "/" + date.toString() + "/" + "raw")).mkdir();
+        (new File(ROOT_FOLDER + system + "/" + date.toString() + "/" + "percentils")).mkdir();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class FoldersRepositoryImpl implements FoldersRepository {
     }
 
     private String getDataSystemFolder(SystemConfigurationDTO systemConfigurationDTO) {
-        return systemConfigurationDTO.getName() + "/" + now().toString();
+        return ROOT_FOLDER + systemConfigurationDTO.getName() + "/" + now().toString();
     }
 
     private FileWriter getFileWriter(String folder, SystemConfigurationDTO systemConfigurationDTO) throws IOException {
