@@ -38,12 +38,14 @@ public class FoldersRepositoryImplTest {
 
     private final static String SYSTEM_NAME = "NeverLand";
 
+    private static final String ROOT_FOLDER = "SBS/";
+
     @Before
     public void setUp() throws IOException {
-        Path path = Paths.get(SYSTEM_NAME);
+        Path path = Paths.get(ROOT_FOLDER + SYSTEM_NAME);
         Files.createDirectories(path);
         dateFolder = clock.instant().toString().substring(0, 10);
-        Path subPath = Paths.get(SYSTEM_NAME + "/" + dateFolder);
+        Path subPath = Paths.get(ROOT_FOLDER + SYSTEM_NAME + "/" + dateFolder);
         Files.createDirectories(subPath);
     }
 
@@ -77,8 +79,8 @@ public class FoldersRepositoryImplTest {
         String newFolder = SYSTEM_NAME;
         underTest.createSystemFolder(newFolder);
 
-        assertThat(Files.exists(Paths.get(newFolder))).isTrue();
-        assertThat(Files.exists(Paths.get(newFolder + "dummy"))).isFalse();
+        assertThat(Files.exists(Paths.get(ROOT_FOLDER + newFolder))).isTrue();
+        assertThat(Files.exists(Paths.get(ROOT_FOLDER + newFolder + "dummy"))).isFalse();
     }
 
     @Test
@@ -86,8 +88,8 @@ public class FoldersRepositoryImplTest {
         String newFolder = SYSTEM_NAME + "/" + now().toString();
         underTest.createDateFolder(SYSTEM_NAME, now());
 
-        assertThat(Files.exists(Paths.get(newFolder))).isTrue();
-        assertThat(Files.exists(Paths.get(newFolder + "dummy"))).isFalse();
+        assertThat(Files.exists(Paths.get(ROOT_FOLDER + newFolder))).isTrue();
+        assertThat(Files.exists(Paths.get(ROOT_FOLDER + newFolder + "dummy"))).isFalse();
     }
 
     @Test
@@ -103,7 +105,7 @@ public class FoldersRepositoryImplTest {
 
     @After
     public void setDown() throws IOException {
-          FileUtils.deleteDirectory(new File(SYSTEM_NAME));
+          FileUtils.deleteDirectory(new File(ROOT_FOLDER + SYSTEM_NAME));
     }
 
 }
