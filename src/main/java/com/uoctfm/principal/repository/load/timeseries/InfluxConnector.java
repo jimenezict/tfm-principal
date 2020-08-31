@@ -25,7 +25,7 @@ public class InfluxConnector {
             influxDb.createDatabase(database);
             logger.info("Creating {}", database);
         }
-        influxDb.createRetentionPolicy("defaultPolicy", database, "3d", 1, true);
+        influxDb.createRetentionPolicy("defaultPolicy", database, "10d", 1, true);
         influxDb.setLogLevel(InfluxDB.LogLevel.BASIC);
         influxDb.setDatabase(database);
 
