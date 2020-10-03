@@ -28,15 +28,4 @@ public class SystemStatisticsDTO implements Serializable {
         return id;
     }
 
-    public Integer getSystemid() {
-        return systemid;
-    }
-
-    public LocalDateTime getExecutionTime() {
-        return executionTime;
-    }
-
-    public Integer getExecutioninmiliseconds() {
-        return executionInMiliseconds;
-    }
 }

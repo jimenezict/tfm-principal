@@ -2,18 +2,21 @@ package com.uoctfm.principal;
 
 import com.uoc.tfm.commons.domain.StationsLocation;
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
+import com.uoctfm.principal.domain.configuration.SystemStatisticsDTO;
 import com.uoctfm.principal.domain.extraction.Location;
 import com.uoctfm.principal.domain.extraction.Station;
 import com.uoctfm.principal.domain.extraction.StationsLocationDTO;
 import com.uoctfm.principal.domain.extraction.StationsStatusDTO;
 import com.uoctfm.principal.domain.load.databases.gis.GlobalStatistical;
 import com.uoctfm.principal.domain.load.databases.gis.StationSystemRaw;
+import com.uoctfm.principal.service.configuration.SystemStatistics;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -113,7 +116,6 @@ public class TestBuildHelper {
 
     public static StationsLocationDTO buildStationsLocationDTO() {
         StationsLocationDTO stationsLocationDTO = new StationsLocationDTO();
-        stationsLocationDTO.setExecutionDateTime(now());
         stationsLocationDTO.addLocation(new Location(1,0,0,"Clot"));
         stationsLocationDTO.addLocation(new Location(2,0,0,"SantVi"));
         stationsLocationDTO.addLocation(new Location(3,0,0,"Alpens"));
@@ -158,5 +160,9 @@ public class TestBuildHelper {
         stationSystemRawsSet.add(buildStationSystemRaw(null, null, 5, null, 30, 10));
 
         return stationSystemRawsSet;
+    }
+
+    public static SystemStatisticsDTO buildSystemStatisticsDTO() {
+        return new SystemStatisticsDTO(1, LocalDateTime.now(), 100);
     }
 }

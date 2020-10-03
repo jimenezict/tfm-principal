@@ -1,5 +1,7 @@
 package com.uoctfm.principal.domain.configuration.converter;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import com.uoctfm.principal.domain.configuration.converter.JpaConverterJson;
 import com.uoctfm.principal.domain.extraction.Station;
 import org.junit.Test;
@@ -7,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
 import java.util.Map;
 
 import static com.uoctfm.principal.TestBuildHelper.buildStationsStatusDTO;
@@ -30,4 +33,5 @@ public class JpaConverterJsonTest {
         Map<Integer, Station> mapOfStations = (Map<Integer, Station>) underTest.convertToEntityAttribute(LAST_SAMPLE_EXAMPLE);
         assertThat(mapOfStations.keySet().size()).isEqualTo(3);
     }
+
 }
