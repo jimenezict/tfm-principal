@@ -31,7 +31,14 @@ values ('mock10','http://localhost:9092/status/10', 'http://localhost:9092/locat
 insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
 values ('mock200','http://localhost:9092/status/200', 'http://localhost:9092/location/200',true,true,true,false);
 
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('cdmx','http://localhost:8089/status', 'http://localhost:8089/location',true,true,true,true);
 
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('cdmx','http://localhost:8089/status', 'http://localhost:8089/location',true,true,true,true);
+
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('manhattan','http://localhost:8090/status', 'http://localhost:8090/location',true,true,true,true);
 
 --  update uoc.systemconfiguration set masterenable = false;
 --
