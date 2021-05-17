@@ -23,8 +23,8 @@ public class InfluxConnectorTest {
     @Test
     public void ping_shouldResponse_whenConnectsToTestDatabase() {
         Pong response = influxConnector.getInfluxConnector().ping();
-        assertThat(response.getVersion()).isEqualTo("1.8.0");
-    }S
+        assertThat(response.getVersion()).isGreaterThan("1.7.0");
+    }
 
     @Test
     public void showdatabase_shouldReturnNeverLand_whenNeverLandDatabaseIsCreated() {
