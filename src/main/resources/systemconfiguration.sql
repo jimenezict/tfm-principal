@@ -35,9 +35,6 @@ insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocation
 values ('cdmx','http://localhost:8089/status', 'http://localhost:8089/location',true,true,true,true);
 
 insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
-values ('cdmx','http://localhost:8089/status', 'http://localhost:8089/location',true,true,true,true);
-
-insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
 values ('manhattan','http://localhost:8090/status', 'http://localhost:8090/location',true,true,true,true);
 
 --  update uoc.systemconfiguration set masterenable = false;
