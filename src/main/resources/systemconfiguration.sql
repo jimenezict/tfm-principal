@@ -1,5 +1,5 @@
 insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
-values ('sevilla','http://localhost:8085/status/dublin','http://localhost:8085/location/dublin',true,true,true,true);
+values ('dublin','http://localhost:8085/status/dublin','http://localhost:8085/location/dublin',true,true,true,true);
 
 insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
 values ('rouen','http://localhost:8085/status/rouen','http://localhost:8085/location/rouen',true,true,true,true);
@@ -90,6 +90,11 @@ values ('cdmx','http://localhost:8089/status', 'http://localhost:8089/location',
 insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
 values ('manhattan','http://localhost:8090/status', 'http://localhost:8090/location',true,true,true,true);
 
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('montreal','http://localhost:8090/status/mtl', 'http://localhost:8090/location/mtl',true,true,true,true);
+
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('washington','http://localhost:8090/status/wdc', 'http://localhost:8090/location/wdc',true,true,true,true);
 ----
 
 insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
