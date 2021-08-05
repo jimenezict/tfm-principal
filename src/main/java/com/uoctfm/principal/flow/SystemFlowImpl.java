@@ -59,11 +59,7 @@ public class SystemFlowImpl implements SystemFlow {
             return;
         }
 
-        StationPercentils stationPercentil = stationCalculation.calculatePercentils(stationsStatusDTO);
-        StationRaw stationRaw = stationCalculation.calculateRaw(stationsStatusDTO);
-        StationStatistics stationStatistics = stationCalculation.calculateStatistics(stationsStatusDTO);
-
-        StationDataWrapper stationDataWrapper = new StationDataWrapper(null, stationPercentil, stationRaw, stationStatistics);
+        StationDataWrapper stationDataWrapper = getStationDataWrapper(stationsStatusDTO);
 
         gisDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInGIS(), "Gis", stationDataWrapper, systemConfigurationDTO);
         fileSystemDatabaseService.databaseServiceExecutor(systemConfigurationDTO.getSaveInFileSystem(), "File System", stationDataWrapper, systemConfigurationDTO);
@@ -72,6 +68,14 @@ public class SystemFlowImpl implements SystemFlow {
         logger.info("Ending {} process", id);
         SystemStatisticsDTO systemStatisticsDTO = new SystemStatisticsDTO(id, LocalDateTime.now(), Integer.valueOf((int) (System.currentTimeMillis() - startTime)));
         systemStatistics.insert(systemStatisticsDTO);
+    }
+
+    private StationDataWrapper getStationDataWrapper(StationsStatusDTO stationsStatusDTO) {
+        StationPercentils stationPercentil = stationCalculation.calculatePercentils(stationsStatusDTO);
+        StationRaw stationRaw = stationCalculation.calculateRaw(stationsStatusDTO);
+        StationStatistics stationStatistics = stationCalculation.calculateStatistics(stationsStatusDTO);
+
+        return new StationDataWrapper(null, stationPercentil, stationRaw, stationStatistics);
     }
 
     private boolean checkSystemConfiguration(Integer id, SystemConfigurationDTO systemConfigurationDTO) {

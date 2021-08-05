@@ -162,6 +162,18 @@ public class TestBuildHelper {
         return stationSystemRawsSet;
     }
 
+    public static Set<StationSystemRaw> buildBarcinoStationSystemRawSet() {
+        Set<StationSystemRaw> stationSystemRawsSet = new HashSet<>();
+
+        stationSystemRawsSet.add(buildStationSystemRaw(1L, null, 1, null, 30, 10));
+        stationSystemRawsSet.add(buildStationSystemRaw(2L, null, 2, null, 30, 10));
+        stationSystemRawsSet.add(buildStationSystemRaw(3L, null, 3, null, 30, 10));
+        stationSystemRawsSet.add(buildStationSystemRaw(4L, null, 4, null, 30, 10));
+        stationSystemRawsSet.add(buildStationSystemRaw(5L, null, 5, null, 30, 10));
+
+        return stationSystemRawsSet;
+    }
+
     public static SystemStatisticsDTO buildSystemStatisticsDTO() {
         return new SystemStatisticsDTO(1, LocalDateTime.now(), 100);
     }

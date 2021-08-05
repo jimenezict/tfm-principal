@@ -2,19 +2,24 @@ package com.uoctfm.principal.service.load.databases;
 
 import com.uoctfm.principal.domain.configuration.SystemConfigurationDTO;
 import com.uoctfm.principal.domain.extraction.Station;
+import com.uoctfm.principal.domain.extraction.StationsLocationDTO;
+import com.uoctfm.principal.domain.load.databases.gis.StationSystemRaw;
 import com.uoctfm.principal.domain.transformation.StationDataWrapper;
 import com.uoctfm.principal.domain.transformation.StationDerived;
 import com.uoctfm.principal.domain.transformation.StationPercentils;
 import com.uoctfm.principal.domain.transformation.StationStatistics;
 import com.uoctfm.principal.repository.load.timeseries.InfluxConnector;
 import com.uoctfm.principal.repository.load.timeseries.TimeSeriesDatabaseRepository;
+import com.uoctfm.principal.service.extraction.stationLocation.StationLocation;
 import com.uoctfm.principal.service.load.AbstractDatabaseService;
+import com.uoctfm.principal.service.transformation.LocationAndStationMergeService;
 import org.influxdb.dto.BatchPoints;
 import org.influxdb.dto.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -22,6 +27,12 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 public class TimeseriesDatabaseService extends AbstractDatabaseService {
+
+    @Autowired
+    StationLocation stationLocation;
+
+    @Autowired
+    LocationAndStationMergeService locationAndStationMergeService;
 
     @Autowired
     TimeSeriesDatabaseRepository timeSeriesDatabaseRepository;
@@ -35,10 +46,10 @@ public class TimeseriesDatabaseService extends AbstractDatabaseService {
     public void saveRaw(StationDataWrapper stationDataWrapper, SystemConfigurationDTO systemConfigurationDTO) {
         InfluxConnector influxConnector = new InfluxConnector(systemConfigurationDTO.getName());
 
-        List<Point> rawPoints = stationDataWrapper.getStationRaw().getStationStatusDTO().getStationList().values()
-                .stream()
-                .map(x -> generateRawPoint(x))
-                .collect(toList());
+        StationsLocationDTO locationList = stationLocation.getListLocationStatus(systemConfigurationDTO.getSystemLocationEndPoint());
+        Set<StationSystemRaw> stationSystemRaw = locationAndStationMergeService.mergeRawData(locationList, stationDataWrapper.getStationRaw());
+
+        List<Point> rawPoints = stationSystemRaw.stream().map(x -> generateRawPoint(x)).collect(toList());
 
         timeSeriesDatabaseRepository.saveListPoint(influxConnector, mapToBatchPoints(rawPoints, systemConfigurationDTO));
 
@@ -108,15 +119,17 @@ public class TimeseriesDatabaseService extends AbstractDatabaseService {
                 .build();
     }
 
-    private Point generateRawPoint(Station x) {
+    private Point generateRawPoint(StationSystemRaw x) {
         return Point
                 .measurement("raw")
                 .time(System.currentTimeMillis(), MILLISECONDS)
-                .tag("station", x.getId().toString())
+                .tag("station", x.getStation().toString())
                 .addField("numbicicles",x.getNumBicicles())
-                .addField("percentages",x.getPercentage())
-                .addField("percentil",x.getPercentil())
-                .addField("size",x.getSizeStation())
+                .addField("percentages",x.getNumBicicles()*100/x.getStationSize())
+                .addField("percentil",x.getNumBicicles()*10/x.getStationSize())
+                .addField("size",x.getStationSize())
+                .addField("longitude",x.getLongitude())
+                .addField("latitude",x.getLatitude())
                 .build();
     }
 
