@@ -1,0 +1,37 @@
+sudo su
+sudo apt-get install influxdb
+sudo apt-get install gradle
+sudo apt-get install grafana
+sudo apt-get install postgresql
+sudo apt-get install postgis
+
+sudo -i -u postgres
+psql
+# how to configure postgis: https://postgis.net/install/
+
+mkdir /snicing/src
+cd /snicing/src
+
+git clone https://github.com/jimenezict/tfm-commons-domain.git
+git clone https://github.com/jimenezict/tfm-commons.git
+git clone https://github.com/jimenezict/tfm-principal.git
+git clone https://github.com/jimenezict/tfm-jdcadeux.git
+git clone https://github.com/jimenezict/git-manhattan.git
+git clone https://github.com/jimenezict/tfm-cdmx.git
+git clone https://github.com/jimenezict/tfm-barcelona.git
+git clone https://github.com/jimenezict/tfm-zaragoza.git
+
+#for tfm-commons-domains service
+gradle clean install
+
+#for each service
+gradle clean build
+
+#To start a process
+screen gradle bootRun
+CTRL+A CTRL+D
+screen -r
+
+#grafana
+/etc/grafana$ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 3000
+modify vim /etc/grafana/grafana.ini to port 80:
