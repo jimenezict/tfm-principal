@@ -101,7 +101,22 @@ insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocation
 values ('mock10','http://localhost:9092/status/10', 'http://localhost:9092/location/10',true,true,true,false);
 
 insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('mock20','http://localhost:9092/status/20', 'http://localhost:9092/location/20',true,true,true,false);
+
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('mock50','http://localhost:9092/status/50', 'http://localhost:9092/location/50',true,true,true,false);
+
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('mock100','http://localhost:9092/status/100', 'http://localhost:9092/location/100',true,true,true,false);
+
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
 values ('mock200','http://localhost:9092/status/200', 'http://localhost:9092/location/200',true,true,true,false);
+
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('mock500','http://localhost:9092/status/500', 'http://localhost:9092/location/500',true,true,true,false);
+
+insert into uoc.systemconfiguration (name, systemstationendpoint, systemlocationendpoint, saveinfilesystem, saveintimeseries, saveingis, masterenable)
+values ('mock1000','http://localhost:9092/status/1000', 'http://localhost:9092/location/1000',true,true,true,false);
 
 --  update uoc.systemconfiguration set masterenable = false;
 --
